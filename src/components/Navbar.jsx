@@ -25,8 +25,8 @@ export default function Navbar() {
   return (
     <nav className={`navbar glass ${isScrolled ? 'scrolled' : ''}`}>
       <div className="nav-container">
-        <a href="#home" className="logo">
-          <span className="logo-text">AkshBuilds</span>
+        <a href="#home" className="logo" style={{ fontSize: '1.8rem', letterSpacing: '-0.5px' }}>
+          <span style={{ color: 'var(--text-main)' }}>aksh</span><span className="text-glow">builds</span><span style={{ color: 'var(--accent-color)' }}>.</span>
         </a>
         
         <div className={`nav-links ${menuActive ? 'active' : ''}`}>

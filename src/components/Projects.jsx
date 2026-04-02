@@ -1,74 +1,70 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 
 const projectData = [
   {
     id: 1,
-    title: 'Personalized AI Chatbot',
+    title: 'Forminne - AI Agent OS',
+    problem: 'Orchestrating multiple generative AI models (DALL-E, Sora, GPT) concurrently is chaotic for enterprises.',
+    solution: 'Built a massive AI orchestration interface with hardware-accelerated WebGL rendering and WebSocket connections to a Node/Python ML engine.',
     badges: [
       { text: 'React', color: 'var(--primary-color)', bg: 'rgba(0, 240, 255, 0.1)' },
-      { text: 'OpenAI', color: 'var(--secondary-color)', bg: 'rgba(138, 43, 226, 0.1)' }
+      { text: 'OpenAI API', color: 'var(--secondary-color)', bg: 'rgba(138, 43, 226, 0.1)' }
     ],
-    desc: 'A complex deep-learning platform to automate high-fidelity conversational workflows. Complete with dynamic prompts.',
-    fullDesc: 'The Forminne project is a sprawling generative AI orchestration interface built natively in React. The frontend manages heavy WebGL rendering components via hardware acceleration, connecting via WebSockets to a Node-based Python ML engine holding DALL-E and Sora APIs.',
     image: '/assets/project_video_dash_1775024426115.png',
     github: 'https://github.com/akshbuilds',
-    liveLink: 'https://forminne.netlify.app/',
-    delay: 'delay-1'
+    liveLink: 'https://forminne.netlify.app/'
   },
   {
     id: 2,
     title: 'AI Model Tracking Hub',
+    problem: 'MLOps engineers lack real-time, low-latency visual performance metrics for various LLM instances.',
+    solution: 'Developed a hyper-optimized mobile application prototype digesting vast datasets via GraphQL in sub-50ms latency.',
     badges: [
       { text: 'React Native', color: 'var(--accent-color)', bg: 'rgba(255, 0, 85, 0.1)' },
       { text: 'GraphQL', color: 'var(--primary-color)', bg: 'rgba(0, 240, 255, 0.1)' }
     ],
-    desc: 'A sleek hyper-optimized minimalist mobile application prototyping active performance metrics metrics for various LLM instances.',
-    fullDesc: 'Serving as the optimal command center for MLOps engineers, this React Native build compiles perfectly cross-platform. It digests vast datasets via GraphQL in sub-50ms latency intervals ensuring metrics are perfectly synced visually in real-time.',
     image: '/assets/project_ai_tracker_1775024442510.png',
     github: 'https://github.com/akshbuilds',
-    liveLink: 'https://phenomenal-muffin-646633.netlify.app/',
-    delay: 'delay-2'
+    liveLink: 'https://phenomenal-muffin-646633.netlify.app/'
   },
   {
     id: 3,
-    title: 'Secure Fintech Backend API',
+    title: 'Secure Fintech Backend',
+    problem: 'Financial startup needed an impenetrable data microservice to handle thousands of requests.',
+    solution: 'Engineered an OWASP-standard API routing thousands of pseudo-financial requests to a PostgreSQL data lake.',
     badges: [
-      { text: 'Node + Express', color: '#00ff88', bg: 'rgba(0, 255, 136, 0.1)' },
+      { text: 'Node.js', color: '#00ff88', bg: 'rgba(0, 255, 136, 0.1)' },
       { text: 'PostgreSQL', color: '#4facfe', bg: 'rgba(79, 172, 254, 0.1)' }
     ],
-    desc: 'A rigorously load-tested enterprise API microservice built on Node.js managing encrypted financial transactions with OWASP standards.',
-    fullDesc: 'Developed completely from scratch, this architectural specimen routes thousands of pseudo-financial requests globally. Integrated with bulletproof JWT Auth layers, bcrypt password hashing, input sanitization workflows, and a hyper-fast PostgreSQL data lake connection.',
     image: '/assets/project_backend_api_1775025512690.png',
-    github: 'https://github.com/akshbuilds',
-    delay: 'delay-3'
+    github: 'https://github.com/akshbuilds'
   },
   {
     id: 4,
-    title: 'Advanced AI Chatbot',
+    title: 'Agentic RAG Assistant',
+    problem: 'General chat AI fails at understanding contextual business documents.',
+    solution: 'Designed an intelligent agent utilizing vector embeddings, LangChain, and multi-agent RAG for secure document extraction.',
     badges: [
       { text: 'TypeScript', color: '#ffcc00', bg: 'rgba(255, 204, 0, 0.1)' },
       { text: 'LangChain', color: 'var(--primary-color)', bg: 'rgba(0, 240, 255, 0.1)' }
     ],
-    desc: 'An ultra-intelligent conversational agent featuring contextual memory processing, complex document retrieval via RAG, and agentic workflows.',
-    fullDesc: 'This AI Assistant bridges the gap between semantic understanding and actionable tasks. Utilizing multi-agent workflows, it not only parses natural language flawlessly but securely interfaces with external APIs using LangChain and strict system prompts.',
     image: '/assets/project_chatbot_1775025903371.png',
     github: 'https://github.com/akshbuilds',
-    liveLink: 'https://phenomenal-muffin-646633.netlify.app/',
-    delay: 'delay-1'
+    liveLink: 'https://phenomenal-muffin-646633.netlify.app/'
   },
   {
     id: 5,
     title: 'Premium-Chess Engine',
+    problem: 'Standard chess interfaces drop frames and struggle with high-concurrent server loads.',
+    solution: 'Built a highly aesthetic, scalable chess hub using Next.js and WebSockets with predictive move algorithms.',
     badges: [
       { text: 'WebSockets', color: '#ff0055', bg: 'rgba(255, 0, 85, 0.1)' },
       { text: 'Next.js', color: '#FFF', bg: 'rgba(255, 255, 255, 0.1)' }
     ],
-    desc: 'A massively scalable, highly-aesthetic multiplayer chess hub capable of hosting thousands of concurrent ultra-low latency matches.',
-    fullDesc: 'Premium-Chess completely revolutionizes the chess-playing experience using WebRTC and robust Socket.io architecture. The responsive glassmorphism board features algorithmic move validations, ELO matchmaking algorithms, and breathtaking aesthetic animations without dropping a single frame.',
     image: '/assets/project_premium_chess_1775025919148.png',
     github: 'https://github.com/akshbuilds',
-    liveLink: 'https://premium-chess.onrender.com/',
-    delay: 'delay-2'
+    liveLink: 'https://premium-chess.onrender.com/'
   }
 ];
 
@@ -77,27 +73,44 @@ export default function Projects() {
 
   const activeProject = projectData.find(p => p.id === selectedId);
 
-  // Close modal nicely when clicking outside inner content
   const handleOverlayClick = (e) => {
     if (e.target.className.includes('modal-overlay')) {
       setSelectedId(null);
     }
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.2 }
+    }
+  };
+  const itemVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+  };
+
   return (
     <>
       <section id="projects" className="projects section">
         <div className="container">
-          <div className="section-header reveal">
-            <h2 className="section-title">Concept <span className="text-glow">Projects</span></h2>
-            <p className="section-subtitle">Real UI/UX prototypes, Secure APIs, and AI integrations.</p>
+          <div className="section-header reveal active">
+            <h2 className="section-title">Case <span className="text-glow">Studies</span></h2>
+            <p className="section-subtitle">Real problems solved through advanced engineering and design.</p>
           </div>
           
-          <div className="projects-grid mt-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(330px, 1fr))', gap: '30px' }}>
-            
+          <motion.div 
+            className="projects-grid mt-4" 
+            style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '40px' }}
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+          >
             {projectData.map((project) => (
-              <div key={project.id} className={`project-card glass reveal ${project.delay}`} style={{ padding: '0', overflow: 'hidden', display: 'flex', flexDirection: 'column', cursor: 'pointer' }} onClick={() => setSelectedId(project.id)}>
-                <div className="project-img" style={{ height: '240px', width: '100%', overflow: 'hidden' }}>
+              <motion.div key={project.id} variants={itemVariants} className="project-card glass" style={{ padding: '0', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                <div className="project-img" style={{ height: '220px', width: '100%', overflow: 'hidden', cursor: 'pointer' }} onClick={() => setSelectedId(project.id)}>
                   <img 
                     src={project.image} 
                     alt={project.title} 
@@ -106,26 +119,34 @@ export default function Projects() {
                     onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
                   />
                 </div>
-                <div className="project-info" style={{ padding: '30px' }}>
+                <div className="project-info" style={{ padding: '35px', flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                   <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
                     {project.badges.map((b, i) => (
-                      <span key={i} style={{ fontSize: '0.8rem', background: b.bg, color: b.color, padding: '4px 10px', borderRadius: '4px' }}>
+                      <span key={i} style={{ fontSize: '0.8rem', background: b.bg, color: b.color, padding: '4px 10px', borderRadius: '4px', fontWeight: 600 }}>
                         {b.text}
                       </span>
                     ))}
                   </div>
-                  <h3 className="project-title" style={{ fontSize: '1.4rem', marginBottom: '10px' }}>{project.title}</h3>
-                  <p className="project-desc" style={{ color: 'var(--text-muted)', marginBottom: '20px', fontSize: '0.95rem' }}>
-                    {project.desc}
-                  </p>
-                  <button className="btn btn-outline glow-hover" style={{ width: '100%' }}>
-                    Open Details <i className="fa-solid fa-arrow-up-right-from-square"></i>
-                  </button>
+                  <h3 className="project-title" style={{ fontSize: '1.6rem', marginBottom: '15px' }}>{project.title}</h3>
+                  <div style={{ marginBottom: '25px', flexGrow: 1 }}>
+                    <p style={{ color: 'var(--text-main)', fontSize: '0.95rem', marginBottom: '8px' }}><strong>Problem:</strong> <span style={{ color: 'var(--text-muted)' }}>{project.problem}</span></p>
+                    <p style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}><strong>Solution:</strong> <span style={{ color: '#00f0ff' }}>{project.solution}</span></p>
+                  </div>
+                  
+                  <div style={{ display: 'flex', gap: '15px', marginTop: 'auto' }}>
+                    {project.liveLink && (
+                      <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary glow-btn" style={{ flex: 1, padding: '10px' }}>
+                        Live Demo <i className="fa-solid fa-arrow-up-right-from-square" style={{fontSize: '0.8rem'}}></i>
+                      </a>
+                    )}
+                    <button className="btn btn-outline glow-hover" style={{ flex: project.liveLink ? 1 : '100%', padding: '10px' }} onClick={() => setSelectedId(project.id)}>
+                      Deep Dive
+                    </button>
+                  </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
-
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -145,23 +166,26 @@ export default function Projects() {
               </div>
               
               <h2 style={{ fontSize: '2.5rem', marginBottom: '15px' }}>{activeProject.title}</h2>
-              <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', marginBottom: '30px', maxWidth: '80%' }}>
-                {activeProject.fullDesc}
-              </p>
+              <div style={{ marginBottom: '30px', background: 'rgba(255,255,255,0.03)', padding: '20px', borderRadius: '12px', borderLeft: '4px solid var(--primary-color)' }}>
+                 <h4 style={{ color: 'var(--text-main)', marginBottom: '10px' }}>The Challenge</h4>
+                 <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', marginBottom: '20px' }}>{activeProject.problem}</p>
+                 <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px' }}>The Solution</h4>
+                 <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem' }}>{activeProject.solution}</p>
+              </div>
               
               <img src={activeProject.image} alt={activeProject.title} style={{ width: '100%', borderRadius: '12px', border: '1px solid var(--glass-border)', marginBottom: '30px' }} />
               
               <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
                 {activeProject.liveLink && (
                   <a href={activeProject.liveLink} target="_blank" rel="noopener noreferrer" className="btn btn-outline glow-hover" style={{ borderColor: '#00ff88', color: '#00ff88' }}>
-                    <i className="fa-solid fa-rocket"></i> View Live Demo
+                    <i className="fa-solid fa-rocket"></i> View Live Site
                   </a>
                 )}
                 <a href={activeProject.github} target="_blank" rel="noopener noreferrer" className="btn btn-primary glow-btn">
-                  <i className="fa-brands fa-github"></i> View App Source Code
+                  <i className="fa-brands fa-github"></i> Source Code
                 </a>
                 <button className="btn btn-outline glow-hover" onClick={() => setSelectedId(null)}>
-                  Close Window
+                  Close
                 </button>
               </div>
             </div>

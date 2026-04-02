@@ -42,13 +42,16 @@ export default function Contact() {
     <section id="contact" className="contact section">
       <div className="container reveal">
         <div className="section-header">
-          <h2 className="section-title">Start a <span className="text-glow">Project</span></h2>
-          <p className="section-subtitle">Let's build something phenomenal together.</p>
+          <h2 className="section-title">Let's <span className="text-glow">Build Together</span></h2>
+          <p className="section-subtitle">Ready to transform your idea into a high-performance digital product?</p>
         </div>
         
-        <div className="reveal delay-1" style={{ textAlign: 'center', marginBottom: '30px' }}>
-          <a href="mailto:akshubhardwaj231@gmail.com" className="btn btn-outline glow-hover" style={{ fontSize: '1.2rem', padding: '15px 30px', background: 'rgba(0, 240, 255, 0.05)', borderColor: 'var(--primary-color)' }}>
-            <i className="fa-solid fa-envelope"></i> akshubhardwaj231@gmail.com
+        <div className="reveal delay-1" style={{ display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap', marginBottom: '40px' }}>
+          <a href="mailto:akshubhardwaj231@gmail.com" className="btn btn-primary glow-btn" style={{ fontSize: '1.1rem', padding: '15px 30px' }}>
+            <i className="fa-solid fa-envelope"></i> Email Me Direct
+          </a>
+          <a href="https://github.com/Akshh-bhardwaj/akshbuilds" target="_blank" rel="noopener noreferrer" className="btn btn-outline glow-hover" style={{ fontSize: '1.1rem', padding: '15px 30px' }}>
+            <i className="fa-brands fa-github"></i> View GitHub Code
           </a>
         </div>
         

@@ -1,36 +1,65 @@
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 export default function Hero() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+  };
+
   return (
-    <section id="home" className="hero container section reveal">
-      <div className="hero-content">
-        <div className="hero-badge glass">
-          <i className="fa-solid fa-bolt"></i> Future Ready
-        </div>
-        <h1 className="headline">
-          I Build the Future <br /> 
-          <span className="text-glow">with AI <i className="fa-solid fa-rocket rocket-icon"></i></span>
-        </h1>
-        <p className="subheading">Delivering breathtaking custom websites for businesses by leveraging the power of Generative AI.</p>
+    <section id="home" className="hero container section">
+      <motion.div 
+        className="hero-content"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        <motion.div variants={itemVariants} className="hero-badge glass">
+          <i className="fa-solid fa-bolt" style={{ color: 'var(--accent-color)' }}></i> Peak Performance
+        </motion.div>
+        <motion.h1 variants={itemVariants} className="headline" style={{ lineHeight: '1.2' }}>
+          I build AI-powered <br /> 
+          <span className="text-glow">websites & tools <i className="fa-solid fa-rocket rocket-icon"></i></span>
+        </motion.h1>
+        <motion.p variants={itemVariants} className="subheading" style={{ fontSize: '1.25rem', marginTop: '15px' }}>
+          Helping creators and businesses grow faster through cutting-edge, scalable digital solutions.
+        </motion.p>
         
-        <div className="hero-buttons" style={{ flexWrap: 'wrap' }}>
-          <a href="#services" className="btn btn-primary glow-btn">Hire Me for Web Dev</a>
-          <a href="https://www.instagram.com/akshbuilds/" target="_blank" rel="noopener noreferrer" className="btn btn-secondary glass-btn">
-            <i className="fa-brands fa-instagram"></i> Follow on Instagram
+        <motion.div variants={itemVariants} className="hero-buttons" style={{ flexWrap: 'wrap', marginTop: '30px' }}>
+          <a href="#projects" className="btn btn-primary glow-btn" style={{ padding: '15px 35px', fontSize: '1.1rem' }}>
+            🚀 View Projects
           </a>
-          <Link to="/about" className="btn btn-outline glow-hover">
-            <i className="fa-solid fa-user"></i> Know About Owner
-          </Link>
-        </div>
-      </div>
+          <a href="#contact" className="btn btn-outline glow-hover" style={{ padding: '15px 35px', fontSize: '1.1rem' }}>
+            📩 Contact Me
+          </a>
+        </motion.div>
+      </motion.div>
       
-      <div className="hero-img-container">
+      <motion.div 
+        className="hero-img-container"
+        initial={{ opacity: 0, scale: 0.8 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1, delay: 0.4 }}
+        viewport={{ once: true }}
+      >
         <img 
           src="/assets/hero_brain_graphic_1775024409798.png" 
           alt="AI Futuristic Abstract Graphic" 
           className="hero-img"
         />
-      </div>
+      </motion.div>
     </section>
   );
 }
