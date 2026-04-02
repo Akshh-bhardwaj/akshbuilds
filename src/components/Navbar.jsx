@@ -1,55 +1,51 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuActive, setMenuActive] = useState(false);
+  const [isLightMode, setIsLightMode] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 50);
     };
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const toggleTheme = () => {
+    setIsLightMode(!isLightMode);
+    document.body.classList.toggle('light-mode');
+  };
+
   const toggleMenu = () => setMenuActive(!menuActive);
   const closeMenu = () => setMenuActive(false);
-
-  const navLinks = [
-    { name: 'Projects', href: '#projects' },
-    { name: 'SPT Institute', href: '#learning' },
-    { name: 'Socials', href: '#social' },
-    { name: 'Contact', href: '#contact' }
-  ];
 
   return (
     <nav className={`navbar glass ${isScrolled ? 'scrolled' : ''}`}>
       <div className="nav-container">
-        <a href="#home" className="logo">
-          aksh<span className="text-glow">builds.</span>
+        <a href="#home" className="logo" style={{ fontSize: '1.8rem', letterSpacing: '-0.5px' }}>
+          <span style={{ color: 'var(--text-main)' }}>aksh</span><span className="text-glow">builds</span><span style={{ color: 'var(--accent-color)' }}>.</span>
         </a>
         
         <div className={`nav-links ${menuActive ? 'active' : ''}`}>
-          <Link to="/about" className="nav-link" onClick={closeMenu} style={{ color: 'var(--accent-color)' }}>
-            <i className="fa-solid fa-user"></i> About Owner
-          </Link>
-          
-          {navLinks.map((link) => (
-            <a key={link.name} href={link.href} className="nav-link" onClick={closeMenu}>{link.name}</a>
-          ))}
+          <a href="#about" className="nav-link" onClick={closeMenu}>About</a>
+          <a href="#projects" className="nav-link" onClick={closeMenu}>Projects</a>
+          <a href="#services" className="nav-link" onClick={closeMenu}>Services</a>
+          <a href="#contact" className="nav-link" onClick={closeMenu}>Contact</a>
           <a href="https://github.com/akshbuilds" target="_blank" rel="noopener noreferrer" className="nav-link" onClick={closeMenu} style={{ color: 'var(--primary-color)' }}>
              <i className="fa-brands fa-github"></i> GitHub
           </a>
         </div>
         
-        <div className="hamburger" onClick={toggleMenu}>
+        <button 
+          className="mobile-menu-btn" 
+          aria-label="Toggle Menu" 
+          onClick={toggleMenu}
+        >
           <i className={`fa-solid ${menuActive ? 'fa-xmark' : 'fa-bars'}`}></i>
-        </div>
+        </button>
       </div>
     </nav>
   );
