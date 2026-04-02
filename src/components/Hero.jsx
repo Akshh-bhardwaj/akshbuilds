@@ -37,12 +37,21 @@ export default function Hero() {
           Helping creators and businesses grow faster through cutting-edge, scalable digital solutions.
         </motion.p>
         
-        <motion.div variants={itemVariants} className="hero-buttons" style={{ flexWrap: 'wrap', marginTop: '30px' }}>
+        <motion.div variants={itemVariants} className="hero-buttons" style={{ flexWrap: 'wrap', marginTop: '30px', justifyContent: 'center', gap: '15px' }}>
           <a href="#projects" className="btn btn-primary glow-btn" style={{ padding: '15px 35px', fontSize: '1.1rem' }}>
             🚀 View Projects
           </a>
-          <a href="#contact" className="btn btn-outline glow-hover" style={{ padding: '15px 35px', fontSize: '1.1rem' }}>
-            📩 Contact Me
+          <a href="/about" className="btn btn-outline glow-hover" style={{ padding: '15px 35px', fontSize: '1.1rem' }}>
+            ℹ️ About Owner
+          </a>
+          <a href="https://www.instagram.com/akshbuilds/" target="_blank" rel="noopener noreferrer" className="btn btn-instagram glow-btn" style={{ padding: '15px 35px', fontSize: '1.1rem' }}>
+            <i className="fa-brands fa-instagram"></i> My Instagram
+          </a>
+          <a href="https://www.instagram.com/sptinstitute?igsh=MzRyZ3VucTdoanp5" target="_blank" rel="noopener noreferrer" className="btn btn-instagram glow-btn" style={{ padding: '15px 35px', fontSize: '1.1rem' }}>
+            <i className="fa-brands fa-instagram"></i> SPT Institute
+          </a>
+          <a href="https://sptinstitute.com" target="_blank" rel="noopener noreferrer" className="btn btn-outline glow-hover" style={{ padding: '15px 35px', fontSize: '1.1rem' }}>
+            <i className="fa-solid fa-globe"></i> Website
           </a>
         </motion.div>
       </motion.div>
