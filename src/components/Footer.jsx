@@ -6,7 +6,6 @@ export default function Footer() {
       <div className="container footer-content">
         <div className="footer-brand">
           <span className="logo-text">AkshBuilds</span>
-          <p className="tagline">Built with AI <a href="/admin" className="bolt-icon" style={{ textDecoration: 'none' }}>⚡</a></p>
         </div>
         
         <div className="footer-links">
