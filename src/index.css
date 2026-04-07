@@ -917,4 +917,13 @@ textarea.glass-input {
   .cursor-glow {
     display: none; /* Disable cursor effect on mobile */
   }
+  
+  .theme-bulb-container {
+    right: 80px; /* Move the bulb to the left of the hamburger menu */
+    height: 110px; /* Shorten the string so it doesn't hang in the middle of content */
+  }
+  
+  .theme-bulb-container .pull-string {
+    height: 50px;
+  }
 }
