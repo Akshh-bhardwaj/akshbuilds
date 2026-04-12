@@ -18,7 +18,7 @@ export default function Services() {
             <p className="tool-desc" style={{ marginBottom: '15px' }}>
               From sleek SaaS landing pages to robust E-Commerce platforms. Tailored, blazing-fast, and responsive.
             </p>
-            <a href="#contact" className="btn btn-outline glow-hover" style={{ width: '100%' }}>Get a Quote</a>
+            <a href="#contact" className="btn btn-outline glow-hover" style={{ width: '100%' }} aria-label="Get a quote for Full-Stack Website development">Get a Quote</a>
           </div>
 
           {/* Service 2 */}
@@ -30,7 +30,7 @@ export default function Services() {
             <p className="tool-desc" style={{ marginBottom: '15px' }}>
               Need an intelligent chatbot or automated system on your site? I seamlessly integrate custom LLM tools into any project.
             </p>
-            <a href="#contact" className="btn btn-outline glow-hover" style={{ width: '100%', borderColor: 'var(--secondary-color)', color: 'var(--secondary-color)' }}>Learn More</a>
+            <a href="#contact" className="btn btn-outline glow-hover" style={{ width: '100%', borderColor: 'var(--secondary-color)', color: 'var(--secondary-color)' }} aria-label="Learn more about AI Workflow Integration">Learn More</a>
           </div>
 
           {/* Service 3 */}
@@ -42,7 +42,7 @@ export default function Services() {
             <p className="tool-desc" style={{ marginBottom: '15px' }}>
               Watch your vision come to life in days, not months. Utilizing Generative UI to produce breathtaking visual mocks instantly.
             </p>
-            <a href="#contact" className="btn btn-outline glow-hover" style={{ width: '100%', borderColor: 'var(--accent-color)', color: 'var(--accent-color)' }}>Hire Me</a>
+            <a href="#contact" className="btn btn-outline glow-hover" style={{ width: '100%', borderColor: 'var(--accent-color)', color: 'var(--accent-color)' }} aria-label="Hire me for Rapid UI Prototyping">Hire Me</a>
           </div>
 
           {/* Service 4 */}
@@ -54,7 +54,7 @@ export default function Services() {
             <p className="tool-desc" style={{ marginBottom: '15px' }}>
               Built-in data encryption, flawless JWT authentication, and OWASP-compliant infrastructures to keep client data absolutely bulletproof.
             </p>
-            <a href="#contact" className="btn btn-outline glow-hover" style={{ width: '100%', borderColor: '#00ff88', color: '#00ff88' }}>Secure your App</a>
+            <a href="#contact" className="btn btn-outline glow-hover" style={{ width: '100%', borderColor: '#00ff88', color: '#00ff88' }} aria-label="Contact about Advanced Web Security for your app">Secure your App</a>
           </div>
 
         </div>

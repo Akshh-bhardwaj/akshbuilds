@@ -1,53 +1,103 @@
 import { useState, useEffect, useRef } from 'react';
 
+// Track if scripts have already been injected globally (survive HMR re-renders)
+let scriptsInjected = false;
+let scriptsReady = false;
+const readyCallbacks = [];
+
+function onScriptsReady(cb) {
+  if (scriptsReady) { cb(); return; }
+  readyCallbacks.push(cb);
+}
+
+function loadScriptsDynamically() {
+  if (scriptsInjected) return;
+  scriptsInjected = true;
+
+  const threeScript = document.createElement('script');
+  threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js';
+  threeScript.async = true;
+
+  threeScript.onload = () => {
+    const vantaScript = document.createElement('script');
+    vantaScript.src = 'https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.net.min.js';
+    vantaScript.async = true;
+
+    vantaScript.onload = () => {
+      scriptsReady = true;
+      readyCallbacks.forEach((cb) => cb());
+      readyCallbacks.length = 0;
+    };
+
+    document.head.appendChild(vantaScript);
+  };
+
+  document.head.appendChild(threeScript);
+}
+
 export default function NeuralBg() {
   const [vantaEffect, setVantaEffect] = useState(null);
   const vantaRef = useRef(null);
 
   useEffect(() => {
-    // Skip on mobile — saves ~26s of blocking time on mobile
+    // Skip entirely on mobile — saves resources and TBT
     if (window.innerWidth < 768) return;
 
-    let attempts = 0;
-    const maxAttempts = 20;
+    // Wait until the browser is idle / page has settled (1.5s delay after mount)
+    // This keeps the main thread clear during LCP / FCP
+    let idleTimer;
+    let cancelled = false;
 
-    // Poll for deferred scripts to load (they use defer, so not instant)
-    const tryInit = () => {
-      if (window.VANTA && window.VANTA.NET && vantaRef.current) {
-        setVantaEffect(
-          window.VANTA.NET({
-            el: vantaRef.current,
-            mouseControls: true,
-            touchControls: false,
-            gyroControls: false,
-            minHeight: 200.00,
-            minWidth: 200.00,
-            scale: 1.00,
-            scaleMobile: 1.00,
-            color: 0x00f0ff,
-            backgroundColor: 0x050505,
-            points: 10.00,
-            maxDistance: 20.00,
-            spacing: 18.00
-          })
-        );
-      } else if (attempts < maxAttempts) {
-        attempts++;
-        setTimeout(tryInit, 300);
-      }
+    const initVanta = () => {
+      if (cancelled || !vantaRef.current) return;
+      onScriptsReady(() => {
+        if (cancelled || !vantaRef.current || !window.VANTA?.NET) return;
+        const effect = window.VANTA.NET({
+          el: vantaRef.current,
+          mouseControls: true,
+          touchControls: false,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          scale: 1.00,
+          scaleMobile: 1.00,
+          color: 0x00f0ff,
+          backgroundColor: 0x050505,
+          points: 8.00,       // Reduced from 10 → less GPU load
+          maxDistance: 20.00,
+          spacing: 20.00      // Slightly larger spacing → fewer lines to draw
+        });
+        setVantaEffect(effect);
+      });
+      loadScriptsDynamically();
     };
 
-    // Start polling after a short delay to let deferred scripts load
-    const timer = setTimeout(tryInit, 500);
+    // Use requestIdleCallback if available, otherwise fall back to setTimeout
+    if ('requestIdleCallback' in window) {
+      idleTimer = window.requestIdleCallback(initVanta, { timeout: 2000 });
+    } else {
+      idleTimer = setTimeout(initVanta, 1500);
+    }
 
     return () => {
-      clearTimeout(timer);
-      if (vantaEffect) vantaEffect.destroy();
+      cancelled = true;
+      if ('requestIdleCallback' in window && typeof idleTimer === 'number') {
+        window.cancelIdleCallback(idleTimer);
+      } else {
+        clearTimeout(idleTimer);
+      }
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Update colors on theme change
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (vantaEffect) vantaEffect.destroy();
+    };
+  }, [vantaEffect]);
+
+  // Update colors when theme changes
   useEffect(() => {
     if (!vantaEffect) return;
 
