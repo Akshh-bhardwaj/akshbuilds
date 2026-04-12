@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuActive, setMenuActive] = useState(false);
-  const [isLightMode, setIsLightMode] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -13,11 +12,6 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const toggleTheme = () => {
-    setIsLightMode(!isLightMode);
-    document.body.classList.toggle('light-mode');
-  };
 
   const toggleMenu = () => setMenuActive(!menuActive);
   const closeMenu = () => setMenuActive(false);

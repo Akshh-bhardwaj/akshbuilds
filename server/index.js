@@ -1,12 +1,33 @@
 import express from 'express';
 import cors from 'cors';
+import dotenv from 'dotenv';
 import { dbPromise, setupDatabase } from './db.js';
+
+// Load environment variables
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(cors());
+// CORS Configuration
+const allowedOrigins = process.env.ALLOWED_ORIGINS 
+  ? process.env.ALLOWED_ORIGINS.split(',')
+  : ['http://localhost:5173', 'http://localhost:3000'];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (mobile apps, Postman, etc.)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
+
 app.use(express.json());
 
 // Initialize DB
@@ -16,7 +37,8 @@ setupDatabase();
 
 // Health Check
 app.get('/api/status', (req, res) => {
-  res.json({ status: 'ok', environment: process.env.NODE_ENV || 'development' });
+  const nodeEnv = process.env.NODE_ENV || 'development';
+  res.json({ status: 'ok', environment: nodeEnv });
 });
 
 // Submit Contact Form

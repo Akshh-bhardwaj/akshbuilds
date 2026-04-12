@@ -1,15 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function ThemeBulb() {
-  const [isLight, setIsLight] = useState(false);
+  const [isLight, setIsLight] = useState(() => {
+    // Initialize state from DOM on mount
+    return document.body.classList.contains('light-mode');
+  });
   const [isPulling, setIsPulling] = useState(false);
-
-  // Sync initial state if needed
-  useEffect(() => {
-    if (document.body.classList.contains('light-mode')) {
-      setIsLight(true);
-    }
-  }, []);
 
   const handlePull = () => {
     if (isPulling) return; // Prevent spam

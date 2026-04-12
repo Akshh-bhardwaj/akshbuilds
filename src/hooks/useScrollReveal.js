@@ -4,12 +4,12 @@ export function useScrollReveal() {
   useEffect(() => {
     const revealElements = document.querySelectorAll('.reveal');
 
-    const revealCallback = (entries, observer) => {
+    const revealCallback = (entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('active');
           // Optional: stop observing once revealed
-          // observer.unobserve(entry.target);
+          // revealObserver.unobserve(entry.target);
         }
       });
     };
