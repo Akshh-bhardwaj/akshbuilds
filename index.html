@@ -11,19 +11,36 @@
   <meta name="keywords" content="AI tools, free AI, AkshBuilds, AI projects, Tech startup">
   <meta name="author" content="AkshBuilds">
 
-  <!-- Fonts -->
+  <!-- Open Graph / Social Sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://akshbuilds.vercel.app/">
+  <meta property="og:title" content="AkshBuilds | I Build the Future with AI">
+  <meta property="og:description" content="Discover free AI tools, smart workflows, and powerful builds by AkshBuilds.">
+  <meta property="og:image" content="https://akshbuilds.vercel.app/assets/hero_brain_graphic_1775024409798.png">
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:title" content="AkshBuilds | I Build the Future with AI">
+  <meta property="twitter:description" content="Discover free AI tools, smart workflows, and powerful builds by AkshBuilds.">
+  <meta property="twitter:image" content="https://akshbuilds.vercel.app/assets/hero_brain_graphic_1775024409798.png">
+
+  <!-- Fonts: preconnect first, then load with display=swap -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;700;800&display=swap"
-    rel="stylesheet">
+    rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  </noscript>
 
-  <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Icons: load async to avoid render blocking -->
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  </noscript>
 
-  <!-- 3D Background Engines -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+  <!-- 3D Background Engines: defer so they don't block rendering -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.net.min.js"></script>
 
 </head>
 

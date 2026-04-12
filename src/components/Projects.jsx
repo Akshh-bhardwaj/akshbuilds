@@ -114,6 +114,7 @@ export default function Projects() {
                   <img 
                     src={project.image} 
                     alt={project.title} 
+                    loading="lazy"
                     style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s' }}
                     onMouseOver={e => e.currentTarget.style.transform = 'scale(1.05)'}
                     onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
@@ -173,7 +174,7 @@ export default function Projects() {
                  <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem' }}>{activeProject.solution}</p>
               </div>
               
-              <img src={activeProject.image} alt={activeProject.title} style={{ width: '100%', borderRadius: '12px', border: '1px solid var(--glass-border)', marginBottom: '30px' }} />
+              <img src={activeProject.image} alt={activeProject.title} loading="lazy" style={{ width: '100%', borderRadius: '12px', border: '1px solid var(--glass-border)', marginBottom: '30px' }} />
               
               <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
                 {activeProject.liveLink && (

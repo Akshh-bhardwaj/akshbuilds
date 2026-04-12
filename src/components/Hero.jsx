@@ -57,6 +57,8 @@ export default function Hero() {
           src="/assets/hero_brain_graphic_1775024409798.png" 
           alt="AI Futuristic Abstract Graphic" 
           className="hero-img"
+          loading="eager"
+          fetchpriority="high"
         />
       </motion.div>
     </section>
