@@ -54,11 +54,11 @@ export default function Hero() {
         viewport={{ once: true }}
       >
         <img 
-          src="/assets/hero_brain_graphic_1775024409798.png" 
+          src="/assets/hero_brain_graphic_1775024409798.webp" 
           alt="AI Futuristic Abstract Graphic" 
           className="hero-img"
           loading="eager"
-          fetchpriority="high"
+          fetchPriority="high"
         />
       </motion.div>
     </section>

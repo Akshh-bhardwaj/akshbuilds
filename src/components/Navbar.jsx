@@ -28,7 +28,7 @@ export default function Navbar() {
           <a href="#projects" className="nav-link" onClick={closeMenu}>Projects</a>
           <a href="#services" className="nav-link" onClick={closeMenu}>Services</a>
           <a href="#contact" className="nav-link" onClick={closeMenu}>Contact</a>
-          <a href="https://github.com/akshbuilds" target="_blank" rel="noopener noreferrer" className="nav-link" onClick={closeMenu} style={{ color: 'var(--primary-color)' }}>
+          <a href="https://github.com/Akshh-bhardwaj" target="_blank" rel="noopener noreferrer" className="nav-link" onClick={closeMenu} style={{ color: 'var(--primary-color)' }}>
              <i className="fa-brands fa-github"></i> GitHub
           </a>
         </div>

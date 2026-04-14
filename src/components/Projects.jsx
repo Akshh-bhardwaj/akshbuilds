@@ -11,8 +11,8 @@ const projectData = [
       { text: 'React', color: 'var(--primary-color)', bg: 'rgba(0, 240, 255, 0.1)' },
       { text: 'OpenAI API', color: 'var(--secondary-color)', bg: 'rgba(138, 43, 226, 0.1)' }
     ],
-    image: '/assets/project_video_dash_1775024426115.png',
-    github: 'https://github.com/akshbuilds',
+    image: '/assets/project_video_dash_1775024426115.webp',
+    github: 'https://github.com/Akshh-bhardwaj',
     liveLink: 'https://forminne.netlify.app/'
   },
   {
@@ -24,8 +24,8 @@ const projectData = [
       { text: 'React Native', color: 'var(--accent-color)', bg: 'rgba(255, 0, 85, 0.1)' },
       { text: 'GraphQL', color: 'var(--primary-color)', bg: 'rgba(0, 240, 255, 0.1)' }
     ],
-    image: '/assets/project_ai_tracker_1775024442510.png',
-    github: 'https://github.com/akshbuilds',
+    image: '/assets/project_ai_tracker_1775024442510.webp',
+    github: 'https://github.com/Akshh-bhardwaj',
     liveLink: 'https://phenomenal-muffin-646633.netlify.app/'
   },
   {
@@ -37,8 +37,8 @@ const projectData = [
       { text: 'Node.js', color: '#00ff88', bg: 'rgba(0, 255, 136, 0.1)' },
       { text: 'PostgreSQL', color: '#4facfe', bg: 'rgba(79, 172, 254, 0.1)' }
     ],
-    image: '/assets/project_backend_api_1775025512690.png',
-    github: 'https://github.com/akshbuilds'
+    image: '/assets/project_backend_api_1775025512690.webp',
+    github: 'https://github.com/Akshh-bhardwaj'
   },
   {
     id: 4,
@@ -49,8 +49,8 @@ const projectData = [
       { text: 'TypeScript', color: '#ffcc00', bg: 'rgba(255, 204, 0, 0.1)' },
       { text: 'LangChain', color: 'var(--primary-color)', bg: 'rgba(0, 240, 255, 0.1)' }
     ],
-    image: '/assets/project_chatbot_1775025903371.png',
-    github: 'https://github.com/akshbuilds',
+    image: '/assets/project_chatbot_1775025903371.webp',
+    github: 'https://github.com/Akshh-bhardwaj',
     liveLink: 'https://phenomenal-muffin-646633.netlify.app/'
   },
   {
@@ -62,8 +62,8 @@ const projectData = [
       { text: 'WebSockets', color: '#ff0055', bg: 'rgba(255, 0, 85, 0.1)' },
       { text: 'Next.js', color: '#FFF', bg: 'rgba(255, 255, 255, 0.1)' }
     ],
-    image: '/assets/project_premium_chess_1775025919148.png',
-    github: 'https://github.com/akshbuilds',
+    image: '/assets/project_premium_chess_1775025919148.webp',
+    github: 'https://github.com/Akshh-bhardwaj',
     liveLink: 'https://premium-chess.onrender.com/'
   }
 ];

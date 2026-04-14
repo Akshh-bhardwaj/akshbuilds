@@ -17,7 +17,7 @@ export default function OwnerPortfolio() {
               My journey revolves around optimizing workflows, building high-performance applications, and exploring the bleeding edge of AI capabilities.
             </p>
             <div className="portfolio-actions mt-4">
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="btn btn-outline glow-hover">
+              <a href="https://github.com/Akshh-bhardwaj" target="_blank" rel="noopener noreferrer" className="btn btn-outline glow-hover">
                 <i className="fa-brands fa-github"></i> View GitHub
               </a>
               <a href="/#contact" className="btn btn-primary glow-btn" style={{ marginLeft: '15px' }}>
