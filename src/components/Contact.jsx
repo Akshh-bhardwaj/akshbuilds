@@ -51,9 +51,6 @@ export default function Contact() {
           <a href="mailto:akshubhardwaj231@gmail.com" className="btn btn-primary glow-btn" style={{ fontSize: '1.1rem', padding: '15px 30px' }}>
             <i className="fa-solid fa-envelope"></i> Email Me Direct
           </a>
-          <a href="https://github.com/Akshh-bhardwaj/akshbuilds" target="_blank" rel="noopener noreferrer" className="btn btn-outline glow-hover" style={{ fontSize: '1.1rem', padding: '15px 30px' }}>
-            <i className="fa-brands fa-github"></i> View GitHub Code
-          </a>
         </div>
         
         <form className="contact-form glass reveal delay-2" onSubmit={handleSubmit}>
