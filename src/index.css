@@ -45,6 +45,18 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Focus styles for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Remove default outline only when using mouse */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
 body {
   font-family: var(--font-body);
   background-color: var(--bg-color);
@@ -180,6 +192,21 @@ body.light-mode .glass {
 @media (max-width: 768px) {
   .section {
     padding: 80px 0;
+  }
+}
+
+/* Stats: 2-column grid on medium+ screens, 4-col on large */
+@media (min-width: 480px) {
+  .stats-banner {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+@media (min-width: 900px) {
+  .stats-banner {
+    display: flex;
+    justify-content: space-around;
   }
 }
 
@@ -864,8 +891,6 @@ textarea.glass-input {
     display: none;
   }
   .stats-banner {
-    flex-direction: column;
-    gap: 30px;
     margin-top: 20px;
   }
 }
@@ -925,5 +950,42 @@ textarea.glass-input {
   
   .theme-bulb-container .pull-string {
     height: 50px;
+  }
+
+  /* Stack project card action buttons vertically on mobile */
+  .project-card-actions {
+    flex-direction: column !important;
+  }
+
+  /* Services: 2 cards per row on tablet */
+  .tools-grid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+
+  /* Modal: tighter padding on small screens */
+  .modal-content {
+    padding: 24px 20px;
+    width: 95%;
+  }
+}
+
+/* Tablet: services 2-col */
+@media (min-width: 600px) and (max-width: 900px) {
+  .tools-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html {
+    scroll-behavior: auto;
   }
 }

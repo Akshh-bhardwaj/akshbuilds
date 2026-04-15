@@ -12,6 +12,9 @@ export default function Footer() {
           <a href="#tools">Tools</a>
           <a href="#projects">Projects</a>
           <a href="#contact">Contact</a>
+          <a href="https://github.com/Akshh-bhardwaj" target="_blank" rel="noopener noreferrer">
+            <i className="fa-brands fa-github"></i> GitHub
+          </a>
           <a href="https://www.instagram.com/akshbuilds/" target="_blank" rel="noopener noreferrer">
             <i className="fa-brands fa-instagram"></i> Instagram
           </a>

@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  const [status, setStatus] = useState('idle'); // 'idle', 'sending', 'success'
+  const [status, setStatus] = useState('idle'); // 'idle' | 'sending' | 'success' | 'error'
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -34,8 +34,8 @@ export default function Contact() {
       }, 3000);
     } catch (error) {
       console.error('Error submitting form:', error);
-      setStatus('idle');
-      alert('Failed to send message. Please try again.');
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 4000);
     }
   };
 
@@ -101,19 +101,17 @@ export default function Contact() {
           
           <button 
             type="submit" 
-            className={`btn submit-btn ${status === 'success' ? '' : 'btn-primary glow-btn'}`}
-            disabled={status !== 'idle'}
-            style={status === 'success' ? { background: '#00c853', color: '#fff', borderColor: '#00c853' } : {}}
+            className={`btn submit-btn ${status === 'success' ? '' : status === 'error' ? '' : 'btn-primary glow-btn'}`}
+            disabled={status === 'sending'}
+            style={
+              status === 'success' ? { background: '#00c853', color: '#fff', borderColor: '#00c853' } :
+              status === 'error'   ? { background: 'transparent', color: '#ff4444', borderColor: '#ff4444', border: '1px solid' } : {}
+            }
           >
-            {status === 'idle' && (
-              <><span>Get a Free Quote</span> <i className="fa-solid fa-paper-plane"></i></>
-            )}
-            {status === 'sending' && (
-              <><span>Sending...</span> <i className="fa-solid fa-spinner fa-spin"></i></>
-            )}
-            {status === 'success' && (
-              <><span>Request Received!</span> <i className="fa-solid fa-check"></i></>
-            )}
+            {status === 'idle'    && <><span>Get a Free Quote</span> <i className="fa-solid fa-paper-plane"></i></>}
+            {status === 'sending' && <><span>Sending...</span> <i className="fa-solid fa-spinner fa-spin"></i></>}
+            {status === 'success' && <><span>Request Received!</span> <i className="fa-solid fa-check"></i></>}
+            {status === 'error'   && <><span>Failed — try emailing directly</span> <i className="fa-solid fa-triangle-exclamation"></i></>}
           </button>
         </form>
       </div>

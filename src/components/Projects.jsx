@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const projectData = [
@@ -73,11 +73,19 @@ export default function Projects() {
 
   const activeProject = projectData.find(p => p.id === selectedId);
 
+  // Close modal on overlay click (correct check)
   const handleOverlayClick = (e) => {
-    if (e.target.className.includes('modal-overlay')) {
-      setSelectedId(null);
-    }
+    if (e.target === e.currentTarget) setSelectedId(null);
   };
+
+  // Close modal with Escape key
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && selectedId !== null) setSelectedId(null);
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [selectedId]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -134,7 +142,7 @@ export default function Projects() {
                     <p style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}><strong>Solution:</strong> <span style={{ color: '#00f0ff' }}>{project.solution}</span></p>
                   </div>
                   
-                  <div style={{ display: 'flex', gap: '15px', marginTop: 'auto' }}>
+                  <div className="project-card-actions" style={{ display: 'flex', gap: '15px', marginTop: 'auto' }}>
                     {project.liveLink && (
                       <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary glow-btn" style={{ flex: 1, padding: '10px' }}>
                         Live Demo <i className="fa-solid fa-arrow-up-right-from-square" style={{fontSize: '0.8rem'}}></i>
@@ -152,9 +160,15 @@ export default function Projects() {
       </section>
 
       {/* Interactive Project Modal */}
-      <div className={`modal-overlay ${selectedId ? 'active' : ''}`} onClick={handleOverlayClick}>
+      <div
+        className={`modal-overlay ${selectedId ? 'active' : ''}`}
+        onClick={handleOverlayClick}
+        role="dialog"
+        aria-modal="true"
+        aria-label={activeProject ? activeProject.title : 'Project details'}
+      >
         <div className="modal-content">
-          <button className="modal-close" onClick={() => setSelectedId(null)}>×</button>
+          <button className="modal-close" onClick={() => setSelectedId(null)} aria-label="Close project details">×</button>
           
           {activeProject && (
             <div>
