@@ -43,6 +43,15 @@ export default function Hero() {
           <a href="#contact" className="btn btn-outline glow-hover" style={{ padding: '15px 35px', fontSize: '1.1rem' }}>
             📩 Contact Me
           </a>
+          <a
+            href="https://github.com/Akshh-bhardwaj"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-outline glow-hover"
+            style={{ padding: '15px 35px', fontSize: '1.1rem', borderColor: 'var(--secondary-color)', color: 'var(--secondary-color)' }}
+          >
+            <i className="fa-brands fa-github"></i> View Resume
+          </a>
         </motion.div>
       </motion.div>
       

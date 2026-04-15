@@ -7,6 +7,7 @@ import Stats from './components/Stats';
 import ScrollToTop from './components/ScrollToTop';
 import Tools from './components/Tools';
 import Projects from './components/Projects';
+import Testimonials from './components/Testimonials';
 import Services from './components/Services';
 import Learning from './components/Learning';
 import Social from './components/Social';
@@ -31,6 +32,7 @@ function PortfolioLayout() {
         <Stats />
         <Tools />
         <Projects />
+        <Testimonials />
         <Services />
         <Learning />
         <Social />
