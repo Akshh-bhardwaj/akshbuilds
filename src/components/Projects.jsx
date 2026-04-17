@@ -65,6 +65,18 @@ const projectData = [
     image: '/assets/project_premium_chess_1775025919148.webp',
     github: 'https://github.com/Akshh-bhardwaj',
     liveLink: 'https://premium-chess.onrender.com/'
+  },
+  {
+    id: 6,
+    title: 'DSA in C Masterclass',
+    problem: 'Mastering core data structures and algorithms is essential for excelling in technical interviews at top tech companies.',
+    solution: 'Built a comprehensive, well-documented repository of DSA problems and optimal solutions in C, covering dynamic programming, graphs, and advanced data structures.',
+    badges: [
+      { text: 'C', color: '#ffffff', bg: 'rgba(100, 100, 100, 0.3)' },
+      { text: 'Algorithms', color: 'var(--primary-color)', bg: 'rgba(0, 240, 255, 0.1)' }
+    ],
+    image: '/assets/project_backend_api_1775025512690.webp',
+    github: 'https://github.com/Akshh-bhardwaj/dsa-in-c'
   }
 ];
 
