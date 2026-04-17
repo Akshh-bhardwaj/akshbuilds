@@ -161,7 +161,7 @@ export default function Projects() {
                       </a>
                     )}
                     <button className="btn btn-outline glow-hover" style={{ flex: project.liveLink ? 1 : '100%', padding: '10px' }} onClick={() => setSelectedId(project.id)}>
-                      Deep Dive
+                      Notes Section
                     </button>
                   </div>
                 </div>
