@@ -160,9 +160,15 @@ export default function Projects() {
                         Live Demo <i className="fa-solid fa-arrow-up-right-from-square" style={{fontSize: '0.8rem'}}></i>
                       </a>
                     )}
-                    <button className="btn btn-outline glow-hover" style={{ flex: project.liveLink ? 1 : '100%', padding: '10px' }} onClick={() => setSelectedId(project.id)}>
-                      Notes Section
-                    </button>
+                    {project.id === 6 ? (
+                      <a href={project.github} target="_blank" rel="noopener noreferrer" className="btn btn-outline glow-hover" style={{ flex: project.liveLink ? 1 : '100%', padding: '10px', textAlign: 'center' }}>
+                        Notes Section
+                      </a>
+                    ) : (
+                      <button className="btn btn-outline glow-hover" style={{ flex: project.liveLink ? 1 : '100%', padding: '10px' }} onClick={() => setSelectedId(project.id)}>
+                        Deep Dive
+                      </button>
+                    )}
                   </div>
                 </div>
               </motion.div>
