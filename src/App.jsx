@@ -18,6 +18,7 @@ import NeuralBg from './components/NeuralBg';
 
 import Admin from './pages/Admin';
 import About from './pages/About';
+import { Analytics } from '@vercel/analytics/react';
 
 function PortfolioLayout() {
   // Initialize scroll reveal observer
@@ -58,6 +59,7 @@ function App() {
       </Routes>
 
       <ScrollToTop />
+      <Analytics />
     </BrowserRouter>
   );
 }
