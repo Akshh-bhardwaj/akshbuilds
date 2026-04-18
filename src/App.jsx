@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import { useScrollReveal } from './hooks/useScrollReveal';
 import CursorGlow from './components/CursorGlow';
 import Navbar from './components/Navbar';
@@ -58,6 +59,7 @@ function App() {
       </Routes>
 
       <ScrollToTop />
+      <Analytics />
     </BrowserRouter>
   );
 }
