@@ -78,6 +78,11 @@ html {
 }
 
 /* Techie Scanlines */
+main {
+  position: relative;
+  z-index: 10;
+}
+
 body::after {
   content: " ";
   display: block;
