@@ -124,8 +124,10 @@ export default function NeuralBg() {
         left: 0,
         width: '100vw',
         height: '100vh',
-        zIndex: -2,
-        pointerEvents: 'none'
+        zIndex: -999,
+        pointerEvents: 'none',
+        WebkitTransform: 'translate3d(0,0,0)',
+        transform: 'translate3d(0,0,0)'
       }}
     />
   );

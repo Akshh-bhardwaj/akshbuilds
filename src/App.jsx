@@ -52,11 +52,13 @@ function App() {
 
       <CursorGlow />
 
-      <Routes>
-        <Route path="/" element={<PortfolioLayout />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/about" element={<About />} />
-      </Routes>
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <Routes>
+          <Route path="/" element={<PortfolioLayout />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+      </div>
 
       <ScrollToTop />
       <Analytics />
