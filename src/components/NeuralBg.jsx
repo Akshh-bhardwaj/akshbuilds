@@ -40,8 +40,7 @@ export default function NeuralBg() {
   const vantaRef = useRef(null);
 
   useEffect(() => {
-    // Skip entirely on mobile — saves resources and TBT
-    if (window.innerWidth < 768) return;
+    // The background now loads on all devices including mobile!
 
     // Wait until the browser is idle / page has settled (1.5s delay after mount)
     // This keeps the main thread clear during LCP / FCP
