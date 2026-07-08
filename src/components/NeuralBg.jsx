@@ -86,7 +86,6 @@ export default function NeuralBg() {
         clearTimeout(idleTimer);
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Cleanup on unmount
