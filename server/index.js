@@ -30,6 +30,18 @@ app.use(cors({
 
 app.use(express.json());
 
+// Admin Authentication Middleware
+const authenticateAdmin = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(' ')[1];
+  const secretKey = process.env.ADMIN_SECRET_KEY || 'default_admin_secret_key_123';
+  
+  if (!token || token !== secretKey) {
+    return res.status(401).json({ error: 'Unauthorized access.' });
+  }
+  next();
+};
+
 // Initialize DB
 setupDatabase();
 
@@ -81,7 +93,7 @@ app.get('/api/projects', async (req, res) => {
 });
 
 // Fetch Contact Messages
-app.get('/api/messages', async (req, res) => {
+app.get('/api/messages', authenticateAdmin, async (req, res) => {
   try {
     const db = await dbPromise;
     const messages = await db.all('SELECT * FROM messages ORDER BY created_at DESC');
