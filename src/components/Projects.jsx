@@ -206,20 +206,92 @@ const notesData = {
   ],
   interview: [
     {
-      category: 'LeetCode Tracking Lists',
+      category: 'Google LeetCode Questions',
       files: [
-        { name: 'Last 30 Days (Immediate Prep)', path: 'README.md#folder-structure' },
-        { name: 'Last 3 Months (Recent Trends)', path: 'README.md#folder-structure' },
-        { name: 'Last 6 Months (Core Preparation)', path: 'README.md#folder-structure' },
-        { name: 'Last 1 Year (Broad Coverage)', path: 'README.md#folder-structure' }
+        { name: 'Last 30 Days (Immediate)', path: 'google/thirty-days.csv' },
+        { name: 'Last 3 Months (Recent Trends)', path: 'google/three-months.csv' },
+        { name: 'Last 6 Months (Core Prep)', path: 'google/six-months.csv' },
+        { name: 'All Historical Questions', path: 'google/all.csv' }
       ]
     },
     {
-      category: 'Selenium Scraper Tool',
+      category: 'Amazon LeetCode Questions',
       files: [
-        { name: 'Scraper.java (Core Scraper)', path: 'src/main/java/Scraper.java' },
-        { name: 'Main.java (Entrypoint)', path: 'src/main/java/Main.java' },
-        { name: 'Scraper README Guide', path: 'README.md' }
+        { name: 'Last 30 Days (Immediate)', path: 'amazon/thirty-days.csv' },
+        { name: 'Last 3 Months (Recent Trends)', path: 'amazon/three-months.csv' },
+        { name: 'Last 6 Months (Core Prep)', path: 'amazon/six-months.csv' },
+        { name: 'All Historical Questions', path: 'amazon/all.csv' }
+      ]
+    },
+    {
+      category: 'Microsoft LeetCode Questions',
+      files: [
+        { name: 'Last 30 Days (Immediate)', path: 'microsoft/thirty-days.csv' },
+        { name: 'Last 3 Months (Recent Trends)', path: 'microsoft/three-months.csv' },
+        { name: 'Last 6 Months (Core Prep)', path: 'microsoft/six-months.csv' },
+        { name: 'All Historical Questions', path: 'microsoft/all.csv' }
+      ]
+    },
+    {
+      category: 'Meta LeetCode Questions',
+      files: [
+        { name: 'Last 30 Days (Immediate)', path: 'meta/thirty-days.csv' },
+        { name: 'Last 3 Months (Recent Trends)', path: 'meta/three-months.csv' },
+        { name: 'Last 6 Months (Core Prep)', path: 'meta/six-months.csv' },
+        { name: 'All Historical Questions', path: 'meta/all.csv' }
+      ]
+    },
+    {
+      category: 'Apple LeetCode Questions',
+      files: [
+        { name: 'Last 30 Days (Immediate)', path: 'apple/thirty-days.csv' },
+        { name: 'Last 3 Months (Recent Trends)', path: 'apple/three-months.csv' },
+        { name: 'Last 6 Months (Core Prep)', path: 'apple/six-months.csv' },
+        { name: 'All Historical Questions', path: 'apple/all.csv' }
+      ]
+    },
+    {
+      category: 'Netflix LeetCode Questions',
+      files: [
+        { name: 'Last 30 Days (Immediate)', path: 'netflix/thirty-days.csv' },
+        { name: 'Last 3 Months (Recent Trends)', path: 'netflix/three-months.csv' },
+        { name: 'Last 6 Months (Core Prep)', path: 'netflix/six-months.csv' },
+        { name: 'All Historical Questions', path: 'netflix/all.csv' }
+      ]
+    },
+    {
+      category: 'Uber LeetCode Questions',
+      files: [
+        { name: 'Last 30 Days (Immediate)', path: 'uber/thirty-days.csv' },
+        { name: 'Last 3 Months (Recent Trends)', path: 'uber/three-months.csv' },
+        { name: 'Last 6 Months (Core Prep)', path: 'uber/six-months.csv' },
+        { name: 'All Historical Questions', path: 'uber/all.csv' }
+      ]
+    },
+    {
+      category: 'Bloomberg LeetCode Questions',
+      files: [
+        { name: 'Last 30 Days (Immediate)', path: 'bloomberg/thirty-days.csv' },
+        { name: 'Last 3 Months (Recent Trends)', path: 'bloomberg/three-months.csv' },
+        { name: 'Last 6 Months (Core Prep)', path: 'bloomberg/six-months.csv' },
+        { name: 'All Historical Questions', path: 'bloomberg/all.csv' }
+      ]
+    },
+    {
+      category: 'OpenAI LeetCode Questions',
+      files: [
+        { name: 'Last 30 Days (Immediate)', path: 'openai/thirty-days.csv' },
+        { name: 'Last 3 Months (Recent Trends)', path: 'openai/three-months.csv' },
+        { name: 'Last 6 Months (Core Prep)', path: 'openai/six-months.csv' },
+        { name: 'All Historical Questions', path: 'openai/all.csv' }
+      ]
+    },
+    {
+      category: 'Selenium Scraper Core Tool',
+      files: [
+        { name: 'Scraper.java (Scraper Code)', path: 'src/main/java/Scraper.java' },
+        { name: 'Main.java (Application Entrypoint)', path: 'src/main/java/Main.java' },
+        { name: 'Scraper Documentation Guide', path: 'README.md' }
       ]
     }
   ]
@@ -249,7 +321,7 @@ export default function Projects() {
     'Arrays & Strings': true, 
     'Java Internals & OOP': true, 
     'Advanced Core & OOP': true,
-    'LeetCode Tracking Lists': true 
+    'Google LeetCode Questions': true 
   });
   const [isCheatSheetOpen, setIsCheatSheetOpen] = useState(false);
 
