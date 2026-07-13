@@ -710,7 +710,7 @@ export default function Projects() {
                                 ? `https://github.com/Akshh-bhardwaj/dsa/blob/main/java/${file.path}`
                                 : activeTab === 'python'
                                 ? `https://github.com/Akshh-bhardwaj/python/tree/main/${file.path}`
-                                : `https://github.com/Akshh-bhardwaj/interview-question/blob/main/${file.path}`;
+                                : `https://github.com/Akshh-bhardwaj/interview-question/blob/master/${file.path}`;
                               
                               const linkClass = activeTab === 'java' ? 'java-link' : 
                                                 activeTab === 'python' ? 'python-link' :
