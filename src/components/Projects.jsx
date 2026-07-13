@@ -240,13 +240,13 @@ export default function Projects() {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.15 }
+      transition: { staggerChildren: 0.1 }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4 } }
   };
 
   const isSearching = searchQuery.trim().length > 0;
@@ -263,9 +263,35 @@ export default function Projects() {
   return (
     <>
       <style>{`
+        :root {
+          --study-card-bg: var(--glass-bg);
+          --study-card-border: var(--glass-border);
+          --study-input-bg: rgba(0, 0, 0, 0.2);
+          --study-input-border: var(--glass-border);
+          --study-accordion-bg: rgba(255, 255, 255, 0.01);
+          --study-accordion-border: var(--glass-border);
+          --study-file-bg: rgba(0, 0, 0, 0.15);
+          --study-file-hover-bg: rgba(0, 240, 255, 0.05);
+          --study-file-border: transparent;
+          --study-tab-bg: rgba(255, 255, 255, 0.01);
+          --study-tab-border: var(--glass-border);
+          --study-tab-color: var(--text-muted);
+        }
+        body.light-mode {
+          --study-input-bg: rgba(255, 255, 255, 0.9);
+          --study-input-border: rgba(0, 0, 0, 0.15);
+          --study-accordion-bg: rgba(0, 0, 0, 0.02);
+          --study-accordion-border: rgba(0, 0, 0, 0.08);
+          --study-file-bg: rgba(0, 0, 0, 0.03);
+          --study-file-hover-bg: rgba(0, 136, 255, 0.05);
+          --study-file-border: rgba(0, 0, 0, 0.05);
+          --study-tab-bg: rgba(0, 0, 0, 0.02);
+          --study-tab-border: rgba(0, 0, 0, 0.1);
+          --study-tab-color: var(--text-muted);
+        }
         .projects-split-layout {
           display: flex;
-          gap: 40px;
+          gap: 30px;
           margin-top: 40px;
         }
         @media (max-width: 1024px) {
@@ -273,12 +299,29 @@ export default function Projects() {
             flex-direction: column;
           }
         }
+        .projects-column-left {
+          flex: 1.4;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+        .projects-column-right {
+          flex: 0.8;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+        .projects-subgrid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+          gap: 20px;
+        }
         .study-material-card {
-          background: var(--glass-bg);
-          border: 1px solid var(--glass-border);
+          background: var(--study-card-bg);
+          border: 1px solid var(--study-card-border);
           backdrop-filter: blur(10px);
           border-radius: 16px;
-          padding: 30px;
+          padding: 25px;
           display: flex;
           flex-direction: column;
           gap: 20px;
@@ -290,9 +333,9 @@ export default function Projects() {
           flex: 1;
           padding: 12px;
           border-radius: 8px;
-          border: 1px solid var(--glass-border);
-          background: rgba(255,255,255,0.01);
-          color: var(--text-muted);
+          border: 1px solid var(--study-tab-border);
+          background: var(--study-tab-bg);
+          color: var(--study-tab-color);
           font-weight: 600;
           cursor: pointer;
           transition: var(--transition);
@@ -304,18 +347,30 @@ export default function Projects() {
           color: var(--primary-color);
           box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
         }
+        body.light-mode .study-tab-btn.active-c {
+          background: rgba(0, 136, 255, 0.1);
+          border-color: var(--primary-color);
+          color: var(--primary-color);
+          box-shadow: 0 0 10px rgba(0, 136, 255, 0.1);
+        }
         .study-tab-btn.active-java {
           background: rgba(138, 43, 226, 0.1);
           border-color: var(--secondary-color);
           color: var(--secondary-color);
           box-shadow: 0 0 15px rgba(138, 43, 226, 0.15);
         }
+        body.light-mode .study-tab-btn.active-java {
+          background: rgba(106, 11, 226, 0.1);
+          border-color: var(--secondary-color);
+          color: var(--secondary-color);
+          box-shadow: 0 0 10px rgba(106, 11, 226, 0.1);
+        }
         .study-search-input {
           width: 100%;
           padding: 12px 16px;
           border-radius: 8px;
-          border: 1px solid var(--glass-border);
-          background: rgba(0,0,0,0.2);
+          border: 1px solid var(--study-input-border);
+          background: var(--study-input-bg);
           color: var(--text-main);
           font-family: var(--font-body);
           transition: var(--transition);
@@ -325,12 +380,16 @@ export default function Projects() {
           border-color: var(--primary-color);
           box-shadow: 0 0 10px rgba(0, 240, 255, 0.15);
         }
+        body.light-mode .study-search-input:focus {
+          border-color: var(--primary-color);
+          box-shadow: 0 0 8px rgba(0, 136, 255, 0.2);
+        }
         .topic-accordion {
           border-radius: 8px;
-          border: 1px solid var(--glass-border);
+          border: 1px solid var(--study-accordion-border);
           margin-bottom: 12px;
           overflow: hidden;
-          background: rgba(255,255,255,0.01);
+          background: var(--study-accordion-bg);
           transition: var(--transition);
         }
         .topic-accordion-header {
@@ -347,9 +406,12 @@ export default function Projects() {
         .topic-accordion-header:hover {
           background: rgba(255,255,255,0.02);
         }
+        body.light-mode .topic-accordion-header:hover {
+          background: rgba(0,0,0,0.02);
+        }
         .topic-accordion-content {
           padding: 10px 20px 15px;
-          border-top: 1px solid rgba(255,255,255,0.03);
+          border-top: 1px solid var(--glass-border);
           display: flex;
           flex-direction: column;
           gap: 10px;
@@ -360,23 +422,21 @@ export default function Projects() {
           align-items: center;
           padding: 10px 14px;
           border-radius: 6px;
-          background: rgba(0,0,0,0.15);
+          background: var(--study-file-bg);
+          border: 1px solid var(--study-file-border);
           color: var(--text-muted);
           text-decoration: none;
           font-size: 0.9rem;
           transition: var(--transition);
-          border: 1px solid transparent;
         }
         .study-file-link:hover {
           color: var(--text-main);
-          background: rgba(0, 240, 255, 0.05);
+          background: var(--study-file-hover-bg);
           border-color: rgba(0, 240, 255, 0.2);
           transform: translateX(4px);
         }
         .study-file-link.java-link:hover {
-          background: rgba(138, 43, 226, 0.05);
           border-color: rgba(138, 43, 226, 0.2);
-          transform: translateX(4px);
         }
         .cheat-sheet-btn {
           width: 100%;
@@ -416,6 +476,9 @@ export default function Projects() {
         .cheat-table tr:hover {
           background: rgba(255,255,255,0.01);
         }
+        body.light-mode .cheat-table tr:hover {
+          background: rgba(0,0,0,0.01);
+        }
       `}</style>
 
       <section id="projects" className="projects section">
@@ -427,13 +490,13 @@ export default function Projects() {
 
           <div className="projects-split-layout">
             {/* Left Column: Major Projects */}
-            <div className="projects-column-left" style={{ flex: '1.2', display: 'flex', flexDirection: 'column', gap: '30px' }}>
+            <div className="projects-column-left">
               <h3 style={{ fontSize: '1.8rem', color: 'var(--text-main)', borderBottom: '1px solid var(--glass-border)', paddingBottom: '10px', display: 'flex', alignItems: 'center', gap: '10px', fontFamily: 'var(--font-heading)' }}>
                 <i className="fa-solid fa-laptop-code" style={{ color: 'var(--primary-color)' }}></i> Major Projects
               </h3>
 
               <motion.div 
-                style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}
+                className="projects-subgrid"
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="visible"
@@ -441,7 +504,7 @@ export default function Projects() {
               >
                 {projectData.map((project) => (
                   <motion.div key={project.id} variants={itemVariants} className="project-card glass" style={{ padding: '0', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                    <div className="project-img" style={{ height: '220px', width: '100%', overflow: 'hidden', cursor: 'pointer' }} onClick={() => setSelectedId(project.id)}>
+                    <div className="project-img" style={{ height: '200px', width: '100%', overflow: 'hidden', cursor: 'pointer' }} onClick={() => setSelectedId(project.id)}>
                       <img 
                         src={project.image} 
                         alt={project.title} 
@@ -451,27 +514,27 @@ export default function Projects() {
                         onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
                       />
                     </div>
-                    <div className="project-info" style={{ padding: '35px', flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-                      <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
+                    <div className="project-info" style={{ padding: '25px', flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                      <div style={{ display: 'flex', gap: '10px', marginBottom: '12px' }}>
                         {project.badges.map((b, i) => (
-                          <span key={i} style={{ fontSize: '0.8rem', background: b.bg, color: b.color, padding: '4px 10px', borderRadius: '4px', fontWeight: 600 }}>
+                          <span key={i} style={{ fontSize: '0.75rem', background: b.bg, color: b.color, padding: '3px 8px', borderRadius: '4px', fontWeight: 600 }}>
                             {b.text}
                           </span>
                         ))}
                       </div>
-                      <h3 className="project-title" style={{ fontSize: '1.6rem', marginBottom: '15px' }}>{project.title}</h3>
-                      <div style={{ marginBottom: '25px', flexGrow: 1 }}>
-                        <p style={{ color: 'var(--text-main)', fontSize: '0.95rem', marginBottom: '8px' }}><strong>Problem:</strong> <span style={{ color: 'var(--text-muted)' }}>{project.problem}</span></p>
-                        <p style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}><strong>Solution:</strong> <span style={{ color: '#00f0ff' }}>{project.solution}</span></p>
+                      <h3 className="project-title" style={{ fontSize: '1.4rem', marginBottom: '12px' }}>{project.title}</h3>
+                      <div style={{ marginBottom: '20px', flexGrow: 1 }}>
+                        <p style={{ color: 'var(--text-main)', fontSize: '0.9rem', marginBottom: '6px' }}><strong>Problem:</strong> <span style={{ color: 'var(--text-muted)' }}>{project.problem}</span></p>
+                        <p style={{ color: 'var(--text-main)', fontSize: '0.9rem' }}><strong>Solution:</strong> <span style={{ color: 'var(--primary-color)' }}>{project.solution}</span></p>
                       </div>
                       
-                      <div className="project-card-actions" style={{ display: 'flex', gap: '15px', marginTop: 'auto' }}>
+                      <div className="project-card-actions" style={{ display: 'flex', gap: '10px', marginTop: 'auto' }}>
                         {project.liveLink && (
-                          <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary glow-btn" style={{ flex: 1, padding: '10px' }}>
-                            Live Demo <i className="fa-solid fa-arrow-up-right-from-square" style={{fontSize: '0.8rem'}}></i>
+                          <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary glow-btn" style={{ flex: 1, padding: '8px', fontSize: '0.9rem' }}>
+                            Live Demo <i className="fa-solid fa-arrow-up-right-from-square" style={{fontSize: '0.75rem'}}></i>
                           </a>
                         )}
-                        <button className="btn btn-outline glow-hover" style={{ flex: project.liveLink ? 1 : '100%', padding: '10px' }} onClick={() => setSelectedId(project.id)}>
+                        <button className="btn btn-outline glow-hover" style={{ flex: project.liveLink ? 1 : '100%', padding: '8px', fontSize: '0.9rem' }} onClick={() => setSelectedId(project.id)}>
                           Deep Dive
                         </button>
                       </div>
@@ -482,7 +545,7 @@ export default function Projects() {
             </div>
 
             {/* Right Column: Study Material */}
-            <div className="projects-column-right" style={{ flex: '0.8', display: 'flex', flexDirection: 'column', gap: '30px' }}>
+            <div className="projects-column-right">
               <h3 style={{ fontSize: '1.8rem', color: 'var(--text-main)', borderBottom: '1px solid var(--glass-border)', paddingBottom: '10px', display: 'flex', alignItems: 'center', gap: '10px', fontFamily: 'var(--font-heading)' }}>
                 <i className="fa-solid fa-graduation-cap" style={{ color: 'var(--secondary-color)' }}></i> Study Material
               </h3>
@@ -516,7 +579,7 @@ export default function Projects() {
                 </div>
 
                 {/* Interactive Accordion Explorer */}
-                <div style={{ display: 'flex', flexDirection: 'column', maxHeight: '500px', overflowY: 'auto', paddingRight: '5px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', maxHeight: '480px', overflowY: 'auto', paddingRight: '5px' }}>
                   {filteredNotes.length > 0 ? (
                     filteredNotes.map((cat) => {
                       const isExpanded = isSearching || !!expandedCategories[cat.category];
