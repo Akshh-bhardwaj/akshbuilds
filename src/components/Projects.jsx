@@ -71,39 +71,36 @@ const projectData = [
 const notesData = {
   c: [
     {
-      category: 'Arrays',
+      category: 'Arrays & Strings',
       files: [
         { name: 'two_sum.c', path: 'Arrays/two_sum.c' },
         { name: 'max_min_element.c', path: 'Arrays/max_min_element.c' },
         { name: 'reverse_array.c', path: 'Arrays/reverse_array.c' },
         { name: 'move_zeroes.c', path: 'Arrays/move_zeroes.c' },
-        { name: 'prefix_sum.c', path: 'Arrays/prefix_sum.c' }
-      ]
-    },
-    {
-      category: 'Strings',
-      files: [
+        { name: 'prefix_sum.c', path: 'Arrays/prefix_sum.c' },
         { name: 'palindrome.c', path: 'Strings/palindrome.c' },
         { name: 'anagram.c', path: 'Strings/anagram.c' },
         { name: 'reverse_string.c', path: 'Strings/reverse_string.c' }
       ]
     },
     {
-      category: 'LinkedList',
+      category: 'Linked List & Stacks',
       files: [
         { name: 'insert_node.c', path: 'LinkedList/insert_node.c' },
         { name: 'delete_node.c', path: 'LinkedList/delete_node.c' },
         { name: 'reverse_list.c', path: 'LinkedList/reverse_list.c' },
-        { name: 'doubly_linked_list.c', path: 'LinkedList/doubly_linked_list.c' }
+        { name: 'doubly_linked_list.c', path: 'LinkedList/doubly_linked_list.c' },
+        { name: 'stack_array.c', path: 'Stack/stack_array.c' },
+        { name: 'stack_linkedlist.c', path: 'Stack/stack_linkedlist.c' }
       ]
     },
     {
-      category: 'Stack & Queue',
+      category: 'Queue & Recursion',
       files: [
-        { name: 'stack_array.c', path: 'Stack/stack_array.c' },
-        { name: 'stack_linkedlist.c', path: 'Stack/stack_linkedlist.c' },
         { name: 'queue_array.c', path: 'Queue/queue_array.c' },
-        { name: 'queue_linkedlist.c', path: 'Queue/queue_linkedlist.c' }
+        { name: 'queue_linkedlist.c', path: 'Queue/queue_linkedlist.c' },
+        { name: 'factorial.c', path: 'Recursion/factorial.c' },
+        { name: 'fibonacci.c', path: 'Recursion/fibonacci.c' }
       ]
     },
     {
@@ -115,7 +112,7 @@ const notesData = {
       ]
     },
     {
-      category: 'Graphs',
+      category: 'Graph Algorithms',
       files: [
         { name: 'graph_representation.c', path: 'Graphs/graph_representation.c' },
         { name: 'graph_bfs.c', path: 'Graphs/graph_bfs.c' },
@@ -142,13 +139,6 @@ const notesData = {
         { name: 'quick_sort.c', path: 'Sorting/quick_sort.c' },
         { name: 'linear_search.c', path: 'Searching/linear_search.c' },
         { name: 'binary_search.c', path: 'Searching/binary_search.c' }
-      ]
-    },
-    {
-      category: 'Recursion',
-      files: [
-        { name: 'factorial.c', path: 'Recursion/factorial.c' },
-        { name: 'fibonacci.c', path: 'Recursion/fibonacci.c' }
       ]
     }
   ],
@@ -186,6 +176,52 @@ const notesData = {
         { name: 'DPDemo.java', path: 'DynamicProgramming/DPDemo.java' }
       ]
     }
+  ],
+  python: [
+    {
+      category: 'Advanced Core & OOP',
+      files: [
+        { name: 'Advanced OOP (Metaclasses, Descriptors)', path: 'Advanced/01_advanced_oop' },
+        { name: 'Decorators & Generators (Closures, Lazy Load)', path: 'Advanced/02_decorators_and_generators' },
+        { name: 'Memory Management (GC, Slots, Weakref)', path: 'Advanced/03_memory_management' },
+        { name: 'Metaprogramming & Introspection', path: 'Advanced/05_metaprogramming' }
+      ]
+    },
+    {
+      category: 'Concurrency & Design Patterns',
+      files: [
+        { name: 'Concurrency & Asyncio (GIL, Threads, Async)', path: 'Advanced/04_concurrency_and_asyncio' },
+        { name: 'Enterprise Design Patterns', path: 'Advanced/06_design_patterns' }
+      ]
+    },
+    {
+      category: 'Enterprise Python Development',
+      files: [
+        { name: 'Testing & Mocking', path: 'Advanced/07_testing_and_logging' },
+        { name: 'Advanced Collections & Containers', path: 'Advanced/08_advanced_data_structures' },
+        { name: 'Database Integrations & ORMs', path: 'Advanced/09_database_integration' },
+        { name: 'System Pipelines & TCP Networking', path: 'Advanced/10_system_and_networking' }
+      ]
+    }
+  ],
+  interview: [
+    {
+      category: 'LeetCode Tracking Lists',
+      files: [
+        { name: 'Last 30 Days (Immediate Prep)', path: 'README.md#folder-structure' },
+        { name: 'Last 3 Months (Recent Trends)', path: 'README.md#folder-structure' },
+        { name: 'Last 6 Months (Core Preparation)', path: 'README.md#folder-structure' },
+        { name: 'Last 1 Year (Broad Coverage)', path: 'README.md#folder-structure' }
+      ]
+    },
+    {
+      category: 'Selenium Scraper Tool',
+      files: [
+        { name: 'Scraper.java (Core Scraper)', path: 'src/main/java/Scraper.java' },
+        { name: 'Main.java (Entrypoint)', path: 'src/main/java/Main.java' },
+        { name: 'Scraper README Guide', path: 'README.md' }
+      ]
+    }
   ]
 };
 
@@ -209,7 +245,12 @@ export default function Projects() {
   const [selectedId, setSelectedId] = useState(null);
   const [activeTab, setActiveTab] = useState('c');
   const [searchQuery, setSearchQuery] = useState('');
-  const [expandedCategories, setExpandedCategories] = useState({ Arrays: true, 'Java Internals & OOP': true });
+  const [expandedCategories, setExpandedCategories] = useState({ 
+    'Arrays & Strings': true, 
+    'Java Internals & OOP': true, 
+    'Advanced Core & OOP': true,
+    'LeetCode Tracking Lists': true 
+  });
   const [isCheatSheetOpen, setIsCheatSheetOpen] = useState(false);
 
   const activeProject = projectData.find(p => p.id === selectedId);
@@ -245,8 +286,8 @@ export default function Projects() {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.4 } }
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
   };
 
   const isSearching = searchQuery.trim().length > 0;
@@ -289,50 +330,35 @@ export default function Projects() {
           --study-tab-border: rgba(0, 0, 0, 0.1);
           --study-tab-color: var(--text-muted);
         }
-        .projects-split-layout {
-          display: flex;
-          gap: 30px;
-          margin-top: 40px;
-        }
-        @media (max-width: 1024px) {
-          .projects-split-layout {
-            flex-direction: column;
-          }
-        }
-        .projects-column-left {
-          flex: 1.4;
-          display: flex;
-          flex-direction: column;
-          gap: 20px;
-        }
-        .projects-column-right {
-          flex: 0.8;
-          display: flex;
-          flex-direction: column;
-          gap: 20px;
-        }
-        .projects-subgrid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-          gap: 20px;
+        .study-hub-container {
+          width: 100%;
         }
         .study-material-card {
           background: var(--study-card-bg);
           border: 1px solid var(--study-card-border);
           backdrop-filter: blur(10px);
-          border-radius: 16px;
-          padding: 25px;
+          border-radius: 20px;
+          padding: 40px;
           display: flex;
           flex-direction: column;
-          gap: 20px;
-          position: sticky;
-          top: 100px;
-          height: fit-content;
+          gap: 30px;
+        }
+        @media (max-width: 768px) {
+          .study-material-card {
+            padding: 20px;
+            gap: 20px;
+          }
+        }
+        .study-tabs-container {
+          display: flex;
+          gap: 15px;
+          flex-wrap: wrap;
         }
         .study-tab-btn {
           flex: 1;
-          padding: 12px;
-          border-radius: 8px;
+          min-width: 200px;
+          padding: 14px 20px;
+          border-radius: 10px;
           border: 1px solid var(--study-tab-border);
           background: var(--study-tab-bg);
           color: var(--study-tab-color);
@@ -340,6 +366,16 @@ export default function Projects() {
           cursor: pointer;
           transition: var(--transition);
           font-family: var(--font-body);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 8px;
+          font-size: 0.95rem;
+        }
+        @media (max-width: 580px) {
+          .study-tab-btn {
+            min-width: 100%;
+          }
         }
         .study-tab-btn.active-c {
           background: rgba(0, 240, 255, 0.1);
@@ -365,43 +401,80 @@ export default function Projects() {
           color: var(--secondary-color);
           box-shadow: 0 0 10px rgba(106, 11, 226, 0.1);
         }
+        .study-tab-btn.active-python {
+          background: rgba(0, 255, 136, 0.1);
+          border-color: #00ff88;
+          color: #00ff88;
+          box-shadow: 0 0 15px rgba(0, 255, 136, 0.15);
+        }
+        body.light-mode .study-tab-btn.active-python {
+          background: rgba(0, 150, 80, 0.1);
+          border-color: #009955;
+          color: #009955;
+          box-shadow: 0 0 10px rgba(0, 150, 80, 0.1);
+        }
+        .study-tab-btn.active-interview {
+          background: rgba(255, 0, 85, 0.1);
+          border-color: var(--accent-color);
+          color: var(--accent-color);
+          box-shadow: 0 0 15px rgba(255, 0, 85, 0.15);
+        }
+        body.light-mode .study-tab-btn.active-interview {
+          background: rgba(200, 0, 60, 0.1);
+          border-color: var(--accent-color);
+          color: var(--accent-color);
+          box-shadow: 0 0 10px rgba(200, 0, 60, 0.1);
+        }
         .study-search-input {
           width: 100%;
-          padding: 12px 16px;
-          border-radius: 8px;
+          padding: 14px 20px;
+          border-radius: 10px;
           border: 1px solid var(--study-input-border);
           background: var(--study-input-bg);
           color: var(--text-main);
           font-family: var(--font-body);
           transition: var(--transition);
+          font-size: 1rem;
         }
         .study-search-input:focus {
           outline: none;
           border-color: var(--primary-color);
-          box-shadow: 0 0 10px rgba(0, 240, 255, 0.15);
+          box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
         }
         body.light-mode .study-search-input:focus {
           border-color: var(--primary-color);
-          box-shadow: 0 0 8px rgba(0, 136, 255, 0.2);
+          box-shadow: 0 0 10px rgba(0, 136, 255, 0.2);
+        }
+        .study-accordion-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+          gap: 20px;
+        }
+        @media (max-width: 680px) {
+          .study-accordion-grid {
+            grid-template-columns: 1fr;
+          }
         }
         .topic-accordion {
-          border-radius: 8px;
+          border-radius: 12px;
           border: 1px solid var(--study-accordion-border);
-          margin-bottom: 12px;
           overflow: hidden;
           background: var(--study-accordion-bg);
           transition: var(--transition);
+          height: fit-content;
         }
         .topic-accordion-header {
-          padding: 15px 20px;
+          padding: 18px 24px;
           display: flex;
           justify-content: space-between;
           align-items: center;
           cursor: pointer;
-          font-weight: 600;
+          font-weight: 700;
           color: var(--text-main);
+          font-family: var(--font-heading);
           transition: var(--transition);
           user-select: none;
+          font-size: 1.1rem;
         }
         .topic-accordion-header:hover {
           background: rgba(255,255,255,0.02);
@@ -410,23 +483,23 @@ export default function Projects() {
           background: rgba(0,0,0,0.02);
         }
         .topic-accordion-content {
-          padding: 10px 20px 15px;
+          padding: 15px 24px 20px;
           border-top: 1px solid var(--glass-border);
           display: flex;
           flex-direction: column;
-          gap: 10px;
+          gap: 12px;
         }
         .study-file-link {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 10px 14px;
-          border-radius: 6px;
+          padding: 12px 16px;
+          border-radius: 8px;
           background: var(--study-file-bg);
           border: 1px solid var(--study-file-border);
           color: var(--text-muted);
           text-decoration: none;
-          font-size: 0.9rem;
+          font-size: 0.95rem;
           transition: var(--transition);
         }
         .study-file-link:hover {
@@ -437,12 +510,21 @@ export default function Projects() {
         }
         .study-file-link.java-link:hover {
           border-color: rgba(138, 43, 226, 0.2);
+          background: rgba(138, 43, 226, 0.05);
+        }
+        .study-file-link.python-link:hover {
+          border-color: rgba(0, 255, 136, 0.2);
+          background: rgba(0, 255, 136, 0.05);
+        }
+        .study-file-link.interview-link:hover {
+          border-color: rgba(255, 0, 85, 0.2);
+          background: rgba(255, 0, 85, 0.05);
         }
         .cheat-sheet-btn {
-          width: 100%;
+          width: fit-content;
           margin-top: 10px;
-          padding: 14px;
-          border-radius: 8px;
+          padding: 14px 28px;
+          border-radius: 10px;
           background: linear-gradient(135deg, rgba(0, 240, 255, 0.15), rgba(138, 43, 226, 0.15));
           border: 1px solid rgba(0, 240, 255, 0.25);
           color: var(--text-main);
@@ -453,6 +535,12 @@ export default function Projects() {
           align-items: center;
           gap: 10px;
           transition: var(--transition);
+          align-self: flex-start;
+        }
+        @media (max-width: 580px) {
+          .cheat-sheet-btn {
+            width: 100%;
+          }
         }
         .cheat-sheet-btn:hover {
           box-shadow: 0 0 20px rgba(0, 240, 255, 0.25);
@@ -481,163 +569,188 @@ export default function Projects() {
         }
       `}</style>
 
+      {/* SECTION 1: MAJOR PROJECTS */}
       <section id="projects" className="projects section">
         <div className="container">
           <div className="section-header reveal active">
-            <h2 className="section-title">Builds & <span className="text-glow">Resources</span></h2>
-            <p className="section-subtitle">Advanced engineering projects and interactive study materials.</p>
+            <h2 className="section-title">Major <span className="text-glow">Projects</span></h2>
+            <p className="section-subtitle">Real problems solved through advanced engineering and design.</p>
           </div>
 
-          <div className="projects-split-layout">
-            {/* Left Column: Major Projects */}
-            <div className="projects-column-left">
-              <h3 style={{ fontSize: '1.8rem', color: 'var(--text-main)', borderBottom: '1px solid var(--glass-border)', paddingBottom: '10px', display: 'flex', alignItems: 'center', gap: '10px', fontFamily: 'var(--font-heading)' }}>
-                <i className="fa-solid fa-laptop-code" style={{ color: 'var(--primary-color)' }}></i> Major Projects
-              </h3>
-
-              <motion.div 
-                className="projects-subgrid"
-                variants={containerVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-              >
-                {projectData.map((project) => (
-                  <motion.div key={project.id} variants={itemVariants} className="project-card glass" style={{ padding: '0', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                    <div className="project-img" style={{ height: '200px', width: '100%', overflow: 'hidden', cursor: 'pointer' }} onClick={() => setSelectedId(project.id)}>
-                      <img 
-                        src={project.image} 
-                        alt={project.title} 
-                        loading="lazy"
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s' }}
-                        onMouseOver={e => e.currentTarget.style.transform = 'scale(1.05)'}
-                        onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
-                      />
-                    </div>
-                    <div className="project-info" style={{ padding: '25px', flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-                      <div style={{ display: 'flex', gap: '10px', marginBottom: '12px' }}>
-                        {project.badges.map((b, i) => (
-                          <span key={i} style={{ fontSize: '0.75rem', background: b.bg, color: b.color, padding: '3px 8px', borderRadius: '4px', fontWeight: 600 }}>
-                            {b.text}
-                          </span>
-                        ))}
-                      </div>
-                      <h3 className="project-title" style={{ fontSize: '1.4rem', marginBottom: '12px' }}>{project.title}</h3>
-                      <div style={{ marginBottom: '20px', flexGrow: 1 }}>
-                        <p style={{ color: 'var(--text-main)', fontSize: '0.9rem', marginBottom: '6px' }}><strong>Problem:</strong> <span style={{ color: 'var(--text-muted)' }}>{project.problem}</span></p>
-                        <p style={{ color: 'var(--text-main)', fontSize: '0.9rem' }}><strong>Solution:</strong> <span style={{ color: 'var(--primary-color)' }}>{project.solution}</span></p>
-                      </div>
-                      
-                      <div className="project-card-actions" style={{ display: 'flex', gap: '10px', marginTop: 'auto' }}>
-                        {project.liveLink && (
-                          <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary glow-btn" style={{ flex: 1, padding: '8px', fontSize: '0.9rem' }}>
-                            Live Demo <i className="fa-solid fa-arrow-up-right-from-square" style={{fontSize: '0.75rem'}}></i>
-                          </a>
-                        )}
-                        <button className="btn btn-outline glow-hover" style={{ flex: project.liveLink ? 1 : '100%', padding: '8px', fontSize: '0.9rem' }} onClick={() => setSelectedId(project.id)}>
-                          Deep Dive
-                        </button>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </div>
-
-            {/* Right Column: Study Material */}
-            <div className="projects-column-right">
-              <h3 style={{ fontSize: '1.8rem', color: 'var(--text-main)', borderBottom: '1px solid var(--glass-border)', paddingBottom: '10px', display: 'flex', alignItems: 'center', gap: '10px', fontFamily: 'var(--font-heading)' }}>
-                <i className="fa-solid fa-graduation-cap" style={{ color: 'var(--secondary-color)' }}></i> Study Material
-              </h3>
-
-              <div className="study-material-card">
-                {/* Tab Switcher */}
-                <div style={{ display: 'flex', gap: '10px' }}>
-                  <button 
-                    className={`study-tab-btn ${activeTab === 'c' ? 'active-c' : ''}`}
-                    onClick={() => setActiveTab('c')}
-                  >
-                    <i className="fa-solid fa-code" style={{ marginRight: '6px' }}></i> C (dsa-in-c)
-                  </button>
-                  <button 
-                    className={`study-tab-btn ${activeTab === 'java' ? 'active-java' : ''}`}
-                    onClick={() => setActiveTab('java')}
-                  >
-                    <i className="fa-brands fa-java" style={{ marginRight: '6px' }}></i> Java & Internals
-                  </button>
-                </div>
-
-                {/* Search Box */}
-                <div>
-                  <input 
-                    type="text" 
-                    placeholder="Search topics or files..." 
-                    className="study-search-input"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+          <motion.div 
+            className="projects-grid mt-4"
+            style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '30px' }}
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+          >
+            {projectData.map((project) => (
+              <motion.div key={project.id} variants={itemVariants} className="project-card glass" style={{ padding: '0', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                <div className="project-img" style={{ height: '220px', width: '100%', overflow: 'hidden', cursor: 'pointer' }} onClick={() => setSelectedId(project.id)}>
+                  <img 
+                    src={project.image} 
+                    alt={project.title} 
+                    loading="lazy"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s' }}
+                    onMouseOver={e => e.currentTarget.style.transform = 'scale(1.05)'}
+                    onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
                   />
                 </div>
-
-                {/* Interactive Accordion Explorer */}
-                <div style={{ display: 'flex', flexDirection: 'column', maxHeight: '480px', overflowY: 'auto', paddingRight: '5px' }}>
-                  {filteredNotes.length > 0 ? (
-                    filteredNotes.map((cat) => {
-                      const isExpanded = isSearching || !!expandedCategories[cat.category];
-                      return (
-                        <div key={cat.category} className="topic-accordion">
-                          <div 
-                            className="topic-accordion-header" 
-                            onClick={() => toggleCategory(cat.category)}
-                          >
-                            <span>
-                              <i className="fa-solid fa-folder" style={{ marginRight: '8px', color: activeTab === 'c' ? 'var(--primary-color)' : 'var(--secondary-color)', opacity: 0.8 }}></i>
-                              {cat.category}
-                            </span>
-                            <i className={`fa-solid ${isExpanded ? 'fa-chevron-up' : 'fa-chevron-down'}`} style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}></i>
-                          </div>
-                          
-                          {isExpanded && (
-                            <div className="topic-accordion-content">
-                              {cat.files.map((file) => {
-                                const repoUrl = activeTab === 'c' 
-                                  ? `https://github.com/Akshh-bhardwaj/dsa-in-c/blob/main/${file.path}`
-                                  : `https://github.com/Akshh-bhardwaj/dsa/blob/main/java/${file.path}`;
-                                return (
-                                  <a 
-                                    key={file.name} 
-                                    href={repoUrl} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer" 
-                                    className={`study-file-link ${activeTab === 'java' ? 'java-link' : ''}`}
-                                  >
-                                    <span>
-                                      <i className="fa-regular fa-file-code" style={{ marginRight: '8px', opacity: 0.7 }}></i>
-                                      {file.name}
-                                    </span>
-                                    <i className="fa-solid fa-arrow-up-right-from-square" style={{ fontSize: '0.75rem', opacity: 0.5 }}></i>
-                                  </a>
-                                );
-                              })}
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })
-                  ) : (
-                    <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--text-muted)' }}>
-                      <i className="fa-solid fa-magnifying-glass-minus" style={{ fontSize: '2rem', marginBottom: '10px', opacity: 0.5 }}></i>
-                      <p>No matching notes found</p>
-                    </div>
-                  )}
+                <div className="project-info" style={{ padding: '35px', flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
+                    {project.badges.map((b, i) => (
+                      <span key={i} style={{ fontSize: '0.8rem', background: b.bg, color: b.color, padding: '4px 10px', borderRadius: '4px', fontWeight: 600 }}>
+                        {b.text}
+                      </span>
+                    ))}
+                  </div>
+                  <h3 className="project-title" style={{ fontSize: '1.6rem', marginBottom: '15px' }}>{project.title}</h3>
+                  <div style={{ marginBottom: '25px', flexGrow: 1 }}>
+                    <p style={{ color: 'var(--text-main)', fontSize: '0.95rem', marginBottom: '8px' }}><strong>Problem:</strong> <span style={{ color: 'var(--text-muted)' }}>{project.problem}</span></p>
+                    <p style={{ color: 'var(--text-main)', fontSize: '0.95rem' }}><strong>Solution:</strong> <span style={{ color: 'var(--primary-color)' }}>{project.solution}</span></p>
+                  </div>
+                  
+                  <div className="project-card-actions" style={{ display: 'flex', gap: '15px', marginTop: 'auto' }}>
+                    {project.liveLink && (
+                      <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary glow-btn" style={{ flex: 1, padding: '10px' }}>
+                        Live Demo <i className="fa-solid fa-arrow-up-right-from-square" style={{fontSize: '0.8rem'}}></i>
+                      </a>
+                    )}
+                    <button className="btn btn-outline glow-hover" style={{ flex: project.liveLink ? 1 : '100%', padding: '10px' }} onClick={() => setSelectedId(project.id)}>
+                      Deep Dive
+                    </button>
+                  </div>
                 </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
 
-                {/* Cheat Sheet Trigger */}
-                {activeTab === 'c' && (
-                  <button className="cheat-sheet-btn" onClick={() => setIsCheatSheetOpen(true)}>
-                    <i className="fa-solid fa-circle-nodes"></i> View Graph Algorithms Cheat Sheet
-                  </button>
+      {/* SECTION 2: STUDY MATERIAL & NOTES */}
+      <section id="notes" className="notes section" style={{ borderTop: '1px solid var(--glass-border)' }}>
+        <div className="container">
+          <div className="section-header reveal active">
+            <h2 className="section-title">Study Material & <span className="text-glow">Notes</span></h2>
+            <p className="section-subtitle">Curated learning tracks, interview prep cheatsheets, and language-specific references.</p>
+          </div>
+
+          <div className="study-hub-container mt-4">
+            <div className="study-material-card">
+              {/* Tab Switcher */}
+              <div className="study-tabs-container">
+                <button 
+                  className={`study-tab-btn ${activeTab === 'c' ? 'active-c' : ''}`}
+                  onClick={() => setActiveTab('c')}
+                >
+                  <i className="fa-solid fa-code"></i> C / C++ (dsa-in-c)
+                </button>
+                <button 
+                  className={`study-tab-btn ${activeTab === 'java' ? 'active-java' : ''}`}
+                  onClick={() => setActiveTab('java')}
+                >
+                  <i className="fa-brands fa-java"></i> Java & Internals (dsa)
+                </button>
+                <button 
+                  className={`study-tab-btn ${activeTab === 'python' ? 'active-python' : ''}`}
+                  onClick={() => setActiveTab('python')}
+                >
+                  <i className="fa-brands fa-python"></i> Python codes (python)
+                </button>
+                <button 
+                  className={`study-tab-btn ${activeTab === 'interview' ? 'active-interview' : ''}`}
+                  onClick={() => setActiveTab('interview')}
+                >
+                  <i className="fa-solid fa-terminal"></i> Interview Prep (LeetCode)
+                </button>
+              </div>
+
+              {/* Search Box */}
+              <div>
+                <input 
+                  type="text" 
+                  placeholder="Search topics, libraries, algorithms or files..." 
+                  className="study-search-input"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+
+              {/* Accordion Explorer Grid */}
+              <div className="study-accordion-grid">
+                {filteredNotes.length > 0 ? (
+                  filteredNotes.map((cat) => {
+                    const isExpanded = isSearching || !!expandedCategories[cat.category];
+                    return (
+                      <div key={cat.category} className="topic-accordion">
+                        <div 
+                          className="topic-accordion-header" 
+                          onClick={() => toggleCategory(cat.category)}
+                        >
+                          <span>
+                            <i className="fa-solid fa-folder" style={{ 
+                              marginRight: '8px', 
+                              color: activeTab === 'c' ? 'var(--primary-color)' : 
+                                     activeTab === 'java' ? 'var(--secondary-color)' :
+                                     activeTab === 'python' ? '#00ff88' : 'var(--accent-color)', 
+                              opacity: 0.8 
+                            }}></i>
+                            {cat.category}
+                          </span>
+                          <i className={`fa-solid ${isExpanded ? 'fa-chevron-up' : 'fa-chevron-down'}`} style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}></i>
+                        </div>
+                        
+                        {isExpanded && (
+                          <div className="topic-accordion-content">
+                            {cat.files.map((file) => {
+                              const repoUrl = activeTab === 'c' 
+                                ? `https://github.com/Akshh-bhardwaj/dsa-in-c/blob/main/${file.path}`
+                                : activeTab === 'java'
+                                ? `https://github.com/Akshh-bhardwaj/dsa/blob/main/java/${file.path}`
+                                : activeTab === 'python'
+                                ? `https://github.com/Akshh-bhardwaj/python/tree/main/${file.path}`
+                                : `https://github.com/Akshh-bhardwaj/interview-question/blob/main/${file.path}`;
+                              
+                              const linkClass = activeTab === 'java' ? 'java-link' : 
+                                                activeTab === 'python' ? 'python-link' :
+                                                activeTab === 'interview' ? 'interview-link' : '';
+
+                              return (
+                                <a 
+                                  key={file.name} 
+                                  href={repoUrl} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer" 
+                                  className={`study-file-link ${linkClass}`}
+                                >
+                                  <span>
+                                    <i className="fa-regular fa-file-code" style={{ marginRight: '8px', opacity: 0.7 }}></i>
+                                    {file.name}
+                                  </span>
+                                  <i className="fa-solid fa-arrow-up-right-from-square" style={{ fontSize: '0.75rem', opacity: 0.5 }}></i>
+                                </a>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px 20px', color: 'var(--text-muted)' }}>
+                    <i className="fa-solid fa-magnifying-glass-minus" style={{ fontSize: '2.5rem', marginBottom: '15px', opacity: 0.5 }}></i>
+                    <p style={{ fontSize: '1.1rem' }}>No matching notes or repositories found</p>
+                  </div>
                 )}
               </div>
+
+              {/* Cheat Sheet Trigger */}
+              {activeTab === 'c' && (
+                <button className="cheat-sheet-btn" onClick={() => setIsCheatSheetOpen(true)}>
+                  <i className="fa-solid fa-circle-nodes"></i> View Graph Algorithms Cheat Sheet
+                </button>
+              )}
             </div>
           </div>
         </div>

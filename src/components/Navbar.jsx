@@ -46,6 +46,7 @@ export default function Navbar() {
         <div className={`nav-links ${menuActive ? 'active' : ''}`}>
           <a href="/about" onClick={(e) => handleNavClick(e, '/about', '')} className="nav-link">About</a>
           <a href="/#projects" onClick={(e) => handleNavClick(e, '/', '#projects')} className="nav-link">Projects</a>
+          <a href="/#notes" onClick={(e) => handleNavClick(e, '/', '#notes')} className="nav-link">Notes</a>
           <a href="/#services" onClick={(e) => handleNavClick(e, '/', '#services')} className="nav-link">Services</a>
           <a href="/#contact" onClick={(e) => handleNavClick(e, '/', '#contact')} className="nav-link">Contact</a>
           <a href="https://github.com/Akshh-bhardwaj" target="_blank" rel="noopener noreferrer" className="nav-link" onClick={closeMenu} style={{ color: 'var(--primary-color)' }}>
