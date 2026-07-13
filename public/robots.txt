@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://akshbuilds.vercel.app/sitemap.xml
+Sitemap: https://akshbuilds.tech/sitemap.xml
