@@ -9,7 +9,6 @@ import Tools from './components/Tools';
 import Projects from './components/Projects';
 import Testimonials from './components/Testimonials';
 import Services from './components/Services';
-import Learning from './components/Learning';
 import Social from './components/Social';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
@@ -35,7 +34,6 @@ function PortfolioLayout() {
         <Projects />
         <Testimonials />
         <Services />
-        <Learning />
         <Social />
         <Contact />
       </main>
