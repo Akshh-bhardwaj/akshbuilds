@@ -319,9 +319,29 @@ export default function Projects() {
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedCategories, setExpandedCategories] = useState({ 
     'Arrays & Strings': true, 
+    'Linked List & Stacks': true,
+    'Queue & Recursion': true,
+    'Trees & BST': true,
+    'Graph Algorithms': true,
+    'Sorting & Searching': true,
     'Java Internals & OOP': true, 
+    'Collections & Generics': true,
+    'Streams & Lambdas': true,
+    'Concurrency': true,
+    'Dynamic Programming': true,
     'Advanced Core & OOP': true,
-    'Google LeetCode Questions': true 
+    'Concurrency & Design Patterns': true,
+    'Enterprise Python Development': true,
+    'Google LeetCode Questions': true,
+    'Amazon LeetCode Questions': true,
+    'Microsoft LeetCode Questions': true,
+    'Meta LeetCode Questions': true,
+    'Apple LeetCode Questions': true,
+    'Netflix LeetCode Questions': true,
+    'Uber LeetCode Questions': true,
+    'Bloomberg LeetCode Questions': true,
+    'OpenAI LeetCode Questions': true,
+    'Selenium Scraper Core Tool': true
   });
   const [isCheatSheetOpen, setIsCheatSheetOpen] = useState(false);
 
