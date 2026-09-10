@@ -40,10 +40,6 @@ export default function NeuralBg() {
   const vantaRef = useRef(null);
 
   useEffect(() => {
-    // The background now loads on all devices including mobile!
-
-    // Wait until the browser is idle / page has settled (1.5s delay after mount)
-    // This keeps the main thread clear during LCP / FCP
     let idleTimer;
     let cancelled = false;
 
@@ -60,12 +56,18 @@ export default function NeuralBg() {
           minWidth: 200.00,
           scale: 1.00,
           scaleMobile: 1.00,
-          color: 0x00f0ff,
+          color: 0x00d4ff,
           backgroundColor: 0x050505,
-          points: 8.00,       // Reduced from 10 → less GPU load
-          maxDistance: 20.00,
-          spacing: 20.00      // Slightly larger spacing → fewer lines to draw
+          points: 4.00,
+          maxDistance: 13.00,
+          spacing: 28.00
         });
+
+        // Cap pixel ratio to 1.0 to ensure solid 60fps with zero frame drops
+        if (effect?.renderer?.setPixelRatio) {
+          effect.renderer.setPixelRatio(1.0);
+        }
+
         setVantaEffect(effect);
       });
       loadScriptsDynamically();
@@ -103,8 +105,8 @@ export default function NeuralBg() {
       const isLight = document.body.classList.contains('light-mode');
       vantaEffect.setOptions(
         isLight
-          ? { color: 0x0088ff, backgroundColor: 0xe0e6ed }
-          : { color: 0x00f0ff, backgroundColor: 0x050505 }
+          ? { color: 0x0284c7, backgroundColor: 0xf8fafc, points: 3.00, spacing: 32.00 }
+          : { color: 0x00d4ff, backgroundColor: 0x050505, points: 4.00, spacing: 28.00 }
       );
     };
 

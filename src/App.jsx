@@ -1,16 +1,20 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useScrollReveal } from './hooks/useScrollReveal';
+import ScrollProgress from './components/ScrollProgress';
 import CursorGlow from './components/CursorGlow';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Stats from './components/Stats';
 import ScrollToTop from './components/ScrollToTop';
 import Tools from './components/Tools';
+import JourneyGrid from './components/JourneyGrid';
 import Projects from './components/Projects';
 import Testimonials from './components/Testimonials';
+import OwnerPortfolio from './components/OwnerPortfolio';
 import Services from './components/Services';
 import Social from './components/Social';
 import Contact from './components/Contact';
+import Notes from './components/Notes';
 import Footer from './components/Footer';
 import ThemeBulb from './components/ThemeBulb';
 import NeuralBg from './components/NeuralBg';
@@ -29,10 +33,13 @@ function PortfolioLayout() {
       <Navbar />
       <main>
         <Hero />
-        <Stats />
         <Tools />
+        <JourneyGrid />
+        <Stats />
         <Projects />
         <Testimonials />
+        <Notes />
+        <OwnerPortfolio />
         <Services />
         <Social />
         <Contact />
@@ -48,6 +55,7 @@ function App() {
       {/* 3D WebGL Backgound */}
       <NeuralBg />
 
+      <ScrollProgress />
       <CursorGlow />
 
       <div style={{ position: 'relative', zIndex: 1 }}>

@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+import { triggerHaptic } from '../utils/haptics';
+
 export default function ThemeBulb() {
   const [isLight, setIsLight] = useState(() => {
     // Restore from localStorage first, fall back to DOM
@@ -21,11 +23,13 @@ export default function ThemeBulb() {
   const handlePull = () => {
     if (isPulling) return; // Prevent spam
     setIsPulling(true);
+    triggerHaptic('medium');
 
     // Toggle logic happens halfway through the pull animation
     setTimeout(() => {
       const newTheme = !isLight;
       setIsLight(newTheme);
+      triggerHaptic('light');
       document.body.classList.toggle('light-mode', newTheme);
       localStorage.setItem('aksh-theme', newTheme ? 'light' : 'dark');
     }, 300);

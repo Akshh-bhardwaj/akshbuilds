@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { rateLimit } from 'express-rate-limit';
 import { dbPromise, setupDatabase } from './db.js';
 
 // Load environment variables
@@ -34,13 +35,30 @@ app.use(express.json());
 const authenticateAdmin = (req, res, next) => {
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(' ')[1];
-  const secretKey = process.env.ADMIN_SECRET_KEY || 'default_admin_secret_key_123';
-  
+  const secretKey = process.env.ADMIN_SECRET_KEY;
+
+  if (!secretKey) {
+    console.error('ADMIN_SECRET_KEY is not set in environment variables.');
+    return res.status(503).json({ error: 'Admin access not configured.' });
+  }
+
   if (!token || token !== secretKey) {
     return res.status(401).json({ error: 'Unauthorized access.' });
   }
   next();
 };
+
+// Rate limiter — 5 submissions per IP per 15 minutes
+const contactLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many submissions. Please try again in 15 minutes.' },
+});
+
+// Email format validator
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 // Initialize DB
 setupDatabase();
@@ -54,13 +72,24 @@ app.get('/api/status', (req, res) => {
 });
 
 // Submit Contact Form
-app.post('/api/contact', async (req, res) => {
+app.post('/api/contact', contactLimiter, async (req, res) => {
   try {
     const { name, email, message } = req.body;
-    
-    // Basic validation
+
+    // Presence check
     if (!name || !email || !message) {
       return res.status(400).json({ error: 'Name, email, and message are required.' });
+    }
+
+    // Format checks
+    if (typeof name !== 'string' || name.trim().length < 2 || name.trim().length > 100) {
+      return res.status(400).json({ error: 'Name must be between 2 and 100 characters.' });
+    }
+    if (!EMAIL_RE.test(email) || email.length > 254) {
+      return res.status(400).json({ error: 'A valid email address is required.' });
+    }
+    if (typeof message !== 'string' || message.trim().length < 10 || message.trim().length > 1000) {
+      return res.status(400).json({ error: 'Message must be between 10 and 1000 characters.' });
     }
 
     const db = await dbPromise;

@@ -8,8 +8,7 @@ export function useScrollReveal() {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('active');
-          // Optional: stop observing once revealed
-          // revealObserver.unobserve(entry.target);
+          revealObserver.unobserve(entry.target);
         }
       });
     };
