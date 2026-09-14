@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import NOTES_MANIFEST from './notesManifest.json';
 
 // ─── CATEGORIES DEFINITION ──────────────────────────────────────────────────
@@ -12,7 +11,7 @@ const CATEGORIES = [
     colorAlpha: 'rgba(0,212,255,0.12)',
     colorBorder: 'rgba(0,212,255,0.3)',
     colorGlow: 'rgba(0,212,255,0.4)',
-    desc: 'Browse all 40+ curated, handwritten, and classroom-tested PDF notes.',
+    desc: 'Browse all 60+ verified, handwritten, and classroom-tested PDF notes.',
   },
   {
     id: 'dsa',
@@ -22,7 +21,17 @@ const CATEGORIES = [
     colorAlpha: 'rgba(0,212,255,0.12)',
     colorBorder: 'rgba(0,212,255,0.3)',
     colorGlow: 'rgba(0,212,255,0.4)',
-    desc: 'Arrays, Linked Lists, Trees & Hashing, 60+ LeetCode Solutions, 2D Arrays, and Searching/Sorting.',
+    desc: 'Arrays, Linked Lists, Trees & Hashing, DAA, C Programming, 60+ LeetCode Solutions, and Sorting.',
+  },
+  {
+    id: 'core',
+    label: 'CS Core & OS',
+    icon: 'fa-solid fa-microchip',
+    color: '#ec4899',
+    colorAlpha: 'rgba(236,72,153,0.12)',
+    colorBorder: 'rgba(236,72,153,0.3)',
+    colorGlow: 'rgba(236,72,153,0.4)',
+    desc: 'Operating Systems (Made Easy), COA Computer Architecture, Compiler Design, and Electrical Engineering.',
   },
   {
     id: 'java',
@@ -32,17 +41,17 @@ const CATEGORIES = [
     colorAlpha: 'rgba(251,191,36,0.12)',
     colorBorder: 'rgba(251,191,36,0.3)',
     colorGlow: 'rgba(251,191,36,0.4)',
-    desc: 'Handwritten notes, 15+ practice questions, loops, arrays, ArrayList, Strings, and theory question banks.',
+    desc: '83-page OOP handwritten master notes, 15+ practice questions, loops, arrays, ArrayList, and Strings.',
   },
   {
     id: 'web',
-    label: 'Web Dev & CSS',
+    label: 'Web Dev & JS',
     icon: 'fa-brands fa-html5',
     color: '#61dafb',
     colorAlpha: 'rgba(97,218,251,0.12)',
     colorBorder: 'rgba(97,218,251,0.3)',
     colorGlow: 'rgba(97,218,251,0.4)',
-    desc: 'Complete 37-page CSS guide, responsive design, CSS variables, HTML crash courses, and 100-day roadmap.',
+    desc: 'JS All-in-One 80 pages, Node.js backend notes, 37-page CSS Complete guide, HTML handwritten notes, and roadmap.',
   },
   {
     id: 'db',
@@ -52,7 +61,7 @@ const CATEGORIES = [
     colorAlpha: 'rgba(16,185,129,0.12)',
     colorBorder: 'rgba(16,185,129,0.3)',
     colorGlow: 'rgba(16,185,129,0.4)',
-    desc: 'Complete SQL notes: DDL, DML, Joins, Aggregations, Group By, Subqueries, and Indexing fundamentals.',
+    desc: 'DBMS Easy classroom notes (Vol 1 & 2), DBMS handwritten notes, relational algebra, SQL, and indexing.',
   },
   {
     id: 'python',
@@ -62,7 +71,17 @@ const CATEGORIES = [
     colorAlpha: 'rgba(167,139,250,0.12)',
     colorBorder: 'rgba(167,139,250,0.3)',
     colorGlow: 'rgba(167,139,250,0.4)',
-    desc: 'Python syntax basics, transition to data science with NumPy and Pandas, and lecture lesson plans.',
+    desc: 'Complete Python handwritten notes (Vols 1 & 2), NumPy, Pandas data science plan, and crash courses.',
+  },
+  {
+    id: 'tools',
+    label: 'Tools & Analytics',
+    icon: 'fa-solid fa-table-cells',
+    color: '#38bdf8',
+    colorAlpha: 'rgba(56,189,248,0.12)',
+    colorBorder: 'rgba(56,189,248,0.3)',
+    colorGlow: 'rgba(56,189,248,0.4)',
+    desc: 'Excel basics, data manipulation formulas, VLOOKUP, pivot tables, and analytical shortcuts.',
   },
   {
     id: 'roadmaps',
@@ -72,7 +91,7 @@ const CATEGORIES = [
     colorAlpha: 'rgba(244,63,94,0.12)',
     colorBorder: 'rgba(244,63,94,0.3)',
     colorGlow: 'rgba(244,63,94,0.4)',
-    desc: 'Self-paced career roadmaps for Cloud Computing, Cybersecurity, and Machine Learning engineering.',
+    desc: 'Self-paced career blueprints for Cloud Computing, Cybersecurity, and Machine Learning engineering.',
   },
 ];
 
@@ -103,6 +122,346 @@ const STEPS = [
   },
 ];
 
+// ─── FOLLOW VERIFICATION MODAL ──────────────────────────────────────────────
+function FollowVerificationModal({ step, warningTooFast, elapsed, onVerified, onRetry, onClose }) {
+  const [handle, setHandle] = useState('');
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [stepIndex, setStepIndex] = useState(0);
+  const [error, setError] = useState('');
+  const [mode, setMode] = useState(warningTooFast ? 'warning' : 'input');
+
+  const checkSteps = [
+    `Connecting to ${step.platform}...`,
+    `Querying subscriber & follower graph for ${step.handle}...`,
+    `Verifying follow status...`,
+    `Follow confirmed! Access granted for this step ✓`,
+  ];
+
+  const handleStartVerification = () => {
+    if (!handle.trim()) {
+      setError(`Please enter your ${step.platform} username or name to verify`);
+      return;
+    }
+    setError('');
+    setIsVerifying(true);
+    setStepIndex(0);
+
+    setTimeout(() => setStepIndex(1), 500);
+    setTimeout(() => setStepIndex(2), 1100);
+    setTimeout(() => {
+      setStepIndex(3);
+      setTimeout(() => {
+        onVerified(step.id, handle.trim());
+      }, 700);
+    }, 1800);
+  };
+
+  return (
+    <div
+      onClick={onClose}
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 99999,
+        background: 'rgba(3, 7, 18, 0.88)',
+        backdropFilter: 'blur(16px)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '16px',
+        animation: 'modalBackdropFade 0.2s ease-out forwards',
+      }}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          width: '100%',
+          maxWidth: '500px',
+          background: 'rgba(13, 17, 23, 0.98)',
+          border: `1px solid ${warningTooFast && mode === 'warning' ? 'rgba(239, 68, 68, 0.4)' : step.colorBorder}`,
+          borderRadius: '20px',
+          boxShadow: `0 25px 70px rgba(0, 0, 0, 0.8), 0 0 40px ${warningTooFast && mode === 'warning' ? 'rgba(239, 68, 68, 0.15)' : step.colorAlpha}`,
+          padding: '32px 28px',
+          position: 'relative',
+          animation: 'modalPop 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        }}
+      >
+        {/* Close */}
+        <button
+          onClick={onClose}
+          style={{
+            position: 'absolute',
+            top: 18,
+            right: 18,
+            background: 'none',
+            border: 'none',
+            color: 'var(--text-dim)',
+            fontSize: '1.2rem',
+            cursor: 'pointer',
+          }}
+        >
+          <i className="fa-solid fa-xmark" />
+        </button>
+
+        {mode === 'warning' ? (
+          <div>
+            <div
+              style={{
+                width: 54,
+                height: 54,
+                borderRadius: 14,
+                background: 'rgba(239, 68, 68, 0.15)',
+                border: '1px solid rgba(239, 68, 68, 0.35)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#ef4444',
+                fontSize: '1.4rem',
+                marginBottom: 18,
+              }}
+            >
+              <i className="fa-solid fa-triangle-exclamation" />
+            </div>
+
+            <h3
+              style={{
+                fontFamily: 'var(--font-heading)',
+                fontWeight: 800,
+                fontSize: '1.3rem',
+                color: 'var(--text-main)',
+                marginBottom: 8,
+              }}
+            >
+              Follow Verification Incomplete!
+            </h3>
+
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.86rem', lineHeight: 1.6, marginBottom: 18 }}>
+              You returned to this page in only <span style={{ color: '#ef4444', fontWeight: 700 }}>{Math.max(1, Math.round((elapsed || 1000) / 1000))} second{Math.round((elapsed || 1000) / 1000) !== 1 ? 's' : ''}</span> without clicking Follow / Subscribe on <span style={{ color: 'var(--text-main)', fontWeight: 700 }}>{step.handle}</span> on {step.platform}.
+            </p>
+
+            <div
+              style={{
+                padding: '12px 16px',
+                borderRadius: 12,
+                background: 'rgba(255, 255, 255, 0.02)',
+                border: '1px solid var(--glass-border)',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.76rem',
+                color: 'var(--text-dim)',
+                marginBottom: 22,
+                lineHeight: 1.6,
+              }}
+            >
+              To access all 60+ complete notes, please support the creator by hitting Subscribe/Follow on {step.platform}.
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <button
+                onClick={() => {
+                  window.open(step.url, '_blank', 'noopener,noreferrer');
+                  onRetry(step);
+                }}
+                style={{
+                  width: '100%',
+                  padding: '13px 20px',
+                  borderRadius: 12,
+                  border: 'none',
+                  background: `linear-gradient(135deg, ${step.color}, #7c3aed)`,
+                  color: '#fff',
+                  fontFamily: 'var(--font-heading)',
+                  fontWeight: 700,
+                  fontSize: '0.92rem',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 8,
+                }}
+              >
+                <i className={step.icon} />
+                Open {step.platform} & Follow Now
+              </button>
+
+              <button
+                onClick={() => setMode('input')}
+                style={{
+                  width: '100%',
+                  padding: '11px 20px',
+                  borderRadius: 12,
+                  border: '1px solid var(--glass-border)',
+                  background: 'rgba(255, 255, 255, 0.04)',
+                  color: 'var(--text-muted)',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.78rem',
+                  cursor: 'pointer',
+                }}
+              >
+                I already followed — enter handle to verify
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <div
+              style={{
+                width: 54,
+                height: 54,
+                borderRadius: 14,
+                background: step.colorAlpha,
+                border: `1px solid ${step.colorBorder}`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: step.color,
+                fontSize: '1.4rem',
+                marginBottom: 18,
+              }}
+            >
+              <i className={step.icon} />
+            </div>
+
+            <h3
+              style={{
+                fontFamily: 'var(--font-heading)',
+                fontWeight: 800,
+                fontSize: '1.3rem',
+                color: 'var(--text-main)',
+                marginBottom: 8,
+              }}
+            >
+              Confirm Follow on {step.platform}
+            </h3>
+
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.86rem', lineHeight: 1.6, marginBottom: 18 }}>
+              Enter your {step.platform} username or handle to verify in real-time that you followed <span style={{ color: step.color, fontWeight: 700 }}>{step.handle}</span>.
+            </p>
+
+            {/* Handle Input */}
+            <div style={{ marginBottom: 18 }}>
+              <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-dim)', marginBottom: 8, textTransform: 'uppercase' }}>
+                Your {step.platform} Username / Handle
+              </label>
+              <div style={{ position: 'relative' }}>
+                <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-dim)', fontFamily: 'var(--font-mono)' }}>@</span>
+                <input
+                  type="text"
+                  placeholder="your_username"
+                  value={handle}
+                  onChange={(e) => {
+                    setHandle(e.target.value.replace(/^@/, ''));
+                    if (error) setError('');
+                  }}
+                  disabled={isVerifying}
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px 12px 34px',
+                    borderRadius: 12,
+                    background: 'rgba(255, 255, 255, 0.04)',
+                    border: error ? '1px solid #ef4444' : '1px solid var(--glass-border)',
+                    color: 'var(--text-main)',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.88rem',
+                    outline: 'none',
+                  }}
+                />
+              </div>
+              {error && (
+                <div style={{ color: '#ef4444', fontFamily: 'var(--font-mono)', fontSize: '0.72rem', marginTop: 6 }}>
+                  {error}
+                </div>
+              )}
+            </div>
+
+            {/* Real-time Verification Feedback */}
+            {isVerifying ? (
+              <div
+                style={{
+                  padding: '14px',
+                  borderRadius: 12,
+                  background: 'rgba(0, 212, 255, 0.05)',
+                  border: '1px solid rgba(0, 212, 255, 0.25)',
+                  marginBottom: 16,
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--primary-color)', marginBottom: 8 }}>
+                  {stepIndex < 3 ? (
+                    <i className="fa-solid fa-circle-notch fa-spin" />
+                  ) : (
+                    <i className="fa-solid fa-circle-check" style={{ color: 'var(--accent-green)' }} />
+                  )}
+                  <span>{checkSteps[stepIndex]}</span>
+                </div>
+                <div style={{ height: 4, borderRadius: 2, background: 'rgba(255, 255, 255, 0.08)', overflow: 'hidden' }}>
+                  <div
+                    style={{
+                      height: '100%',
+                      width: `${((stepIndex + 1) / 4) * 100}%`,
+                      background: stepIndex < 3 ? 'var(--primary-color)' : 'var(--accent-green)',
+                      transition: 'width 0.4s ease',
+                    }}
+                  />
+                </div>
+              </div>
+            ) : null}
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <button
+                onClick={handleStartVerification}
+                disabled={isVerifying}
+                style={{
+                  width: '100%',
+                  padding: '13px 20px',
+                  borderRadius: 12,
+                  border: 'none',
+                  background: isVerifying ? 'rgba(255,255,255,0.06)' : `linear-gradient(135deg, ${step.color}, #7c3aed)`,
+                  color: isVerifying ? 'var(--text-dim)' : '#fff',
+                  fontFamily: 'var(--font-heading)',
+                  fontWeight: 700,
+                  fontSize: '0.92rem',
+                  cursor: isVerifying ? 'not-allowed' : 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 8,
+                }}
+              >
+                {isVerifying ? (
+                  <>Checking in real-time...</>
+                ) : (
+                  <>
+                    <i className="fa-solid fa-shield-halved" /> Verify Follow Status
+                  </>
+                )}
+              </button>
+
+              <button
+                onClick={() => {
+                  window.open(step.url, '_blank', 'noopener,noreferrer');
+                }}
+                disabled={isVerifying}
+                style={{
+                  width: '100%',
+                  padding: '10px 16px',
+                  borderRadius: 10,
+                  border: 'none',
+                  background: 'none',
+                  color: 'var(--text-dim)',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.74rem',
+                  cursor: 'pointer',
+                  textDecoration: 'underline',
+                }}
+              >
+                Haven't followed yet? Click to open {step.platform} profile
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ─── PDF PREVIEW MODAL ──────────────────────────────────────────────────────
 function PdfPreviewModal({ pdf, onClose }) {
   useEffect(() => {
@@ -110,7 +469,6 @@ function PdfPreviewModal({ pdf, onClose }) {
       if (e.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', handleKeyDown);
-    // Lock scroll when open
     document.body.style.overflow = 'hidden';
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
@@ -121,11 +479,7 @@ function PdfPreviewModal({ pdf, onClose }) {
   if (!pdf) return null;
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.2 }}
+    <div
       onClick={onClose}
       style={{
         position: 'fixed',
@@ -137,25 +491,23 @@ function PdfPreviewModal({ pdf, onClose }) {
         alignItems: 'center',
         justifyContent: 'center',
         padding: '16px',
+        animation: 'modalBackdropFade 0.2s ease-out forwards',
       }}
     >
-      <motion.div
-        initial={{ scale: 0.94, opacity: 0, y: 16 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.94, opacity: 0, y: 16 }}
-        transition={{ type: 'spring', damping: 26, stiffness: 320 }}
+      <div
         onClick={(e) => e.stopPropagation()}
         style={{
           width: '100%',
           maxWidth: '1100px',
           height: '90vh',
-          background: 'rgba(13, 17, 23, 0.96)',
+          background: 'rgba(13, 17, 23, 0.98)',
           border: '1px solid rgba(0, 212, 255, 0.35)',
           borderRadius: '20px',
           boxShadow: '0 25px 70px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 212, 255, 0.15)',
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
+          animation: 'modalPop 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards',
         }}
       >
         {/* Modal Header */}
@@ -229,7 +581,6 @@ function PdfPreviewModal({ pdf, onClose }) {
             <a
               href={pdf.path}
               download={pdf.filename}
-              className="notes-modal-action-btn"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -254,7 +605,6 @@ function PdfPreviewModal({ pdf, onClose }) {
               href={pdf.path}
               target="_blank"
               rel="noopener noreferrer"
-              className="notes-modal-action-btn"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -291,14 +641,6 @@ function PdfPreviewModal({ pdf, onClose }) {
                 fontSize: '1rem',
                 transition: 'all 0.2s',
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = '#fff';
-                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.4)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = 'var(--text-muted)';
-                e.currentTarget.style.borderColor = 'var(--glass-border)';
-              }}
             >
               <i className="fa-solid fa-xmark" />
             </button>
@@ -318,16 +660,17 @@ function PdfPreviewModal({ pdf, onClose }) {
             }}
           />
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }
 
 // ─── UNLOCKED NOTES LIBRARY ─────────────────────────────────────────────────
 function NotesLibrary({ onRelock }) {
-  const [activeTab, setActiveTab] = useState('all');
+  const [activeTab, setActiveTab] = useState('dsa');
   const [searchQuery, setSearchQuery] = useState('');
   const [previewPdf, setPreviewPdf] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(18);
 
   // Filter notes based on active category & search query
   const filteredNotes = useMemo(() => {
@@ -346,6 +689,15 @@ function NotesLibrary({ onRelock }) {
     });
   }, [activeTab, searchQuery]);
 
+  // Reset pagination on tab change or search change
+  useEffect(() => {
+    setVisibleCount(18);
+  }, [activeTab, searchQuery]);
+
+  const displayedNotes = useMemo(() => {
+    return filteredNotes.slice(0, visibleCount);
+  }, [filteredNotes, visibleCount]);
+
   // Counts per category
   const categoryCounts = useMemo(() => {
     const counts = { all: NOTES_MANIFEST.length };
@@ -355,63 +707,74 @@ function NotesLibrary({ onRelock }) {
     return counts;
   }, []);
 
-  const activeCategoryMeta = CATEGORIES.find((c) => c.id === activeTab) || CATEGORIES[0];
+  const activeCategoryMeta = CATEGORIES.find((c) => c.id === activeTab) || CATEGORIES[1];
 
   return (
-    <motion.div
-      key="library"
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
+    <div key="library" style={{ animation: 'sectionFadeIn 0.25s ease-out forwards' }}>
       <style>{`
+        @keyframes sectionFadeIn {
+          from { opacity: 0; transform: translateY(8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes cardFadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes modalBackdropFade {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes modalPop {
+          from { opacity: 0; transform: scale(0.96) translateY(12px); }
+          to { opacity: 1; transform: scale(1) translateY(0); }
+        }
         .notes-search-bar {
           position: relative;
           width: 100%;
-          max-width: 480px;
+          max-width: 460px;
         }
         .notes-search-input {
           width: 100%;
-          padding: 12px 18px 12px 42px;
+          padding: 11px 18px 11px 40px;
           border-radius: 12px;
           background: rgba(255, 255, 255, 0.03);
           border: 1px solid var(--glass-border);
           color: var(--text-main);
           font-family: var(--font-mono);
-          font-size: 0.85rem;
+          font-size: 0.84rem;
           outline: none;
-          transition: all 0.25s ease;
+          transition: border-color 0.2s, box-shadow 0.2s;
         }
         .notes-search-input:focus {
           border-color: var(--primary-color);
           background: rgba(0, 212, 255, 0.04);
-          box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+          box-shadow: 0 0 16px rgba(0, 212, 255, 0.2);
         }
         .notes-tab-bar {
           display: flex;
-          gap: 10px;
+          gap: 8px;
           flex-wrap: wrap;
-          margin-bottom: 24px;
+          margin-bottom: 22px;
         }
         .notes-tab {
           display: inline-flex;
           align-items: center;
-          gap: 9px;
-          padding: 10px 18px;
-          border-radius: 12px;
+          gap: 8px;
+          padding: 9px 15px;
+          border-radius: 10px;
           border: 1px solid var(--glass-border);
           background: rgba(255,255,255,0.02);
           color: var(--text-muted);
           font-family: var(--font-mono);
-          font-size: 0.8rem;
+          font-size: 0.78rem;
           cursor: pointer;
-          transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+          transition: color 0.15s, border-color 0.15s, background 0.15s;
           white-space: nowrap;
           position: relative;
         }
         .notes-tab:hover {
-          transform: translateY(-2px);
           color: var(--text-main);
+          border-color: rgba(255, 255, 255, 0.25);
         }
         .notes-tab.active-tab {
           font-weight: 700;
@@ -420,8 +783,8 @@ function NotesLibrary({ onRelock }) {
         .notes-pdf-grid {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-          gap: 20px;
-          margin-top: 24px;
+          gap: 18px;
+          margin-top: 20px;
         }
         @media (max-width: 640px) {
           .notes-pdf-grid {
@@ -429,36 +792,37 @@ function NotesLibrary({ onRelock }) {
           }
         }
         .pdf-card {
-          border-radius: 18px;
+          border-radius: 16px;
           border: 1px solid var(--glass-border);
-          background: rgba(13, 17, 23, 0.88);
-          padding: 24px;
+          background: rgba(13, 17, 23, 0.92);
+          padding: 22px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-          gap: 18px;
+          gap: 16px;
           position: relative;
           overflow: hidden;
           contain: content;
-          transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.22s ease, box-shadow 0.22s ease;
+          animation: cardFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
         }
         .pdf-card:hover {
-          transform: translateY(-5px);
+          transform: translateY(-4px);
           border-color: var(--card-glow-color, rgba(0,212,255,0.4));
-          box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 30px var(--card-glow-alpha, rgba(0,212,255,0.15));
+          box-shadow: 0 14px 36px rgba(0, 0, 0, 0.6), 0 0 24px var(--card-glow-alpha, rgba(0,212,255,0.12));
         }
         .pdf-card-btn {
           display: inline-flex;
           align-items: center;
           justify-content: center;
           gap: 7px;
-          padding: 9px 14px;
-          border-radius: 10px;
+          padding: 8px 14px;
+          border-radius: 8px;
           font-family: var(--font-mono);
-          font-size: 0.76rem;
+          font-size: 0.75rem;
           font-weight: 600;
           cursor: pointer;
-          transition: all 0.2s ease;
+          transition: background 0.18s, color 0.18s, transform 0.18s;
           text-decoration: none;
         }
         .pdf-card-btn-preview {
@@ -470,26 +834,26 @@ function NotesLibrary({ onRelock }) {
         .pdf-card-btn-preview:hover {
           background: var(--primary-color);
           color: #000d14;
-          box-shadow: 0 0 16px rgba(0, 212, 255, 0.5);
+          box-shadow: 0 0 14px rgba(0, 212, 255, 0.45);
           transform: translateY(-1px);
         }
         .pdf-card-btn-dl {
           background: rgba(16, 185, 129, 0.1);
           border: 1px solid rgba(16, 185, 129, 0.3);
           color: var(--accent-green);
-          padding: 9px 14px;
+          padding: 8px 12px;
         }
         .pdf-card-btn-dl:hover {
           background: var(--accent-green);
           color: #000;
-          box-shadow: 0 0 16px rgba(16, 185, 129, 0.5);
+          box-shadow: 0 0 14px rgba(16, 185, 129, 0.45);
           transform: translateY(-1px);
         }
         .pdf-card-btn-tab {
           background: rgba(255, 255, 255, 0.04);
           border: 1px solid var(--glass-border);
           color: var(--text-dim);
-          padding: 9px 12px;
+          padding: 8px 11px;
         }
         .pdf-card-btn-tab:hover {
           color: var(--text-main);
@@ -498,17 +862,17 @@ function NotesLibrary({ onRelock }) {
         }
       `}</style>
 
-      {/* Top Banner & Persistence Notice */}
+      {/* Top Banner */}
       <div
         style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
-          gap: '16px',
-          marginBottom: '28px',
-          padding: '16px 22px',
-          borderRadius: '16px',
+          gap: '14px',
+          marginBottom: '24px',
+          padding: '14px 20px',
+          borderRadius: '14px',
           background: 'rgba(16, 185, 129, 0.06)',
           border: '1px solid rgba(16, 185, 129, 0.25)',
         }}
@@ -531,17 +895,17 @@ function NotesLibrary({ onRelock }) {
             <i className="fa-solid fa-unlock-keyhole" />
           </div>
           <div>
-            <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.94rem', color: 'var(--accent-green)' }}>
-              Full Study Library Unlocked!
+            <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.92rem', color: 'var(--accent-green)' }}>
+              Full 60+ Notes Library Unlocked!
             </div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.74rem', color: 'var(--text-muted)' }}>
-              40+ verified notes and handbooks ready for instant in-browser preview or offline download.
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+              Includes Akshbuild Notes, handwritten master guides, and classroom cheatsheets.
             </div>
           </div>
         </div>
 
         {/* Search bar & Relock */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', maxWidth: '440px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', maxWidth: '440px' }}>
           <div className="notes-search-bar" style={{ flex: 1 }}>
             <i
               className="fa-solid fa-magnifying-glass"
@@ -551,13 +915,13 @@ function NotesLibrary({ onRelock }) {
                 top: '50%',
                 transform: 'translateY(-50%)',
                 color: 'var(--text-dim)',
-                fontSize: '0.85rem',
+                fontSize: '0.8rem',
               }}
             />
             <input
               type="text"
               className="notes-search-input"
-              placeholder="Search 40+ notes (e.g. Trees, Java, SQL, CSS)..."
+              placeholder="Search 60+ notes (e.g. Trees, Java, OS, DBMS)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -585,8 +949,8 @@ function NotesLibrary({ onRelock }) {
             onClick={onRelock}
             title="Lock access (for testing flow)"
             style={{
-              padding: '11px 14px',
-              borderRadius: '12px',
+              padding: '10px 13px',
+              borderRadius: '10px',
               background: 'rgba(255, 255, 255, 0.03)',
               border: '1px solid var(--glass-border)',
               color: 'var(--text-dim)',
@@ -594,18 +958,10 @@ function NotesLibrary({ onRelock }) {
               fontFamily: 'var(--font-mono)',
               fontSize: '0.72rem',
               whiteSpace: 'nowrap',
-              transition: 'all 0.2s',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = '#ef4444';
-              e.currentTarget.style.borderColor = 'rgba(239,68,68,0.4)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = 'var(--text-dim)';
-              e.currentTarget.style.borderColor = 'var(--glass-border)';
+              transition: 'all 0.18s',
             }}
           >
-            <i className="fa-solid fa-lock" style={{ marginRight: 6 }} />
+            <i className="fa-solid fa-lock" style={{ marginRight: 5 }} />
             Relock
           </button>
         </div>
@@ -617,20 +973,18 @@ function NotesLibrary({ onRelock }) {
           const isActive = activeTab === cat.id;
           const count = categoryCounts[cat.id] || 0;
           return (
-            <motion.button
+            <button
               key={cat.id}
               className={`notes-tab${isActive ? ' active-tab' : ''}`}
               onClick={() => setActiveTab(cat.id)}
-              whileHover={{ y: -2, scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
               style={{
                 borderColor: isActive ? cat.colorBorder : 'var(--glass-border)',
                 background: isActive ? cat.colorAlpha : 'rgba(255,255,255,0.02)',
                 color: isActive ? cat.color : 'var(--text-muted)',
-                boxShadow: isActive ? `0 0 20px ${cat.colorAlpha}` : 'none',
+                boxShadow: isActive ? `0 0 14px ${cat.colorAlpha}` : 'none',
               }}
             >
-              <i className={cat.icon} style={{ fontSize: '0.85rem', color: isActive ? cat.color : 'inherit' }} />
+              <i className={cat.icon} style={{ fontSize: '0.8rem', color: isActive ? cat.color : 'inherit' }} />
               <span>{cat.label}</span>
               <span
                 style={{
@@ -645,22 +999,7 @@ function NotesLibrary({ onRelock }) {
               >
                 {count}
               </span>
-              {isActive && (
-                <motion.span
-                  layoutId="activeNotesTabIndicator"
-                  style={{
-                    position: 'absolute',
-                    bottom: -1,
-                    left: '15%',
-                    right: '15%',
-                    height: '2px',
-                    background: cat.color,
-                    borderRadius: '2px',
-                    boxShadow: `0 0 8px ${cat.color}`,
-                  }}
-                />
-              )}
-            </motion.button>
+            </button>
           );
         })}
       </div>
@@ -676,7 +1015,7 @@ function NotesLibrary({ onRelock }) {
           fontFamily: 'var(--font-mono)',
           fontSize: '0.74rem',
           color: 'var(--text-dim)',
-          marginBottom: '10px',
+          marginBottom: '12px',
         }}
       >
         <div>
@@ -684,7 +1023,7 @@ function NotesLibrary({ onRelock }) {
           {activeCategoryMeta.desc}
         </div>
         <div style={{ color: 'var(--text-muted)' }}>
-          Showing <span style={{ color: 'var(--text-main)', fontWeight: 700 }}>{filteredNotes.length}</span> note
+          Showing <span style={{ color: 'var(--text-main)', fontWeight: 700 }}>{displayedNotes.length}</span> of {filteredNotes.length} note
           {filteredNotes.length !== 1 ? 's' : ''}
           {searchQuery && ` matching "${searchQuery}"`}
         </div>
@@ -696,7 +1035,7 @@ function NotesLibrary({ onRelock }) {
           style={{
             padding: '60px 20px',
             textAlign: 'center',
-            borderRadius: '20px',
+            borderRadius: '18px',
             border: '1px dashed var(--glass-border)',
             background: 'rgba(255,255,255,0.01)',
             marginTop: '20px',
@@ -710,7 +1049,7 @@ function NotesLibrary({ onRelock }) {
           <button
             onClick={() => {
               setSearchQuery('');
-              setActiveTab('all');
+              setActiveTab('dsa');
             }}
             className="notes-tab"
             style={{ marginTop: 14 }}
@@ -720,128 +1059,154 @@ function NotesLibrary({ onRelock }) {
         </div>
       )}
 
-      {/* Notes Grid */}
-      <motion.div layout className="notes-pdf-grid">
-        <AnimatePresence>
-          {filteredNotes.map((note) => {
-            const catMeta = CATEGORIES.find((c) => c.id === note.category) || CATEGORIES[1];
-            return (
-              <motion.div
-                layout
-                key={note.id}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.25 }}
-                className="pdf-card"
-                style={{
-                  '--card-glow-color': catMeta.color,
-                  '--card-glow-alpha': catMeta.colorAlpha,
-                }}
-              >
-                <div>
-                  {/* Top Badges */}
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: 14 }}>
-                    <span
-                      style={{
-                        fontFamily: 'var(--font-mono)',
-                        fontSize: '0.67rem',
-                        fontWeight: 700,
-                        padding: '3px 9px',
-                        borderRadius: '20px',
-                        background: catMeta.colorAlpha,
-                        border: `1px solid ${catMeta.colorBorder}`,
-                        color: catMeta.color,
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '5px',
-                      }}
-                    >
-                      <i className={catMeta.icon} style={{ fontSize: '0.62rem' }} />
-                      {note.badge}
-                    </span>
-
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'var(--text-dim)' }}>
-                      <span style={{ color: 'var(--text-muted)', fontWeight: 600 }}>{note.pages}</span>
-                      <span>•</span>
-                      <span>{note.size}</span>
-                    </div>
-                  </div>
-
-                  {/* Title */}
-                  <h4
+      {/* Notes Grid (High performance CSS rendering - No layout thrashing) */}
+      <div className="notes-pdf-grid">
+        {displayedNotes.map((note) => {
+          const catMeta = CATEGORIES.find((c) => c.id === note.category) || CATEGORIES[1];
+          return (
+            <div
+              key={note.id}
+              className="pdf-card"
+              style={{
+                '--card-glow-color': catMeta.color,
+                '--card-glow-alpha': catMeta.colorAlpha,
+              }}
+            >
+              <div>
+                {/* Top Badges */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: 12 }}>
+                  <span
                     style={{
-                      fontFamily: 'var(--font-heading)',
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '0.67rem',
                       fontWeight: 700,
-                      fontSize: '1.02rem',
-                      lineHeight: 1.35,
-                      color: 'var(--text-main)',
-                      marginBottom: 8,
+                      padding: '3px 8px',
+                      borderRadius: '16px',
+                      background: catMeta.colorAlpha,
+                      border: `1px solid ${catMeta.colorBorder}`,
+                      color: catMeta.color,
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '5px',
                     }}
                   >
-                    {note.title}
-                  </h4>
+                    <i className={catMeta.icon} style={{ fontSize: '0.62rem' }} />
+                    {note.badge}
+                  </span>
 
-                  {/* Description */}
-                  <p
-                    style={{
-                      color: 'var(--text-muted)',
-                      fontSize: '0.82rem',
-                      lineHeight: 1.55,
-                      margin: 0,
-                    }}
-                  >
-                    {note.desc}
-                  </p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'var(--text-dim)' }}>
+                    <span style={{ color: 'var(--text-muted)', fontWeight: 600 }}>{note.pages}</span>
+                    <span>•</span>
+                    <span>{note.size}</span>
+                  </div>
                 </div>
 
-                {/* Card Action Buttons */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', paddingTop: '12px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                  <button
-                    onClick={() => setPreviewPdf(note)}
-                    className="pdf-card-btn pdf-card-btn-preview"
-                    title="Read / Preview inside browser"
-                  >
-                    <i className="fa-solid fa-eye" />
-                    Preview PDF
-                  </button>
+                {/* Title */}
+                <h4
+                  style={{
+                    fontFamily: 'var(--font-heading)',
+                    fontWeight: 700,
+                    fontSize: '1rem',
+                    lineHeight: 1.35,
+                    color: 'var(--text-main)',
+                    marginBottom: 8,
+                  }}
+                >
+                  {note.title}
+                </h4>
 
-                  <a
-                    href={note.path}
-                    download={note.filename}
-                    className="pdf-card-btn pdf-card-btn-dl"
-                    title="Direct download file"
-                  >
-                    <i className="fa-solid fa-download" />
-                  </a>
+                {/* Description */}
+                <p
+                  style={{
+                    color: 'var(--text-muted)',
+                    fontSize: '0.81rem',
+                    lineHeight: 1.55,
+                    margin: 0,
+                  }}
+                >
+                  {note.desc}
+                </p>
+              </div>
 
-                  <a
-                    href={note.path}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="pdf-card-btn pdf-card-btn-tab"
-                    title="Open in new browser tab"
-                  >
-                    <i className="fa-solid fa-arrow-up-right-from-square" />
-                  </a>
-                </div>
-              </motion.div>
-            );
-          })}
-        </AnimatePresence>
-      </motion.div>
+              {/* Card Action Buttons */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', paddingTop: '12px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                <button
+                  onClick={() => setPreviewPdf(note)}
+                  className="pdf-card-btn pdf-card-btn-preview"
+                  title="Read / Preview inside browser"
+                >
+                  <i className="fa-solid fa-eye" />
+                  Preview PDF
+                </button>
+
+                <a
+                  href={note.path}
+                  download={note.filename}
+                  className="pdf-card-btn pdf-card-btn-dl"
+                  title="Direct download file"
+                >
+                  <i className="fa-solid fa-download" />
+                </a>
+
+                <a
+                  href={note.path}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="pdf-card-btn pdf-card-btn-tab"
+                  title="Open in new browser tab"
+                >
+                  <i className="fa-solid fa-arrow-up-right-from-square" />
+                </a>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Show More Button if not all displayed */}
+      {filteredNotes.length > displayedNotes.length && (
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '28px' }}>
+          <button
+            onClick={() => setVisibleCount((prev) => prev + 18)}
+            style={{
+              padding: '12px 24px',
+              borderRadius: '12px',
+              background: 'rgba(0, 212, 255, 0.08)',
+              border: '1px solid rgba(0, 212, 255, 0.3)',
+              color: 'var(--primary-color)',
+              fontFamily: 'var(--font-heading)',
+              fontWeight: 700,
+              fontSize: '0.88rem',
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              transition: 'all 0.2s',
+            }}
+          >
+            <i className="fa-solid fa-circle-chevron-down" />
+            Load More Notes ({filteredNotes.length - displayedNotes.length} remaining)
+          </button>
+        </div>
+      )}
 
       {/* PDF Modal Reader */}
-      <AnimatePresence>
-        {previewPdf && <PdfPreviewModal pdf={previewPdf} onClose={() => setPreviewPdf(null)} />}
-      </AnimatePresence>
-    </motion.div>
+      {previewPdf && <PdfPreviewModal pdf={previewPdf} onClose={() => setPreviewPdf(null)} />}
+    </div>
   );
 }
 
 // ─── MAIN COMPONENT ─────────────────────────────────────────────────────────
 export default function Notes() {
-  const [done, setDone] = useState({ yt: false, ig: false });
+  const [done, setDone] = useState(() => {
+    try {
+      const saved = localStorage.getItem('akshbuilds_steps_done');
+      return saved ? JSON.parse(saved) : { yt: null, ig: null };
+    } catch {
+      return { yt: null, ig: null };
+    }
+  });
+
   // Persist unlock state in localStorage
   const [unlocked, setUnlocked] = useState(() => {
     try {
@@ -854,22 +1219,64 @@ export default function Notes() {
   const [shake, setShake] = useState(false);
   const [hoveredTopic, setHoveredTopic] = useState(null);
   const [selectedTopic, setSelectedTopic] = useState('dsa');
+  const [activeVerification, setActiveVerification] = useState(null);
 
-  const allDone = done.yt && done.ig;
+  const allDone = Boolean(done.yt) && Boolean(done.ig);
   const completedCount = (done.yt ? 1 : 0) + (done.ig ? 1 : 0);
 
   const activeCategoryMeta = CATEGORIES.find((c) => c.id === (hoveredTopic || selectedTopic)) || CATEGORIES[1];
 
-  // Pick 3 representative notes for preview in the locked gate
+  // Pick representative notes for preview in the locked gate
   const previewNotes = useMemo(() => {
     const targetCat = hoveredTopic || selectedTopic;
     const catNotes = NOTES_MANIFEST.filter((n) => targetCat === 'all' || n.category === targetCat);
     return catNotes.slice(0, 3);
   }, [hoveredTopic, selectedTopic]);
 
-  const handleStep = (step) => {
+  // Handle clicking YouTube or Instagram follow button
+  const handleStepClick = (step) => {
+    if (done[step.id]) {
+      return;
+    }
+
+    const clickTime = Date.now();
     window.open(step.url, '_blank', 'noopener,noreferrer');
-    setDone((prev) => ({ ...prev, [step.id]: true }));
+
+    const handleReturn = () => {
+      window.removeEventListener('focus', handleReturn);
+      document.removeEventListener('visibilitychange', handleVisibility);
+
+      const elapsed = Date.now() - clickTime;
+      if (elapsed < 4500) {
+        // Returned too fast!
+        setActiveVerification({ step, warningTooFast: true, elapsed });
+      } else {
+        // Spent time on page, prompt to verify handle
+        setActiveVerification({ step, warningTooFast: false, elapsed });
+      }
+    };
+
+    const handleVisibility = () => {
+      if (!document.hidden) handleReturn();
+    };
+
+    setTimeout(() => {
+      window.addEventListener('focus', handleReturn, { once: true });
+      document.addEventListener('visibilitychange', handleVisibility, { once: true });
+    }, 400);
+  };
+
+  const handleVerified = (stepId, handle) => {
+    setDone((prev) => {
+      const next = { ...prev, [stepId]: handle || true };
+      try {
+        localStorage.setItem('akshbuilds_steps_done', JSON.stringify(next));
+      } catch (e) {
+        console.error(e);
+      }
+      return next;
+    });
+    setActiveVerification(null);
   };
 
   const handleUnlock = () => {
@@ -888,9 +1295,10 @@ export default function Notes() {
 
   const handleRelock = () => {
     setUnlocked(false);
-    setDone({ yt: false, ig: false });
+    setDone({ yt: null, ig: null });
     try {
       localStorage.removeItem('akshbuilds_notes_unlocked');
+      localStorage.removeItem('akshbuilds_steps_done');
     } catch (e) {
       console.error(e);
     }
@@ -906,7 +1314,7 @@ export default function Notes() {
           border-radius: 24px;
           overflow: hidden;
           border: 1px solid var(--glass-border);
-          transition: all 0.3s;
+          transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
         @media (max-width: 860px) {
           .notes-split { grid-template-columns: 1fr; }
@@ -956,11 +1364,11 @@ export default function Notes() {
           align-items: center;
           gap: 7px;
           cursor: pointer;
-          transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+          transition: all 0.18s ease;
         }
         .topic-pill-btn:hover {
-          transform: translateY(-2px);
           color: var(--text-main);
+          border-color: rgba(255, 255, 255, 0.3);
         }
         .notes-step-row {
           display: flex;
@@ -970,23 +1378,23 @@ export default function Notes() {
           border-radius: 14px;
           border: 1px solid var(--glass-border);
           background: rgba(255,255,255,0.02);
-          transition: all 0.3s;
+          transition: border-color 0.2s ease, background 0.2s ease;
         }
         .notes-step-row.done-row {
           background: rgba(16,185,129,0.06);
-          border-color: rgba(16,185,129,0.28);
+          border-color: rgba(16,185,129,0.35);
         }
         .notes-progress-track {
-          height: 3px;
+          height: 4px;
           background: rgba(255,255,255,0.06);
-          border-radius: 3px;
+          border-radius: 4px;
           overflow: hidden;
         }
         .notes-progress-fill {
           height: 100%;
-          border-radius: 3px;
+          border-radius: 4px;
           background: linear-gradient(90deg, var(--primary-color), #7c3aed);
-          transition: width 0.5s cubic-bezier(0.25,0.8,0.25,1);
+          transition: width 0.4s ease;
           box-shadow: 0 0 10px rgba(0,212,255,0.6);
         }
         @keyframes shake-x {
@@ -1001,374 +1409,403 @@ export default function Notes() {
 
       <div className="container">
         {/* ── Section Header ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          style={{ marginBottom: 40 }}
-        >
+        <div style={{ marginBottom: 36 }}>
           <span className="section-label">// study materials & cheatsheets</span>
           <h2 className="section-title">
             Complete <span className="text-glow">PDF Notes & Handbook</span>
           </h2>
           <p className="section-subtitle">
-            40+ hand-crafted PDF notes, algorithms, handwritten sheets, and roadmaps — free for all community supporters.
+            60+ hand-crafted PDF notes, algorithms, handwritten sheets, CS core guides, and roadmaps — free for all verified community supporters.
           </p>
-        </motion.div>
+        </div>
 
-        <AnimatePresence mode="wait">
-          {/* ══════════════════════════════════
-               LOCKED — Split Gate
-          ══════════════════════════════════ */}
-          {!unlocked ? (
-            <motion.div
-              key="gate"
-              className="notes-split"
-              initial={{ opacity: 0, y: 32 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.98 }}
-              transition={{ duration: 0.45 }}
-              style={{
-                boxShadow: `0 24px 60px rgba(0,0,0,0.5), 0 0 30px ${activeCategoryMeta.colorAlpha}`,
-                borderColor: activeCategoryMeta.colorBorder,
-              }}
-            >
-              {/* LEFT — Topics & Notes Preview */}
-              <div className="notes-left">
-                <div>
-                  <div className="notes-big-num">40+</div>
-                  <div
+        {/* ══════════════════════════════════
+             Clean, high performance render
+        ══════════════════════════════════ */}
+        {!unlocked ? (
+          <div
+            key="gate"
+            className="notes-split"
+            style={{
+              boxShadow: `0 24px 60px rgba(0,0,0,0.5), 0 0 30px ${activeCategoryMeta.colorAlpha}`,
+              borderColor: activeCategoryMeta.colorBorder,
+              animation: 'sectionFadeIn 0.25s ease-out forwards',
+            }}
+          >
+            {/* LEFT — Topics & Notes Preview */}
+            <div className="notes-left">
+              <div>
+                <div className="notes-big-num">60+</div>
+                <div
+                  style={{
+                    fontFamily: 'var(--font-heading)',
+                    fontWeight: 700,
+                    fontSize: 'clamp(1.3rem, 2.5vw, 1.85rem)',
+                    letterSpacing: '-0.03em',
+                    marginTop: 8,
+                  }}
+                >
+                  Curated PDF Notes.<br />
+                  <span style={{ color: 'var(--text-muted)', fontWeight: 500, fontSize: '0.62em' }}>
+                    Select any category below to preview what's inside:
+                  </span>
+                </div>
+              </div>
+
+              {/* Category Pills */}
+              <div>
+                <div
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.68rem',
+                    color: 'var(--text-dim)',
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    marginBottom: 10,
+                  }}
+                >
+                  // available subject areas
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                  {CATEGORIES.filter((c) => c.id !== 'all').map((c) => {
+                    const isHighlighted = hoveredTopic === c.id || (!hoveredTopic && selectedTopic === c.id);
+                    return (
+                      <button
+                        key={c.id}
+                        className="topic-pill-btn"
+                        onClick={() => setSelectedTopic(c.id)}
+                        onMouseEnter={() => setHoveredTopic(c.id)}
+                        onMouseLeave={() => setHoveredTopic(null)}
+                        style={{
+                          borderColor: isHighlighted ? c.color : 'var(--glass-border)',
+                          background: isHighlighted ? c.colorAlpha : 'rgba(255,255,255,0.02)',
+                          color: isHighlighted ? c.color : 'var(--text-muted)',
+                          boxShadow: isHighlighted ? `0 0 14px ${c.colorAlpha}` : 'none',
+                          fontWeight: isHighlighted ? 700 : 500,
+                        }}
+                      >
+                        <i className={c.icon} style={{ color: c.color, fontSize: '0.78rem' }} />
+                        {c.label}
+                        {isHighlighted && (
+                          <span
+                            style={{
+                              width: 5,
+                              height: 5,
+                              borderRadius: '50%',
+                              background: c.color,
+                              boxShadow: `0 0 6px ${c.color}`,
+                            }}
+                          />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Notes Preview Inside Selected Category */}
+              <div
+                key={activeCategoryMeta.id}
+                style={{
+                  padding: '18px 20px',
+                  borderRadius: 14,
+                  background: 'rgba(0,0,0,0.35)',
+                  border: `1px solid ${activeCategoryMeta.colorBorder}`,
+                  boxShadow: `0 0 20px ${activeCategoryMeta.colorAlpha}`,
+                  animation: 'sectionFadeIn 0.2s ease-out forwards',
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: 10,
+                  }}
+                >
+                  <span
                     style={{
                       fontFamily: 'var(--font-heading)',
                       fontWeight: 700,
-                      fontSize: 'clamp(1.3rem, 2.5vw, 1.85rem)',
-                      letterSpacing: '-0.03em',
-                      marginTop: 8,
+                      fontSize: '0.94rem',
+                      color: activeCategoryMeta.color,
                     }}
                   >
-                    Curated PDF Notes.<br />
-                    <span style={{ color: 'var(--text-muted)', fontWeight: 500, fontSize: '0.62em' }}>
-                      Select any category below to preview what's inside:
-                    </span>
-                  </div>
-                </div>
-
-                {/* Category Pills */}
-                <div>
-                  <div
+                    <i className={activeCategoryMeta.icon} style={{ marginRight: 8 }} />
+                    {activeCategoryMeta.label}
+                  </span>
+                  <span
                     style={{
                       fontFamily: 'var(--font-mono)',
                       fontSize: '0.68rem',
-                      color: 'var(--text-dim)',
-                      letterSpacing: '0.08em',
-                      textTransform: 'uppercase',
-                      marginBottom: 10,
+                      color: activeCategoryMeta.color,
+                      background: activeCategoryMeta.colorAlpha,
+                      padding: '2px 8px',
+                      borderRadius: 10,
                     }}
                   >
-                    // available subject areas
-                  </div>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                    {CATEGORIES.filter((c) => c.id !== 'all').map((c) => {
-                      const isHighlighted = hoveredTopic === c.id || (!hoveredTopic && selectedTopic === c.id);
-                      return (
-                        <motion.button
-                          key={c.id}
-                          className="topic-pill-btn"
-                          onClick={() => setSelectedTopic(c.id)}
-                          onMouseEnter={() => setHoveredTopic(c.id)}
-                          onMouseLeave={() => setHoveredTopic(null)}
-                          whileHover={{ scale: 1.04, y: -2 }}
-                          whileTap={{ scale: 0.97 }}
-                          style={{
-                            borderColor: isHighlighted ? c.color : 'var(--glass-border)',
-                            background: isHighlighted ? c.colorAlpha : 'rgba(255,255,255,0.02)',
-                            color: isHighlighted ? c.color : 'var(--text-muted)',
-                            boxShadow: isHighlighted ? `0 0 16px ${c.colorAlpha}` : 'none',
-                            fontWeight: isHighlighted ? 700 : 500,
-                          }}
-                        >
-                          <i className={c.icon} style={{ color: c.color, fontSize: '0.78rem' }} />
-                          {c.label}
-                          {isHighlighted && (
-                            <span
-                              style={{
-                                width: 5,
-                                height: 5,
-                                borderRadius: '50%',
-                                background: c.color,
-                                boxShadow: `0 0 6px ${c.color}`,
-                              }}
-                            />
-                          )}
-                        </motion.button>
-                      );
-                    })}
-                  </div>
+                    Includes {previewNotes.length}+ PDFs
+                  </span>
                 </div>
 
-                {/* Notes Preview Inside Selected Category */}
-                <motion.div
-                  key={activeCategoryMeta.id}
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.2 }}
-                  style={{
-                    padding: '18px 20px',
-                    borderRadius: 14,
-                    background: 'rgba(0,0,0,0.35)',
-                    border: `1px solid ${activeCategoryMeta.colorBorder}`,
-                    boxShadow: `0 0 20px ${activeCategoryMeta.colorAlpha}`,
-                  }}
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      marginBottom: 10,
-                    }}
-                  >
-                    <span
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {previewNotes.map((pn) => (
+                    <div
+                      key={pn.id}
                       style={{
-                        fontFamily: 'var(--font-heading)',
-                        fontWeight: 700,
-                        fontSize: '0.94rem',
-                        color: activeCategoryMeta.color,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: 10,
+                        fontSize: '0.8rem',
+                        color: 'var(--text-muted)',
+                        padding: '6px 10px',
+                        borderRadius: 8,
+                        background: 'rgba(255,255,255,0.02)',
                       }}
                     >
-                      <i className={activeCategoryMeta.icon} style={{ marginRight: 8 }} />
-                      {activeCategoryMeta.label}
-                    </span>
-                    <span
-                      style={{
-                        fontFamily: 'var(--font-mono)',
-                        fontSize: '0.68rem',
-                        color: activeCategoryMeta.color,
-                        background: activeCategoryMeta.colorAlpha,
-                        padding: '2px 8px',
-                        borderRadius: 10,
-                      }}
-                    >
-                      Includes {previewNotes.length}+ PDFs
-                    </span>
-                  </div>
-
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    {previewNotes.map((pn) => (
-                      <div
-                        key={pn.id}
+                      <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        <i
+                          className="fa-regular fa-file-pdf"
+                          style={{ marginRight: 6, color: activeCategoryMeta.color }}
+                        />
+                        {pn.title}
+                      </span>
+                      <span
                         style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          gap: 10,
-                          fontSize: '0.8rem',
-                          color: 'var(--text-muted)',
-                          padding: '6px 10px',
-                          borderRadius: 8,
-                          background: 'rgba(255,255,255,0.02)',
+                          fontFamily: 'var(--font-mono)',
+                          fontSize: '0.67rem',
+                          color: 'var(--text-dim)',
+                          flexShrink: 0,
                         }}
                       >
-                        <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                          <i
-                            className="fa-regular fa-file-pdf"
-                            style={{ marginRight: 6, color: activeCategoryMeta.color }}
-                          />
-                          {pn.title}
-                        </span>
-                        <span
-                          style={{
-                            fontFamily: 'var(--font-mono)',
-                            fontSize: '0.67rem',
-                            color: 'var(--text-dim)',
-                            flexShrink: 0,
-                          }}
-                        >
-                          {pn.pages}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </motion.div>
+                        {pn.pages}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT — Unlock Steps with Real-Time Follow Verification */}
+            <div className="notes-right">
+              <div>
+                <div
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.68rem',
+                    color: 'var(--primary-color)',
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase',
+                    marginBottom: 10,
+                  }}
+                >
+                  // 2 quick steps to unlock
+                </div>
+                <h3
+                  style={{
+                    fontFamily: 'var(--font-heading)',
+                    fontWeight: 800,
+                    fontSize: 'clamp(1.4rem, 2.5vw, 1.95rem)',
+                    letterSpacing: '-0.03em',
+                    lineHeight: 1.2,
+                  }}
+                >
+                  Support the creator.<br />
+                  <span style={{ color: 'var(--text-muted)', fontWeight: 500, fontSize: '0.65em' }}>
+                    Follow & verify to unlock all 60+ PDF notes.
+                  </span>
+                </h3>
               </div>
 
-              {/* RIGHT — Unlock Steps */}
-              <div className="notes-right">
-                <div>
-                  <div
-                    style={{
-                      fontFamily: 'var(--font-mono)',
-                      fontSize: '0.68rem',
-                      color: 'var(--primary-color)',
-                      letterSpacing: '0.12em',
-                      textTransform: 'uppercase',
-                      marginBottom: 10,
-                    }}
-                  >
-                    // 2 quick steps to unlock
-                  </div>
-                  <h3
-                    style={{
-                      fontFamily: 'var(--font-heading)',
-                      fontWeight: 800,
-                      fontSize: 'clamp(1.4rem, 2.5vw, 1.95rem)',
-                      letterSpacing: '-0.03em',
-                      lineHeight: 1.2,
-                    }}
-                  >
-                    Support the creator.<br />
-                    <span style={{ color: 'var(--text-muted)', fontWeight: 500, fontSize: '0.65em' }}>
-                      Get instant access to all PDF notes.
-                    </span>
-                  </h3>
+              {/* Progress bar */}
+              <div>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.7rem',
+                    color: 'var(--text-muted)',
+                    marginBottom: 8,
+                  }}
+                >
+                  <span>unlock verification</span>
+                  <span style={{ color: allDone ? 'var(--accent-green)' : 'var(--primary-color)', fontWeight: 600 }}>
+                    {completedCount}/2 verified
+                  </span>
                 </div>
-
-                {/* Progress bar */}
-                <div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      fontFamily: 'var(--font-mono)',
-                      fontSize: '0.7rem',
-                      color: 'var(--text-muted)',
-                      marginBottom: 8,
-                    }}
-                  >
-                    <span>unlock progress</span>
-                    <span style={{ color: allDone ? 'var(--accent-green)' : 'var(--primary-color)', fontWeight: 600 }}>
-                      {completedCount}/2 completed
-                    </span>
-                  </div>
-                  <div className="notes-progress-track">
-                    <div className="notes-progress-fill" style={{ width: `${(completedCount / 2) * 100}%` }} />
-                  </div>
+                <div className="notes-progress-track">
+                  <div className="notes-progress-fill" style={{ width: `${(completedCount / 2) * 100}%` }} />
                 </div>
+              </div>
 
-                {/* Steps */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                  {STEPS.map((step) => {
-                    const isDone = done[step.id];
-                    return (
-                      <motion.div
-                        key={step.id}
-                        className={`notes-step-row${isDone ? ' done-row' : ''}`}
-                        onClick={() => !isDone && handleStep(step)}
-                        whileHover={!isDone ? { x: 4, borderColor: step.color, boxShadow: `0 0 20px ${step.colorAlpha}` } : {}}
-                        style={{ cursor: isDone ? 'default' : 'pointer' }}
+              {/* Steps */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                {STEPS.map((step) => {
+                  const isDone = Boolean(done[step.id]);
+                  const handleName = typeof done[step.id] === 'string' ? done[step.id] : null;
+
+                  return (
+                    <div
+                      key={step.id}
+                      className={`notes-step-row${isDone ? ' done-row' : ''}`}
+                      onClick={() => !isDone && handleStepClick(step)}
+                      style={{ cursor: isDone ? 'default' : 'pointer' }}
+                    >
+                      <div
+                        style={{
+                          fontFamily: 'var(--font-mono)',
+                          fontSize: '0.72rem',
+                          color: isDone ? 'var(--accent-green)' : 'var(--text-dim)',
+                          flexShrink: 0,
+                          width: 24,
+                          fontWeight: 700,
+                        }}
                       >
+                        {isDone ? <i className="fa-solid fa-check" /> : step.num}
+                      </div>
+
+                      <div
+                        style={{
+                          width: 40,
+                          height: 40,
+                          borderRadius: 10,
+                          flexShrink: 0,
+                          background: isDone ? 'rgba(16,185,129,0.12)' : step.colorAlpha,
+                          border: `1px solid ${isDone ? 'rgba(16,185,129,0.3)' : step.colorBorder}`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '1.05rem',
+                          color: isDone ? 'var(--accent-green)' : step.color,
+                          transition: 'all 0.3s',
+                        }}
+                      >
+                        <i className={isDone ? 'fa-solid fa-check' : step.icon} />
+                      </div>
+
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div
+                          style={{
+                            fontWeight: 700,
+                            fontSize: '0.92rem',
+                            color: isDone ? 'var(--accent-green)' : 'var(--text-main)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 8,
+                          }}
+                        >
+                          <span>{step.action} on {step.platform}</span>
+                          {isDone && (
+                            <span
+                              style={{
+                                fontFamily: 'var(--font-mono)',
+                                fontSize: '0.64rem',
+                                color: 'var(--accent-green)',
+                                background: 'rgba(16,185,129,0.15)',
+                                padding: '1px 7px',
+                                borderRadius: 8,
+                                fontWeight: 700,
+                              }}
+                            >
+                              VERIFIED
+                            </span>
+                          )}
+                        </div>
                         <div
                           style={{
                             fontFamily: 'var(--font-mono)',
                             fontSize: '0.7rem',
-                            color: isDone ? 'var(--accent-green)' : 'var(--text-dim)',
-                            flexShrink: 0,
-                            width: 24,
-                            fontWeight: 700,
+                            color: isDone ? 'rgba(16,185,129,0.8)' : step.color,
+                            opacity: 0.9,
+                            marginTop: 2,
                           }}
                         >
-                          {isDone ? <i className="fa-solid fa-check" /> : step.num}
+                          {isDone ? (handleName ? `verified as @${handleName}` : 'follow verified ✓') : `click to follow & verify ${step.handle}`}
                         </div>
+                      </div>
+
+                      {!isDone && (
                         <div
                           style={{
-                            width: 40,
-                            height: 40,
-                            borderRadius: 10,
-                            flexShrink: 0,
-                            background: isDone ? 'rgba(16,185,129,0.12)' : step.colorAlpha,
-                            border: `1px solid ${isDone ? 'rgba(16,185,129,0.3)' : step.colorBorder}`,
+                            fontFamily: 'var(--font-mono)',
+                            fontSize: '0.72rem',
+                            color: step.color,
+                            padding: '4px 10px',
+                            borderRadius: 8,
+                            background: step.colorAlpha,
+                            border: `1px solid ${step.colorBorder}`,
                             display: 'flex',
                             alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: '1.05rem',
-                            color: isDone ? 'var(--accent-green)' : step.color,
-                            transition: 'all 0.3s',
+                            gap: 6,
                           }}
                         >
-                          <i className={isDone ? 'fa-solid fa-check' : step.icon} />
+                          <span>Follow</span>
+                          <i className="fa-solid fa-arrow-up-right-from-square" style={{ fontSize: '0.65rem' }} />
                         </div>
-                        <div style={{ flex: 1, minWidth: 0 }}>
-                          <div
-                            style={{
-                              fontWeight: 700,
-                              fontSize: '0.92rem',
-                              color: isDone ? 'var(--accent-green)' : 'var(--text-main)',
-                            }}
-                          >
-                            {step.action} on {step.platform}
-                          </div>
-                          <div
-                            style={{
-                              fontFamily: 'var(--font-mono)',
-                              fontSize: '0.7rem',
-                              color: isDone ? 'rgba(16,185,129,0.7)' : step.color,
-                              opacity: 0.9,
-                              marginTop: 2,
-                            }}
-                          >
-                            {isDone ? 'verified ✓' : step.handle}
-                          </div>
-                        </div>
-                        {!isDone && (
-                          <i
-                            className="fa-solid fa-arrow-up-right-from-square"
-                            style={{ color: 'var(--text-dim)', fontSize: '0.75rem', flexShrink: 0 }}
-                          />
-                        )}
-                      </motion.div>
-                    );
-                  })}
-                </div>
-
-                {/* Unlock button */}
-                <motion.button
-                  className={shake ? 'shake' : ''}
-                  onClick={handleUnlock}
-                  whileHover={allDone ? { scale: 1.02 } : {}}
-                  whileTap={allDone ? { scale: 0.98 } : {}}
-                  style={{
-                    width: '100%',
-                    padding: '15px 24px',
-                    borderRadius: 12,
-                    border: allDone ? 'none' : '1px solid var(--glass-border)',
-                    cursor: allDone ? 'pointer' : 'not-allowed',
-                    fontFamily: 'var(--font-heading)',
-                    fontWeight: 700,
-                    fontSize: '0.95rem',
-                    background: allDone
-                      ? 'linear-gradient(135deg, var(--primary-color) 0%, #7c3aed 100%)'
-                      : 'rgba(255,255,255,0.04)',
-                    color: allDone ? '#000d14' : 'var(--text-dim)',
-                    boxShadow: allDone ? '0 0 32px rgba(0,212,255,0.3)' : 'none',
-                    transition: 'all 0.3s',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: 10,
-                  }}
-                >
-                  {allDone ? (
-                    <>
-                      <i className="fa-solid fa-unlock" /> Unlock All Study Materials
-                    </>
-                  ) : (
-                    <>
-                      <i className="fa-solid fa-lock" /> Complete {2 - completedCount} step
-                      {2 - completedCount !== 1 ? 's' : ''} above
-                    </>
-                  )}
-                </motion.button>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
-            </motion.div>
-          ) : (
-            /* ══════════════════════════════════
-                 UNLOCKED — Full PDF Notes Library
-            ══════════════════════════════════ */
-            <NotesLibrary onRelock={handleRelock} />
-          )}
-        </AnimatePresence>
+
+              {/* Unlock button */}
+              <button
+                className={shake ? 'shake' : ''}
+                onClick={handleUnlock}
+                style={{
+                  width: '100%',
+                  padding: '15px 24px',
+                  borderRadius: 12,
+                  border: allDone ? 'none' : '1px solid var(--glass-border)',
+                  cursor: allDone ? 'pointer' : 'not-allowed',
+                  fontFamily: 'var(--font-heading)',
+                  fontWeight: 700,
+                  fontSize: '0.95rem',
+                  background: allDone
+                    ? 'linear-gradient(135deg, var(--primary-color) 0%, #7c3aed 100%)'
+                    : 'rgba(255,255,255,0.04)',
+                  color: allDone ? '#000d14' : 'var(--text-dim)',
+                  boxShadow: allDone ? '0 0 32px rgba(0,212,255,0.3)' : 'none',
+                  transition: 'all 0.25s',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 10,
+                }}
+              >
+                {allDone ? (
+                  <>
+                    <i className="fa-solid fa-unlock" /> Unlock All 60+ Study Materials
+                  </>
+                ) : (
+                  <>
+                    <i className="fa-solid fa-lock" /> Complete & Verify {2 - completedCount} Follow Step{2 - completedCount !== 1 ? 's' : ''}
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        ) : (
+          /* ══════════════════════════════════
+               UNLOCKED — Full 60+ PDF Notes Library
+          ══════════════════════════════════ */
+          <NotesLibrary onRelock={handleRelock} />
+        )}
       </div>
+
+      {/* Follow Verification Modal (Detects Fast Bounce & Verifies Handle) */}
+      {activeVerification && (
+        <FollowVerificationModal
+          step={activeVerification.step}
+          warningTooFast={activeVerification.warningTooFast}
+          elapsed={activeVerification.elapsed}
+          onVerified={handleVerified}
+          onRetry={handleStepClick}
+          onClose={() => setActiveVerification(null)}
+        />
+      )}
     </section>
   );
 }
