@@ -21,6 +21,9 @@ export default function Footer() {
           <a href="#projects">Projects</a>
           <a href="#services">Services</a>
           <a href="#contact">Contact</a>
+          <a href="/admin" title="Admin Portal" style={{ opacity: 0.8, color: 'var(--primary-color)' }}>
+            <i className="fa-solid fa-shield-halved"></i> Admin
+          </a>
           <a href="https://www.linkedin.com/in/akshit-sharma-790601189/" target="_blank" rel="noopener noreferrer">
             <i className="fa-brands fa-linkedin"></i> LinkedIn
           </a>
