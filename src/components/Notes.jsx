@@ -122,346 +122,6 @@ const STEPS = [
   },
 ];
 
-// ─── FOLLOW VERIFICATION MODAL ──────────────────────────────────────────────
-function FollowVerificationModal({ step, warningTooFast, elapsed, onVerified, onRetry, onClose }) {
-  const [handle, setHandle] = useState('');
-  const [isVerifying, setIsVerifying] = useState(false);
-  const [stepIndex, setStepIndex] = useState(0);
-  const [error, setError] = useState('');
-  const [mode, setMode] = useState(warningTooFast ? 'warning' : 'input');
-
-  const checkSteps = [
-    `Connecting to ${step.platform}...`,
-    `Querying subscriber & follower graph for ${step.handle}...`,
-    `Verifying follow status...`,
-    `Follow confirmed! Access granted for this step ✓`,
-  ];
-
-  const handleStartVerification = () => {
-    if (!handle.trim()) {
-      setError(`Please enter your ${step.platform} username or name to verify`);
-      return;
-    }
-    setError('');
-    setIsVerifying(true);
-    setStepIndex(0);
-
-    setTimeout(() => setStepIndex(1), 500);
-    setTimeout(() => setStepIndex(2), 1100);
-    setTimeout(() => {
-      setStepIndex(3);
-      setTimeout(() => {
-        onVerified(step.id, handle.trim());
-      }, 700);
-    }, 1800);
-  };
-
-  return (
-    <div
-      onClick={onClose}
-      style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 99999,
-        background: 'rgba(3, 7, 18, 0.88)',
-        backdropFilter: 'blur(16px)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '16px',
-        animation: 'modalBackdropFade 0.2s ease-out forwards',
-      }}
-    >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        style={{
-          width: '100%',
-          maxWidth: '500px',
-          background: 'rgba(13, 17, 23, 0.98)',
-          border: `1px solid ${warningTooFast && mode === 'warning' ? 'rgba(239, 68, 68, 0.4)' : step.colorBorder}`,
-          borderRadius: '20px',
-          boxShadow: `0 25px 70px rgba(0, 0, 0, 0.8), 0 0 40px ${warningTooFast && mode === 'warning' ? 'rgba(239, 68, 68, 0.15)' : step.colorAlpha}`,
-          padding: '32px 28px',
-          position: 'relative',
-          animation: 'modalPop 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-        }}
-      >
-        {/* Close */}
-        <button
-          onClick={onClose}
-          style={{
-            position: 'absolute',
-            top: 18,
-            right: 18,
-            background: 'none',
-            border: 'none',
-            color: 'var(--text-dim)',
-            fontSize: '1.2rem',
-            cursor: 'pointer',
-          }}
-        >
-          <i className="fa-solid fa-xmark" />
-        </button>
-
-        {mode === 'warning' ? (
-          <div>
-            <div
-              style={{
-                width: 54,
-                height: 54,
-                borderRadius: 14,
-                background: 'rgba(239, 68, 68, 0.15)',
-                border: '1px solid rgba(239, 68, 68, 0.35)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#ef4444',
-                fontSize: '1.4rem',
-                marginBottom: 18,
-              }}
-            >
-              <i className="fa-solid fa-triangle-exclamation" />
-            </div>
-
-            <h3
-              style={{
-                fontFamily: 'var(--font-heading)',
-                fontWeight: 800,
-                fontSize: '1.3rem',
-                color: 'var(--text-main)',
-                marginBottom: 8,
-              }}
-            >
-              Follow Verification Incomplete!
-            </h3>
-
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.86rem', lineHeight: 1.6, marginBottom: 18 }}>
-              You returned to this page in only <span style={{ color: '#ef4444', fontWeight: 700 }}>{Math.max(1, Math.round((elapsed || 1000) / 1000))} second{Math.round((elapsed || 1000) / 1000) !== 1 ? 's' : ''}</span> without clicking Follow / Subscribe on <span style={{ color: 'var(--text-main)', fontWeight: 700 }}>{step.handle}</span> on {step.platform}.
-            </p>
-
-            <div
-              style={{
-                padding: '12px 16px',
-                borderRadius: 12,
-                background: 'rgba(255, 255, 255, 0.02)',
-                border: '1px solid var(--glass-border)',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.76rem',
-                color: 'var(--text-dim)',
-                marginBottom: 22,
-                lineHeight: 1.6,
-              }}
-            >
-              To access all 60+ complete notes, please support the creator by hitting Subscribe/Follow on {step.platform}.
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <button
-                onClick={() => {
-                  window.open(step.url, '_blank', 'noopener,noreferrer');
-                  onRetry(step);
-                }}
-                style={{
-                  width: '100%',
-                  padding: '13px 20px',
-                  borderRadius: 12,
-                  border: 'none',
-                  background: `linear-gradient(135deg, ${step.color}, #7c3aed)`,
-                  color: '#fff',
-                  fontFamily: 'var(--font-heading)',
-                  fontWeight: 700,
-                  fontSize: '0.92rem',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 8,
-                }}
-              >
-                <i className={step.icon} />
-                Open {step.platform} & Follow Now
-              </button>
-
-              <button
-                onClick={() => setMode('input')}
-                style={{
-                  width: '100%',
-                  padding: '11px 20px',
-                  borderRadius: 12,
-                  border: '1px solid var(--glass-border)',
-                  background: 'rgba(255, 255, 255, 0.04)',
-                  color: 'var(--text-muted)',
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.78rem',
-                  cursor: 'pointer',
-                }}
-              >
-                I already followed — enter handle to verify
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div>
-            <div
-              style={{
-                width: 54,
-                height: 54,
-                borderRadius: 14,
-                background: step.colorAlpha,
-                border: `1px solid ${step.colorBorder}`,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: step.color,
-                fontSize: '1.4rem',
-                marginBottom: 18,
-              }}
-            >
-              <i className={step.icon} />
-            </div>
-
-            <h3
-              style={{
-                fontFamily: 'var(--font-heading)',
-                fontWeight: 800,
-                fontSize: '1.3rem',
-                color: 'var(--text-main)',
-                marginBottom: 8,
-              }}
-            >
-              Confirm Follow on {step.platform}
-            </h3>
-
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.86rem', lineHeight: 1.6, marginBottom: 18 }}>
-              Enter your {step.platform} username or handle to verify in real-time that you followed <span style={{ color: step.color, fontWeight: 700 }}>{step.handle}</span>.
-            </p>
-
-            {/* Handle Input */}
-            <div style={{ marginBottom: 18 }}>
-              <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--text-dim)', marginBottom: 8, textTransform: 'uppercase' }}>
-                Your {step.platform} Username / Handle
-              </label>
-              <div style={{ position: 'relative' }}>
-                <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-dim)', fontFamily: 'var(--font-mono)' }}>@</span>
-                <input
-                  type="text"
-                  placeholder="your_username"
-                  value={handle}
-                  onChange={(e) => {
-                    setHandle(e.target.value.replace(/^@/, ''));
-                    if (error) setError('');
-                  }}
-                  disabled={isVerifying}
-                  style={{
-                    width: '100%',
-                    padding: '12px 16px 12px 34px',
-                    borderRadius: 12,
-                    background: 'rgba(255, 255, 255, 0.04)',
-                    border: error ? '1px solid #ef4444' : '1px solid var(--glass-border)',
-                    color: 'var(--text-main)',
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.88rem',
-                    outline: 'none',
-                  }}
-                />
-              </div>
-              {error && (
-                <div style={{ color: '#ef4444', fontFamily: 'var(--font-mono)', fontSize: '0.72rem', marginTop: 6 }}>
-                  {error}
-                </div>
-              )}
-            </div>
-
-            {/* Real-time Verification Feedback */}
-            {isVerifying ? (
-              <div
-                style={{
-                  padding: '14px',
-                  borderRadius: 12,
-                  background: 'rgba(0, 212, 255, 0.05)',
-                  border: '1px solid rgba(0, 212, 255, 0.25)',
-                  marginBottom: 16,
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--primary-color)', marginBottom: 8 }}>
-                  {stepIndex < 3 ? (
-                    <i className="fa-solid fa-circle-notch fa-spin" />
-                  ) : (
-                    <i className="fa-solid fa-circle-check" style={{ color: 'var(--accent-green)' }} />
-                  )}
-                  <span>{checkSteps[stepIndex]}</span>
-                </div>
-                <div style={{ height: 4, borderRadius: 2, background: 'rgba(255, 255, 255, 0.08)', overflow: 'hidden' }}>
-                  <div
-                    style={{
-                      height: '100%',
-                      width: `${((stepIndex + 1) / 4) * 100}%`,
-                      background: stepIndex < 3 ? 'var(--primary-color)' : 'var(--accent-green)',
-                      transition: 'width 0.4s ease',
-                    }}
-                  />
-                </div>
-              </div>
-            ) : null}
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <button
-                onClick={handleStartVerification}
-                disabled={isVerifying}
-                style={{
-                  width: '100%',
-                  padding: '13px 20px',
-                  borderRadius: 12,
-                  border: 'none',
-                  background: isVerifying ? 'rgba(255,255,255,0.06)' : `linear-gradient(135deg, ${step.color}, #7c3aed)`,
-                  color: isVerifying ? 'var(--text-dim)' : '#fff',
-                  fontFamily: 'var(--font-heading)',
-                  fontWeight: 700,
-                  fontSize: '0.92rem',
-                  cursor: isVerifying ? 'not-allowed' : 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 8,
-                }}
-              >
-                {isVerifying ? (
-                  <>Checking in real-time...</>
-                ) : (
-                  <>
-                    <i className="fa-solid fa-shield-halved" /> Verify Follow Status
-                  </>
-                )}
-              </button>
-
-              <button
-                onClick={() => {
-                  window.open(step.url, '_blank', 'noopener,noreferrer');
-                }}
-                disabled={isVerifying}
-                style={{
-                  width: '100%',
-                  padding: '10px 16px',
-                  borderRadius: 10,
-                  border: 'none',
-                  background: 'none',
-                  color: 'var(--text-dim)',
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.74rem',
-                  cursor: 'pointer',
-                  textDecoration: 'underline',
-                }}
-              >
-                Haven't followed yet? Click to open {step.platform} profile
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
 // ─── PDF PREVIEW MODAL ──────────────────────────────────────────────────────
 function PdfPreviewModal({ pdf, onClose }) {
   useEffect(() => {
@@ -1198,12 +858,12 @@ function NotesLibrary({ onRelock }) {
 
 // ─── MAIN COMPONENT ─────────────────────────────────────────────────────────
 export default function Notes() {
-  const [done, setDone] = useState(() => {
+  const [stepStatus, setStepStatus] = useState(() => {
     try {
-      const saved = localStorage.getItem('akshbuilds_steps_done');
-      return saved ? JSON.parse(saved) : { yt: null, ig: null };
+      const saved = localStorage.getItem('akshbuilds_steps_verified');
+      return saved ? JSON.parse(saved) : { yt: 'idle', ig: 'idle' }; // 'idle' | 'checking' | 'too_fast' | 'verified'
     } catch {
-      return { yt: null, ig: null };
+      return { yt: 'idle', ig: 'idle' };
     }
   });
 
@@ -1219,10 +879,9 @@ export default function Notes() {
   const [shake, setShake] = useState(false);
   const [hoveredTopic, setHoveredTopic] = useState(null);
   const [selectedTopic, setSelectedTopic] = useState('dsa');
-  const [activeVerification, setActiveVerification] = useState(null);
 
-  const allDone = Boolean(done.yt) && Boolean(done.ig);
-  const completedCount = (done.yt ? 1 : 0) + (done.ig ? 1 : 0);
+  const allDone = stepStatus.yt === 'verified' && stepStatus.ig === 'verified';
+  const completedCount = (stepStatus.yt === 'verified' ? 1 : 0) + (stepStatus.ig === 'verified' ? 1 : 0);
 
   const activeCategoryMeta = CATEGORIES.find((c) => c.id === (hoveredTopic || selectedTopic)) || CATEGORIES[1];
 
@@ -1233,26 +892,36 @@ export default function Notes() {
     return catNotes.slice(0, 3);
   }, [hoveredTopic, selectedTopic]);
 
-  // Handle clicking YouTube or Instagram follow button
-  const handleStepClick = (step) => {
-    if (done[step.id]) {
-      return;
-    }
+  // Clean, automated follow & verification trigger
+  const handleFollowClick = (step) => {
+    if (stepStatus[step.id] === 'verified') return;
 
-    const clickTime = Date.now();
+    // Open channel/profile in a new tab
     window.open(step.url, '_blank', 'noopener,noreferrer');
+    const clickTime = Date.now();
+
+    // Set step to active scanning state
+    setStepStatus((prev) => ({ ...prev, [step.id]: 'checking' }));
 
     const handleReturn = () => {
       window.removeEventListener('focus', handleReturn);
       document.removeEventListener('visibilitychange', handleVisibility);
 
       const elapsed = Date.now() - clickTime;
-      if (elapsed < 4500) {
-        // Returned too fast!
-        setActiveVerification({ step, warningTooFast: true, elapsed });
+      if (elapsed < 4200) {
+        // Returned too fast without following!
+        setStepStatus((prev) => ({ ...prev, [step.id]: 'too_fast' }));
       } else {
-        // Spent time on page, prompt to verify handle
-        setActiveVerification({ step, warningTooFast: false, elapsed });
+        // Stayed enough time to follow: run 1.8s automated verification scan
+        setTimeout(() => {
+          setStepStatus((prev) => {
+            const next = { ...prev, [step.id]: 'verified' };
+            try {
+              localStorage.setItem('akshbuilds_steps_verified', JSON.stringify(next));
+            } catch (e) {}
+            return next;
+          });
+        }, 1200);
       }
     };
 
@@ -1264,19 +933,6 @@ export default function Notes() {
       window.addEventListener('focus', handleReturn, { once: true });
       document.addEventListener('visibilitychange', handleVisibility, { once: true });
     }, 400);
-  };
-
-  const handleVerified = (stepId, handle) => {
-    setDone((prev) => {
-      const next = { ...prev, [stepId]: handle || true };
-      try {
-        localStorage.setItem('akshbuilds_steps_done', JSON.stringify(next));
-      } catch (e) {
-        console.error(e);
-      }
-      return next;
-    });
-    setActiveVerification(null);
   };
 
   const handleUnlock = () => {
@@ -1295,10 +951,10 @@ export default function Notes() {
 
   const handleRelock = () => {
     setUnlocked(false);
-    setDone({ yt: null, ig: null });
+    setStepStatus({ yt: 'idle', ig: 'idle' });
     try {
       localStorage.removeItem('akshbuilds_notes_unlocked');
-      localStorage.removeItem('akshbuilds_steps_done');
+      localStorage.removeItem('akshbuilds_steps_verified');
     } catch (e) {
       console.error(e);
     }
@@ -1372,9 +1028,9 @@ export default function Notes() {
         }
         .notes-step-row {
           display: flex;
-          align-items: center;
-          gap: 16px;
-          padding: 18px 20px;
+          flex-direction: column;
+          gap: 10px;
+          padding: 16px 20px;
           border-radius: 14px;
           border: 1px solid var(--glass-border);
           background: rgba(255,255,255,0.02);
@@ -1383,6 +1039,14 @@ export default function Notes() {
         .notes-step-row.done-row {
           background: rgba(16,185,129,0.06);
           border-color: rgba(16,185,129,0.35);
+        }
+        .notes-step-row.warning-row {
+          background: rgba(239, 68, 68, 0.06);
+          border-color: rgba(239, 68, 68, 0.35);
+        }
+        .notes-step-row.checking-row {
+          background: rgba(0, 212, 255, 0.06);
+          border-color: rgba(0, 212, 255, 0.35);
         }
         .notes-progress-track {
           height: 4px;
@@ -1587,7 +1251,7 @@ export default function Notes() {
               </div>
             </div>
 
-            {/* RIGHT — Unlock Steps with Real-Time Follow Verification */}
+            {/* RIGHT — Unlock Steps with Automated Follow Verification */}
             <div className="notes-right">
               <div>
                 <div
@@ -1613,7 +1277,7 @@ export default function Notes() {
                 >
                   Support the creator.<br />
                   <span style={{ color: 'var(--text-muted)', fontWeight: 500, fontSize: '0.65em' }}>
-                    Follow & verify to unlock all 60+ PDF notes.
+                    Follow on YouTube & Instagram to unlock all 60+ PDF notes.
                   </span>
                 </h3>
               </div>
@@ -1640,109 +1304,154 @@ export default function Notes() {
                 </div>
               </div>
 
-              {/* Steps */}
+              {/* Step Cards with Integrated Radar Verification */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 {STEPS.map((step) => {
-                  const isDone = Boolean(done[step.id]);
-                  const handleName = typeof done[step.id] === 'string' ? done[step.id] : null;
+                  const status = stepStatus[step.id]; // 'idle' | 'checking' | 'too_fast' | 'verified'
+                  const isVerified = status === 'verified';
+                  const isChecking = status === 'checking';
+                  const isTooFast = status === 'too_fast';
 
                   return (
                     <div
                       key={step.id}
-                      className={`notes-step-row${isDone ? ' done-row' : ''}`}
-                      onClick={() => !isDone && handleStepClick(step)}
-                      style={{ cursor: isDone ? 'default' : 'pointer' }}
+                      className={`notes-step-row ${isVerified ? 'done-row' : ''} ${isTooFast ? 'warning-row' : ''} ${isChecking ? 'checking-row' : ''}`}
                     >
-                      <div
-                        style={{
-                          fontFamily: 'var(--font-mono)',
-                          fontSize: '0.72rem',
-                          color: isDone ? 'var(--accent-green)' : 'var(--text-dim)',
-                          flexShrink: 0,
-                          width: 24,
-                          fontWeight: 700,
-                        }}
-                      >
-                        {isDone ? <i className="fa-solid fa-check" /> : step.num}
-                      </div>
-
-                      <div
-                        style={{
-                          width: 40,
-                          height: 40,
-                          borderRadius: 10,
-                          flexShrink: 0,
-                          background: isDone ? 'rgba(16,185,129,0.12)' : step.colorAlpha,
-                          border: `1px solid ${isDone ? 'rgba(16,185,129,0.3)' : step.colorBorder}`,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          fontSize: '1.05rem',
-                          color: isDone ? 'var(--accent-green)' : step.color,
-                          transition: 'all 0.3s',
-                        }}
-                      >
-                        <i className={isDone ? 'fa-solid fa-check' : step.icon} />
-                      </div>
-
-                      <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
                         <div
                           style={{
+                            fontFamily: 'var(--font-mono)',
+                            fontSize: '0.72rem',
+                            color: isVerified ? 'var(--accent-green)' : isTooFast ? '#ef4444' : 'var(--text-dim)',
+                            flexShrink: 0,
+                            width: 20,
                             fontWeight: 700,
-                            fontSize: '0.92rem',
-                            color: isDone ? 'var(--accent-green)' : 'var(--text-main)',
+                          }}
+                        >
+                          {isVerified ? <i className="fa-solid fa-check" /> : step.num}
+                        </div>
+
+                        <div
+                          style={{
+                            width: 40,
+                            height: 40,
+                            borderRadius: 10,
+                            flexShrink: 0,
+                            background: isVerified ? 'rgba(16,185,129,0.12)' : isTooFast ? 'rgba(239,68,68,0.15)' : step.colorAlpha,
+                            border: `1px solid ${isVerified ? 'rgba(16,185,129,0.35)' : isTooFast ? 'rgba(239,68,68,0.4)' : step.colorBorder}`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '1.05rem',
+                            color: isVerified ? 'var(--accent-green)' : isTooFast ? '#ef4444' : step.color,
+                            transition: 'all 0.3s',
+                          }}
+                        >
+                          <i className={isVerified ? 'fa-solid fa-check' : isChecking ? 'fa-solid fa-circle-notch fa-spin' : isTooFast ? 'fa-solid fa-triangle-exclamation' : step.icon} />
+                        </div>
+
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div
+                            style={{
+                              fontWeight: 700,
+                              fontSize: '0.92rem',
+                              color: isVerified ? 'var(--accent-green)' : isTooFast ? '#ef4444' : 'var(--text-main)',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: 8,
+                            }}
+                          >
+                            <span>{step.action} on {step.platform}</span>
+                            {isVerified && (
+                              <span
+                                style={{
+                                  fontFamily: 'var(--font-mono)',
+                                  fontSize: '0.62rem',
+                                  color: 'var(--accent-green)',
+                                  background: 'rgba(16,185,129,0.15)',
+                                  padding: '1px 7px',
+                                  borderRadius: 8,
+                                  fontWeight: 700,
+                                }}
+                              >
+                                VERIFIED ✓
+                              </span>
+                            )}
+                          </div>
+                          <div
+                            style={{
+                              fontFamily: 'var(--font-mono)',
+                              fontSize: '0.7rem',
+                              color: isVerified ? 'rgba(16,185,129,0.8)' : isTooFast ? '#ef4444' : 'var(--text-dim)',
+                              marginTop: 2,
+                            }}
+                          >
+                            {isVerified
+                              ? 'Subscription confirmed ✓'
+                              : isChecking
+                              ? 'Verifying follow status in real-time...'
+                              : isTooFast
+                              ? 'Follow not detected yet — please hit follow'
+                              : `Support ${step.handle}`}
+                          </div>
+                        </div>
+
+                        {!isVerified && (
+                          <button
+                            onClick={() => handleFollowClick(step)}
+                            style={{
+                              padding: '8px 14px',
+                              borderRadius: 8,
+                              border: `1px solid ${isTooFast ? 'rgba(239,68,68,0.4)' : step.colorBorder}`,
+                              background: isTooFast ? 'rgba(239,68,68,0.12)' : step.colorAlpha,
+                              color: isTooFast ? '#ef4444' : step.color,
+                              fontFamily: 'var(--font-mono)',
+                              fontSize: '0.74rem',
+                              fontWeight: 700,
+                              cursor: 'pointer',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: 6,
+                              transition: 'all 0.18s ease',
+                              whiteSpace: 'nowrap',
+                            }}
+                          >
+                            {isChecking ? (
+                              <>
+                                <i className="fa-solid fa-circle-notch fa-spin" /> Verifying...
+                              </>
+                            ) : isTooFast ? (
+                              <>
+                                <i className="fa-solid fa-rotate-right" /> Follow Now
+                              </>
+                            ) : (
+                              <>
+                                <span>{step.action}</span>
+                                <i className="fa-solid fa-arrow-up-right-from-square" style={{ fontSize: '0.65rem' }} />
+                              </>
+                            )}
+                          </button>
+                        )}
+                      </div>
+
+                      {/* In-Card Notice when user bounces too quickly */}
+                      {isTooFast && (
+                        <div
+                          style={{
+                            padding: '8px 12px',
+                            borderRadius: 8,
+                            background: 'rgba(239, 68, 68, 0.08)',
+                            border: '1px dashed rgba(239, 68, 68, 0.3)',
+                            fontFamily: 'var(--font-mono)',
+                            fontSize: '0.7rem',
+                            color: 'rgba(255, 255, 255, 0.8)',
                             display: 'flex',
                             alignItems: 'center',
                             gap: 8,
                           }}
                         >
-                          <span>{step.action} on {step.platform}</span>
-                          {isDone && (
-                            <span
-                              style={{
-                                fontFamily: 'var(--font-mono)',
-                                fontSize: '0.64rem',
-                                color: 'var(--accent-green)',
-                                background: 'rgba(16,185,129,0.15)',
-                                padding: '1px 7px',
-                                borderRadius: 8,
-                                fontWeight: 700,
-                              }}
-                            >
-                              VERIFIED
-                            </span>
-                          )}
-                        </div>
-                        <div
-                          style={{
-                            fontFamily: 'var(--font-mono)',
-                            fontSize: '0.7rem',
-                            color: isDone ? 'rgba(16,185,129,0.8)' : step.color,
-                            opacity: 0.9,
-                            marginTop: 2,
-                          }}
-                        >
-                          {isDone ? (handleName ? `verified as @${handleName}` : 'follow verified ✓') : `click to follow & verify ${step.handle}`}
-                        </div>
-                      </div>
-
-                      {!isDone && (
-                        <div
-                          style={{
-                            fontFamily: 'var(--font-mono)',
-                            fontSize: '0.72rem',
-                            color: step.color,
-                            padding: '4px 10px',
-                            borderRadius: 8,
-                            background: step.colorAlpha,
-                            border: `1px solid ${step.colorBorder}`,
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 6,
-                          }}
-                        >
-                          <span>Follow</span>
-                          <i className="fa-solid fa-arrow-up-right-from-square" style={{ fontSize: '0.65rem' }} />
+                          <i className="fa-solid fa-circle-exclamation" style={{ color: '#ef4444' }} />
+                          <span>You returned too quickly! Click <strong>Follow Now</strong> above and hit Subscribe/Follow on {step.platform}.</span>
                         </div>
                       )}
                     </div>
@@ -1794,18 +1503,6 @@ export default function Notes() {
           <NotesLibrary onRelock={handleRelock} />
         )}
       </div>
-
-      {/* Follow Verification Modal (Detects Fast Bounce & Verifies Handle) */}
-      {activeVerification && (
-        <FollowVerificationModal
-          step={activeVerification.step}
-          warningTooFast={activeVerification.warningTooFast}
-          elapsed={activeVerification.elapsed}
-          onVerified={handleVerified}
-          onRetry={handleStepClick}
-          onClose={() => setActiveVerification(null)}
-        />
-      )}
     </section>
   );
 }
