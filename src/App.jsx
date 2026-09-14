@@ -18,6 +18,7 @@ import Notes from './components/Notes';
 import Footer from './components/Footer';
 import ThemeBulb from './components/ThemeBulb';
 import NeuralBg from './components/NeuralBg';
+import ChatAssistant from './components/ChatAssistant';
 
 import Admin from './pages/Admin';
 import About from './pages/About';
@@ -67,6 +68,7 @@ function App() {
       </div>
 
       <ScrollToTop />
+      <ChatAssistant />
       <Analytics />
     </BrowserRouter>
   );
