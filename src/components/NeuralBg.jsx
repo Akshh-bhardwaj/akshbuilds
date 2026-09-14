@@ -49,7 +49,7 @@ export default function NeuralBg() {
         if (cancelled || !vantaRef.current || !window.VANTA?.NET) return;
         const effect = window.VANTA.NET({
           el: vantaRef.current,
-          mouseControls: true,
+          mouseControls: false,
           touchControls: false,
           gyroControls: false,
           minHeight: 200.00,
@@ -58,9 +58,9 @@ export default function NeuralBg() {
           scaleMobile: 1.00,
           color: 0x00d4ff,
           backgroundColor: 0x050505,
-          points: 4.00,
-          maxDistance: 13.00,
-          spacing: 28.00
+          points: 2.50,
+          maxDistance: 9.00,
+          spacing: 36.00
         });
 
         // Cap pixel ratio to 1.0 to ensure solid 60fps with zero frame drops
@@ -105,8 +105,8 @@ export default function NeuralBg() {
       const isLight = document.body.classList.contains('light-mode');
       vantaEffect.setOptions(
         isLight
-          ? { color: 0x0284c7, backgroundColor: 0xf8fafc, points: 3.00, spacing: 32.00 }
-          : { color: 0x00d4ff, backgroundColor: 0x050505, points: 4.00, spacing: 28.00 }
+          ? { color: 0x0284c7, backgroundColor: 0xf8fafc, points: 2.00, spacing: 40.00 }
+          : { color: 0x00d4ff, backgroundColor: 0x050505, points: 2.50, spacing: 36.00 }
       );
     };
 

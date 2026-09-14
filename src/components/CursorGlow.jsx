@@ -14,26 +14,40 @@ export default function CursorGlow() {
     let mouseY = -500;
     let currentX = -500;
     let currentY = -500;
-    let isHovered = false;
-    let rafId = null;
+    let running = false;
+
+    // Smooth lerp frame loop
+    const tick = () => {
+      const dx = mouseX - currentX;
+      const dy = mouseY - currentY;
+
+      if (Math.abs(dx) > 0.15 || Math.abs(dy) > 0.15) {
+        currentX += dx * 0.25;
+        currentY += dy * 0.25;
+        const scale = isHovered ? 1.25 : 1;
+        cursorGlow.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%) scale(${scale})`;
+        rafId = requestAnimationFrame(tick);
+      } else {
+        currentX = mouseX;
+        currentY = mouseY;
+        const scale = isHovered ? 1.25 : 1;
+        cursorGlow.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%) scale(${scale})`;
+        running = false;
+      }
+    };
+
+    const startTick = () => {
+      if (!running) {
+        running = true;
+        rafId = requestAnimationFrame(tick);
+      }
+    };
 
     const onMouseMove = (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
+      startTick();
     };
-
-    // Smooth lerp frame loop
-    const tick = () => {
-      // Smooth interpolation for luxury feel with zero stutter
-      currentX += (mouseX - currentX) * 0.25;
-      currentY += (mouseY - currentY) * 0.25;
-
-      const scale = isHovered ? 1.25 : 1;
-      cursorGlow.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%) scale(${scale})`;
-
-      rafId = requestAnimationFrame(tick);
-    };
-    rafId = requestAnimationFrame(tick);
 
     // Efficient delegated listener for hover states
     const onMouseOver = (e) => {

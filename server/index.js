@@ -12,21 +12,35 @@ const PORT = process.env.PORT || 3000;
 
 // CORS Configuration
 const allowedOrigins = process.env.ALLOWED_ORIGINS 
-  ? process.env.ALLOWED_ORIGINS.split(',')
+  ? process.env.ALLOWED_ORIGINS.split(',').map(s => s.trim().toLowerCase())
   : ['http://localhost:5173', 'http://localhost:3000'];
 
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow requests with no origin (mobile apps, Postman, etc.)
+    // Allow requests with no origin (mobile apps, Postman, curl, server-to-server)
     if (!origin) return callback(null, true);
     
-    if (allowedOrigins.includes(origin)) {
+    // If wildcard '*' is in allowed origins, allow all
+    if (allowedOrigins.includes('*')) {
+      return callback(null, true);
+    }
+
+    const normalizedOrigin = origin.toLowerCase().replace(/\/$/, '');
+    const isAllowed = allowedOrigins.some(allowed => {
+      const cleanAllowed = allowed.replace(/\/$/, '');
+      return normalizedOrigin === cleanAllowed || (cleanAllowed.startsWith('*.') && normalizedOrigin.endsWith(cleanAllowed.slice(1)));
+    });
+
+    if (isAllowed) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      console.warn(`[CORS Blocked] Origin not allowed: ${origin}`);
+      callback(null, false);
     }
   },
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
@@ -133,6 +147,9 @@ app.get('/api/messages', authenticateAdmin, async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 API Server running on http://localhost:${PORT}`);
+const HOST = process.env.HOST || '0.0.0.0';
+
+app.listen(PORT, HOST, () => {
+  console.log(`🚀 API Server running on http://${HOST}:${PORT}`);
+  console.log(`🔒 Allowed Origins: ${allowedOrigins.join(', ') || 'None'}`);
 });
