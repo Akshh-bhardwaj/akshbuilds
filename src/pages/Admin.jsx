@@ -116,7 +116,7 @@ export default function Admin() {
 
     // If not matching master password, show error
     setTimeout(() => {
-      setAuthError('Incorrect password. Please enter Aksh@1234');
+      setAuthError('Incorrect admin password. Access denied.');
       setVerifying(false);
     }, 200);
   };
@@ -170,7 +170,7 @@ export default function Admin() {
                 className="glass-input" 
                 autoFocus
                 required 
-                placeholder="Enter Aksh@1234"
+                placeholder="••••••••••••••••"
                 value={passwordInput}
                 onChange={(e) => {
                   setPasswordInput(e.target.value);
