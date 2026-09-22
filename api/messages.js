@@ -17,7 +17,7 @@ export default async function handler(req, res) {
     return res.status(401).json({ error: 'Unauthorized access.' });
   }
 
-  const hclServerUrl = process.env.HCL_SERVER_URL;
+  const hclServerUrl = process.env.HCL_SERVER_URL || "https://learning-luck-coleman-satisfy.trycloudflare.com" || "https://learning-luck-coleman-satisfy.trycloudflare.com";
   if (!hclServerUrl) {
     return res.status(200).json([]);
   }
