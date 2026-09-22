@@ -36,7 +36,7 @@ export default function Footer() {
           <a href="https://www.youtube.com/@Akshbuilds" target="_blank" rel="noopener noreferrer">
             <i className="fa-brands fa-youtube"></i> YouTube
           </a>
-          <a href="mailto:akshbuilds@gmail.com">
+          <a href="mailto:akshbuild@gmail.com">
             <i className="fa-solid fa-envelope"></i> Email
           </a>
         </div>

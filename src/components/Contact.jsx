@@ -6,8 +6,8 @@ const INFO_ITEMS = [
   {
     icon: 'fa-solid fa-envelope',
     label: 'Email',
-    value: 'akshbuilds@gmail.com',
-    href: 'mailto:akshbuilds@gmail.com',
+    value: 'akshbuild@gmail.com',
+    href: 'mailto:akshbuild@gmail.com',
     color: 'var(--primary-color)',
     bg: 'rgba(0,212,255,0.08)',
   },
@@ -375,7 +375,7 @@ export default function Contact() {
 
                 <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center', marginTop: 8 }}>
                   <a
-                    href={`mailto:akshbuilds@gmail.com?subject=Project Inquiry - ${encodeURIComponent(submittedData?.name || 'New Project')}&body=${encodeURIComponent(submittedData?.message || '')}`}
+                    href={`mailto:akshbuild@gmail.com?subject=Project Inquiry - ${encodeURIComponent(submittedData?.name || 'New Project')}&body=${encodeURIComponent(submittedData?.message || '')}`}
                     className="btn btn-primary glow-btn"
                     onClick={() => triggerHaptic('light')}
                   >
@@ -525,7 +525,7 @@ export default function Contact() {
                 </button>
 
                 <p style={{ textAlign: 'center', fontSize: '0.78rem', color: 'var(--text-dim)', fontFamily: 'var(--font-mono)' }}>
-                  or <a href="mailto:akshbuilds@gmail.com" onClick={() => triggerHaptic('light')} style={{ color: 'var(--primary-color)' }}>email directly</a>
+                  or <a href="mailto:akshbuild@gmail.com" onClick={() => triggerHaptic('light')} style={{ color: 'var(--primary-color)' }}>email directly</a>
                 </p>
               </form>
             )}

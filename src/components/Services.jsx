@@ -176,7 +176,7 @@ export default function Services() {
             <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>Send me an email and I'll help you figure out the right approach.</p>
           </div>
           <a
-            href="mailto:akshbuilds@gmail.com"
+            href="mailto:akshbuild@gmail.com"
             className="btn btn-primary glow-btn"
             style={{ fontSize: '0.9rem', padding: '11px 24px', flexShrink: 0 }}
           >
