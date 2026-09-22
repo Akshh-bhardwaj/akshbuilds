@@ -1,7 +1,7 @@
 {
   "name": "server",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.1.0",
+  "description": "Akshbuilds Complete Production Backend",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -9,17 +9,19 @@
     "dev": "node --watch index.js",
     "pm2": "pm2 start ecosystem.config.cjs",
     "pm2:stop": "pm2 stop akshbuilds-api",
-    "pm2:logs": "pm2 logs akshbuilds-api",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "pm2:restart": "pm2 restart all",
+    "pm2:logs": "pm2 logs"
   },
   "keywords": [],
-  "author": "",
+  "author": "Akshat Bhardwaj",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.6",
     "dotenv": "^16.6.1",
     "express": "^5.2.1",
     "express-rate-limit": "^8.7.0",
+    "nodemailer": "^6.10.0",
+    "pm2": "^5.4.3",
     "sqlite": "^5.1.1",
     "sqlite3": "^6.0.1"
   }

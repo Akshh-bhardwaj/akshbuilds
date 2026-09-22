@@ -510,8 +510,8 @@ export const PORTFOLIO_INFO = {
     github: 'https://github.com/Akshh-bhardwaj',
     linkedin: 'https://www.linkedin.com/in/akshit-bhardwaj',
     instagram: 'https://www.instagram.com/akshbuilds',
-    email: 'contact@akshbuilds.dev',
-    portfolioUrl: 'https://akshbuilds.dev'
+    email: 'akshbuild@gmail.com',
+    portfolioUrl: 'https://akshbuilds.tech'
   }
 };
 

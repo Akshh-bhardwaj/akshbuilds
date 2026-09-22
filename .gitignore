@@ -31,3 +31,7 @@ server/.env.production
 *.njsproj
 *.sln
 *.sw?
+
+# Database
+*.sqlite
+server/*.sqlite

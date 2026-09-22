@@ -449,23 +449,41 @@ export default function Contact() {
                   </div>
                 </div>
 
-                {/* Budget */}
+                {/* Budget in INR with Direct Input */}
                 <div>
-                  <label className="c-label" htmlFor="c-budget">Approximate budget</label>
-                  <select
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="c-label mb-0" htmlFor="c-budget">Approximate budget (₹ INR)</label>
+                    <span className="text-[11px] text-slate-400">Type or select a range</span>
+                  </div>
+                  <input
                     id="c-budget"
                     name="budget"
+                    type="text"
+                    placeholder="e.g. ₹15,000 or pick below..."
                     className="c-input"
                     value={formData.budget}
-                    onChange={handleSelectBudget}
-                  >
-                    <option value="">Select a range…</option>
-                    <option value="under-500">Under $500</option>
-                    <option value="500-2k">$500 – $2,000</option>
-                    <option value="2k-5k">$2,000 – $5,000</option>
-                    <option value="5k-plus">$5,000+</option>
-                    <option value="discuss">Let's discuss</option>
-                  </select>
+                    onChange={handleChange}
+                    onFocus={() => triggerHaptic("selection")}
+                  />
+                  <div className="flex flex-wrap gap-1.5 mt-2.5">
+                    {["< ₹10,000", "₹10k – ₹25k", "₹25k – ₹50k", "₹50k – ₹1L", "₹1L+", "Let's discuss"].map((b) => (
+                      <button
+                        key={b}
+                        type="button"
+                        onClick={() => {
+                          triggerHaptic("selection");
+                          setFormData(prev => ({ ...prev, budget: b }));
+                        }}
+                        className={`text-xs px-2.5 py-1 rounded-md border transition-all ${
+                          formData.budget === b
+                            ? "bg-cyan-500/20 text-cyan-300 border-cyan-500/60 shadow-[0_0_8px_rgba(6,182,212,0.3)] font-medium"
+                            : "bg-white/5 text-slate-400 border-white/10 hover:border-white/20 hover:text-white"
+                        }`}
+                      >
+                        {b}
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Message */}
