@@ -46,16 +46,17 @@ export default function Admin() {
     let serverMessages = [];
     let serverConnected = false;
 
-    // Only attempt fetch if API_URL is provided and not mixed content
+    // Always fetch from API (using relative /api or configured API_URL)
     const isHttps = typeof window !== 'undefined' && window.location.protocol === 'https:';
-    const canFetch = API_URL && !(isHttps && API_URL.startsWith('http://localhost'));
+    const canFetch = !API_URL || !(isHttps && API_URL.startsWith('http://localhost'));
 
     if (canFetch) {
+      const endpoint = API_URL ? `${API_URL.replace(/\/$/, '')}/api/messages` : '/api/messages';
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 2500);
 
       try {
-        const res = await fetch(`${API_URL}/api/messages`, {
+        const res = await fetch(endpoint, {
           headers: {
             'Authorization': `Bearer ${authToken}`
           },

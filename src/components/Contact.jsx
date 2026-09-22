@@ -86,9 +86,11 @@ export default function Contact() {
       } catch {
         // Fallback to local queue + mailto
       }
-    } else if (apiUrl) {
+    } else {
+      // Always hit /api/contact (either relative path or configured apiUrl)
+      const targetEndpoint = apiUrl ? `${apiUrl.replace(/\/$/, '')}/api/contact` : '/api/contact';
       try {
-        const res = await fetch(`${apiUrl}/api/contact`, {
+        const res = await fetch(targetEndpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
