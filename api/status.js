@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
-  const hclServerUrl = process.env.HCL_SERVER_URL || "https://learning-luck-coleman-satisfy.trycloudflare.com" || "https://learning-luck-coleman-satisfy.trycloudflare.com";
+  const hclServerUrl = process.env.HCL_SERVER_URL || "https://math-animated-wake-package.trycloudflare.com" || "https://math-animated-wake-package.trycloudflare.com";
   const upstashUrl = process.env.UPSTASH_REDIS_REST_URL;
   const upstashToken = process.env.UPSTASH_REDIS_REST_TOKEN;
 
