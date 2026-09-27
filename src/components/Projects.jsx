@@ -15,6 +15,7 @@ const projectData = [
     color: '#10b981',
     image: '/assets/project_backend_api_1775025512690.webp',
     github: 'https://github.com/Akshh-bhardwaj/trader-demo',
+    liveLink: 'https://github.com/Akshh-bhardwaj/trader-demo#readme',
     featured: true,
   },
   {
@@ -30,6 +31,7 @@ const projectData = [
     color: '#a78bfa',
     image: '/assets/project_premium_chess_1775025919148.webp',
     github: 'https://github.com/Akshh-bhardwaj/Premium-Chess',
+    liveLink: 'https://github.com/Akshh-bhardwaj/Premium-Chess#readme',
   },
   {
     id: 3,
@@ -44,6 +46,7 @@ const projectData = [
     color: '#00d4ff',
     image: '/assets/project_chatbot_1775025903371.webp',
     github: 'https://github.com/Akshh-bhardwaj/DORA',
+    liveLink: 'https://github.com/Akshh-bhardwaj/DORA#readme',
   },
   {
     id: 4,
@@ -58,6 +61,7 @@ const projectData = [
     color: '#f43f5e',
     image: '/assets/project_ai_tracker_1775024442510.webp',
     github: 'https://github.com/Akshh-bhardwaj/SmartCityAnalytics',
+    liveLink: 'https://github.com/Akshh-bhardwaj/SmartCityAnalytics#readme',
   },
   {
     id: 5,
@@ -72,6 +76,7 @@ const projectData = [
     color: '#fbbf24',
     image: '/assets/project_video_dash_1775024426115.webp',
     github: 'https://github.com/Akshh-bhardwaj/DSA_visulaiser',
+    liveLink: 'https://github.com/Akshh-bhardwaj/DSA_visulaiser#readme',
   },
   {
     id: 6,
@@ -86,6 +91,7 @@ const projectData = [
     color: '#f97316',
     image: '/assets/project_chatbot_1775025903371.webp',
     github: 'https://github.com/Akshh-bhardwaj/chatbot-grrok-',
+    liveLink: 'https://github.com/Akshh-bhardwaj/chatbot-grrok-#readme',
   },
 ];
 
@@ -471,6 +477,26 @@ export default function Projects() {
           box-shadow: 0 0 12px var(--proj-color);
         }
 
+        .proj-live-link {
+          display: inline-flex; align-items: center; justify-content: center;
+          gap: 5px;
+          height: 28px; padding: 0 10px; border-radius: 7px;
+          border: 1px solid rgba(0, 212, 255, 0.35);
+          color: #00d4ff;
+          background: rgba(0, 212, 255, 0.08);
+          font-family: var(--font-mono);
+          font-size: 0.72rem;
+          font-weight: 600;
+          transition: all 0.2s;
+          text-decoration: none;
+        }
+        .proj-live-link:hover {
+          color: #fff;
+          background: #00d4ff;
+          border-color: #00d4ff;
+          box-shadow: 0 0 14px rgba(0, 212, 255, 0.5);
+        }
+
         /* ── modal ── */
         .proj-modal-overlay {
           position: fixed; inset: 0;
@@ -615,15 +641,31 @@ export default function Projects() {
                     <button className="proj-deep-btn">
                       <i className="fa-solid fa-terminal" style={{ fontSize: '0.65rem' }} /> deep dive
                     </button>
-                    <a
-                      href={p.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="proj-gh-link"
-                      onClick={e => e.stopPropagation()}
-                    >
-                      <i className="fa-brands fa-github" />
-                    </a>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      {p.liveLink && (
+                        <a
+                          href={p.liveLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="proj-live-link"
+                          onClick={e => e.stopPropagation()}
+                          title={`Open ${p.title} Live Demo`}
+                        >
+                          <i className="fa-solid fa-arrow-up-right-from-square" style={{ fontSize: '0.65rem' }} />
+                          <span>Live</span>
+                        </a>
+                      )}
+                      <a
+                        href={p.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="proj-gh-link"
+                        onClick={e => e.stopPropagation()}
+                        title="GitHub Repository"
+                      >
+                        <i className="fa-brands fa-github" />
+                      </a>
+                    </div>
                   </div>
                 </div>
               </motion.div>
