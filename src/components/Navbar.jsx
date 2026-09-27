@@ -79,7 +79,33 @@ export default function Navbar() {
         <div className={`nav-links ${menuActive ? 'active' : ''}`}>
           <a href="/about"      onClick={(e) => handleNavClick(e, '/about', '')}     className={`nav-link ${location.pathname === '/about' ? 'active' : ''}`}>About</a>
           <a href="/#projects"  onClick={(e) => handleNavClick(e, '/', '#projects')} className={`nav-link ${isHome && activeSection === 'projects' ? 'active' : ''}`}>Projects</a>
-          <a href="/#notes"     onClick={(e) => handleNavClick(e, '/', '#notes')}    className={`nav-link ${isHome && activeSection === 'notes'    ? 'active' : ''}`}>Notes</a>
+          <a
+            href="/#notes"
+            onClick={(e) => handleNavClick(e, '/', '#notes')}
+            className={`nav-link ${isHome && activeSection === 'notes' ? 'active' : ''}`}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '5px' }}
+          >
+            <span>Notes</span>
+            <span
+              title="Notes vault under maintenance"
+              style={{
+                fontSize: '0.65rem',
+                padding: '1px 5px',
+                borderRadius: '8px',
+                background: 'rgba(251, 191, 36, 0.15)',
+                border: '1px solid rgba(251, 191, 36, 0.4)',
+                color: '#fbbf24',
+                fontWeight: 600,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '3px',
+                lineHeight: '1.2',
+              }}
+            >
+              <i className="fa-solid fa-wrench" style={{ fontSize: '0.55rem' }}></i>
+              Maint.
+            </span>
+          </a>
           <a href="/#services"  onClick={(e) => handleNavClick(e, '/', '#services')} className={`nav-link ${isHome && activeSection === 'services'  ? 'active' : ''}`}>Services</a>
           <a href="/#contact"   onClick={(e) => handleNavClick(e, '/', '#contact')}  className={`nav-link ${isHome && activeSection === 'contact'   ? 'active' : ''}`}>Contact</a>
           <a href="https://www.linkedin.com/in/akshit-sharma-790601189/" target="_blank" rel="noopener noreferrer" className="nav-link" onClick={closeMenu} style={{ color: '#0a66c2' }}>

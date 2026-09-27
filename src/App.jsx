@@ -14,7 +14,7 @@ import OwnerPortfolio from './components/OwnerPortfolio';
 import Services from './components/Services';
 import Social from './components/Social';
 import Contact from './components/Contact';
-import Notes from './components/Notes';
+import NotesMaintenance from './components/NotesMaintenance';
 import Footer from './components/Footer';
 import ThemeBulb from './components/ThemeBulb';
 import NeuralBg from './components/NeuralBg';
@@ -39,7 +39,8 @@ function PortfolioLayout() {
         <Stats />
         <Projects />
         <Testimonials />
-        <Notes />
+        {/* Notes vault under maintenance while separating handwritten vs digital notes */}
+        <NotesMaintenance />
         <OwnerPortfolio />
         <Services />
         <Social />
