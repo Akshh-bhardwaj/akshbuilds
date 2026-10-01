@@ -136,7 +136,7 @@ export default async function handler(req, res) {
   }
 
   // 2. Optionally forward to local server if online
-  const hclServerUrl = process.env.HCL_SERVER_URL;
+  const hclServerUrl = process.env.HCL_SERVER_URL || 'https://akshserver.tail2bbfc6.ts.net';
   if (hclServerUrl) {
     try {
       const controller = new AbortController();
